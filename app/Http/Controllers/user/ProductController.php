@@ -8,6 +8,6 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function ProductDetail(){
-        return view("product-detail");
+        return view("user.product-detail");
     }
 }

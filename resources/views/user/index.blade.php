@@ -92,7 +92,7 @@
 										</div>
 										<div class="thumb-description">
 											<div class="caption">
-												<h4 class="product-title text-capitalize"><a href="product-details.html">Checked Polo Collar T-shirt</a></h4>
+												<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Checked Polo Collar T-shirt</a></h4>
 											</div>
 											<div class="rating">
 												<div class="product-ratings d-inline-block align-middle">
@@ -125,7 +125,7 @@
 													<img src="/user/assets/img/products/04.jpg" alt="04" class="second_image img-responsive" height="501" width="385"/></a></div>
 										<div class="thumb-description">
 											<div class="caption">
-												<h4 class="product-title text-capitalize"><a href="product-details.html">Girls Floral Print Jumpsuit</a></h4>
+												<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Girls Floral Print Jumpsuit</a></h4>
 											</div>
 											<div class="rating">
 												<div class="product-ratings d-inline-block align-middle">
@@ -158,7 +158,7 @@
 												<img src="/user/assets/img/products/06.jpg" alt="06" class="second_image img-responsive" height="501" width="385"/>										</a>									</div>
 										<div class="thumb-description">
 											<div class="caption">
-												<h4 class="product-title text-capitalize"><a href="product-details.html">Juventus Henley Neck Jersey</a></h4>
+												<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Juventus Henley Neck Jersey</a></h4>
 											</div>
 											<div class="rating">
 												<div class="product-ratings d-inline-block align-middle">
@@ -206,7 +206,7 @@
 											<div class="product-layouts">
 												<div class="product-thumb">
 													<div class="image zoom">
-														<a href="product-details.html">
+														<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/01.jpg" alt="01" height="501" width="385"/>
 														<img src="/user/assets/img/products/02.jpg" alt="02" class="second_image img-responsive" height="501" width="385"/>										</a>
 														<ul class="countdown1 countdown">
@@ -218,7 +218,7 @@
 													</div>
 													<div class="thumb-description">
 														<div class="caption">
-															<h4 class="product-title text-capitalize"><a href="product-details.html">Không Diệt Không Sinh Đừng Sợ Hãi - Bìa Cứng - Phiên Bản Đặc Biệt - Tặng Kèm Postcard + Bút Chì Khắc Tên Sách (Độc Quyền Tại Fahasa)</a></h4>
+															<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Không Diệt Không Sinh Đừng Sợ Hãi - Bìa Cứng - Phiên Bản Đặc Biệt - Tặng Kèm Postcard + Bút Chì Khắc Tên Sách (Độc Quyền Tại Fahasa)</a></h4>
 														</div>
 														<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -246,12 +246,12 @@
 											<div class="product-layouts">
 												<div class="product-thumb">
 													<div class="image zoom">
-														<a href="product-details.html">
+														<a href="{{ route('product-detail') }}">
 															<img src="/user/assets/img/products/03.jpg" alt="03" height="501" width="385"/>
 															<img src="/user/assets/img/products/04.jpg" alt="04" class="second_image img-responsive" height="501" width="385"/></a></div>
 													<div class="thumb-description">
 														<div class="caption">
-															<h4 class="product-title text-capitalize"><a href="product-details.html">Shoulder Embroidered Bodysuit</a></h4>
+															<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Shoulder Embroidered Bodysuit</a></h4>
 														</div>
 														<div class="rating">
 															<div class="product-ratings d-inline-block align-middle">
@@ -279,12 +279,12 @@
 											<div class="product-layouts">
 												<div class="product-thumb">
 													<div class="image zoom">
-														<a href="product-details.html">
+														<a href="{{ route('product-detail') }}">
 															<img src="/user/assets/img/products/05.jpg" alt="05" height="501" width="385"/>
 															<img src="/user/assets/img/products/06.jpg" alt="06" class="second_image img-responsive" height="501" width="385"/></a></div>
 													<div class="thumb-description">
 														<div class="caption">
-															<h4 class="product-title text-capitalize"><a href="product-details.html">Crochet Detail Lightweight Top</a></h4>
+															<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Crochet Detail Lightweight Top</a></h4>
 														</div>
 														<div class="rating">
 															<div class="product-ratings d-inline-block align-middle">
@@ -312,12 +312,12 @@
 											<div class="product-layouts">
 												<div class="product-thumb">
 													<div class="image zoom">
-														<a href="product-details.html">
+														<a href="{{ route('product-detail') }}">
 															<img src="/user/assets/img/products/07.jpg" alt="07" height="501" width="385"/>
 															<img src="/user/assets/img/products/08.jpg" alt="08" class="second_image img-responsive" height="501" width="385"/>										</a>									</div>
 													<div class="thumb-description">
 														<div class="caption">
-															<h4 class="product-title text-capitalize"><a href="product-details.html">Girls Striped Fit and Flare Dress</a></h4>
+															<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Girls Striped Fit and Flare Dress</a></h4>
 														</div>
 														<div class="rating">
 															<div class="product-ratings d-inline-block align-middle">
@@ -351,7 +351,7 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/01.jpg" alt="01" height="501" width="385"/>
 														<img src="/user/assets/img/products/02.jpg" alt="02" class="second_image img-responsive" height="501" width="385"/>									</a>
 													<ul class="countdown1 countdown">
@@ -363,7 +363,7 @@
 												</div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Printed Dugaree with T-Shirt</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Printed Dugaree with T-Shirt</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -391,12 +391,12 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/03.jpg" alt="03" height="501" width="385"/>
 														<img src="/user/assets/img/products/04.jpg" alt="04" class="second_image img-responsive" height="501" width="385"/>									</a>								</div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Burgundy Small Dresss</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Burgundy Small Dresss</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -424,13 +424,13 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 												<img src="/user/assets/img/products/05.jpg" alt="05" height="501" width="385"/>
 												<img src="/user/assets/img/products/06.jpg" alt="06" class="second_image img-responsive" height="501" width="385"/></a>
 												</div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Arkun Bordeaux Blouse</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Arkun Bordeaux Blouse</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -458,7 +458,7 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/07.jpg" alt="03" height="501" width="385"/>
 														<img src="/user/assets/img/products/08.jpg" alt="08" class="second_image img-responsive" height="501" width="385"/></a></div>
 												<div class="thumb-description">
@@ -497,7 +497,7 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/01.jpg" alt="01" height="501" width="385"/>
 														<img src="/user/assets/img/products/02.jpg" alt="02" class="second_image img-responsive" height="501" width="385"/>									</a>
 													<ul class="countdown1 countdown">
@@ -509,7 +509,7 @@
 												</div>
 													<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Slim-fit Leaf-Print Linen Shirt</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Slim-fit Leaf-Print Linen Shirt</a></h4>
 													</div>
 
 													<div class="rating">
@@ -538,12 +538,12 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/02.jpg" alt="02" height="501" width="385"/>
 														<img src="/user/assets/img/products/03.jpg" alt="03" class="second_image img-responsive" height="501" width="385"/></a></div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Women Floral Print Lounge T-Shirt</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Women Floral Print Lounge T-Shirt</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -571,12 +571,12 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/03.jpg" alt="03" height="501" width="385"/>
 														<img src="/user/assets/img/products/04.jpg" alt="04" class="second_image img-responsive" height="501" width="385"/></a></div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Women Striped Shirt Dress</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Women Striped Shirt Dress</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -604,12 +604,12 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/04.jpg" alt="03" height="501" width="385"/>
 														<img src="/user/assets/img/products/05.jpg" alt="05" class="second_image img-responsive" height="501" width="385"/></a></div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Women Solid Bodycon Dress</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Women Solid Bodycon Dress</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -637,12 +637,12 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/05.jpg" alt="03" height="501" width="385"/>
 														<img src="/user/assets/img/products/06.jpg" alt="06" class="second_image img-responsive" height="501" width="385"/>									</a>									</div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Printed V-Neck T-shirt</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Printed V-Neck T-shirt</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -670,11 +670,11 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/06.jpg" alt="03" height="501" width="385"/>										</a>									</div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Solid Straight Kurta</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Solid Straight Kurta</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -702,11 +702,11 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/07.jpg" alt="03" height="501" width="385"/>										</a>									</div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Tropical Shirt Dress</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Tropical Shirt Dress</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -734,11 +734,11 @@
 										<div class="product-layouts">
 											<div class="product-thumb">
 												<div class="image zoom">
-													<a href="product-details.html">
+													<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/08.jpg" alt="03" height="501" width="385"/></a></div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="product-details.html">Shoulder Embroidered Bodysuit</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Shoulder Embroidered Bodysuit</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -772,7 +772,7 @@
 											<div class="product-layouts">
 												<div class="product-thumb">
 													<div class="image zoom">
-														<a href="product-details.html">
+														<a href="{{ route('product-detail') }}">
 														<img src="/user/assets/img/products/01.jpg" alt="01" height="501" width="385"/>
 														<img src="/user/assets/img/products/02.jpg" alt="02" class="second_image img-responsive" height="501" width="385"/>										</a>
 														<ul class="countdown1 countdown">
@@ -784,7 +784,7 @@
 													</div>
 													<div class="thumb-description">
 														<div class="caption">
-															<h4 class="product-title text-capitalize"><a href="product-details.html">Không Diệt Không Sinh Đừng Sợ Hãi - Bìa Cứng - Phiên Bản Đặc Biệt - Tặng Kèm Postcard + Bút Chì Khắc Tên Sách (Độc Quyền Tại Fahasa)</a></h4>
+															<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Không Diệt Không Sinh Đừng Sợ Hãi - Bìa Cứng - Phiên Bản Đặc Biệt - Tặng Kèm Postcard + Bút Chì Khắc Tên Sách (Độc Quyền Tại Fahasa)</a></h4>
 														</div>
 														<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -812,12 +812,12 @@
 											<div class="product-layouts">
 												<div class="product-thumb">
 													<div class="image zoom">
-														<a href="product-details.html">
+														<a href="{{ route('product-detail') }}">
 															<img src="/user/assets/img/products/03.jpg" alt="03" height="501" width="385"/>
 															<img src="/user/assets/img/products/04.jpg" alt="04" class="second_image img-responsive" height="501" width="385"/></a></div>
 													<div class="thumb-description">
 														<div class="caption">
-															<h4 class="product-title text-capitalize"><a href="product-details.html">Shoulder Embroidered Bodysuit</a></h4>
+															<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Shoulder Embroidered Bodysuit</a></h4>
 														</div>
 														<div class="rating">
 															<div class="product-ratings d-inline-block align-middle">
@@ -845,12 +845,12 @@
 											<div class="product-layouts">
 												<div class="product-thumb">
 													<div class="image zoom">
-														<a href="product-details.html">
+														<a href="{{ route('product-detail') }}">
 															<img src="/user/assets/img/products/05.jpg" alt="05" height="501" width="385"/>
 															<img src="/user/assets/img/products/06.jpg" alt="06" class="second_image img-responsive" height="501" width="385"/></a></div>
 													<div class="thumb-description">
 														<div class="caption">
-															<h4 class="product-title text-capitalize"><a href="product-details.html">Crochet Detail Lightweight Top</a></h4>
+															<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Crochet Detail Lightweight Top</a></h4>
 														</div>
 														<div class="rating">
 															<div class="product-ratings d-inline-block align-middle">
@@ -878,12 +878,12 @@
 											<div class="product-layouts">
 												<div class="product-thumb">
 													<div class="image zoom">
-														<a href="product-details.html">
+														<a href="{{ route('product-detail') }}">
 															<img src="/user/assets/img/products/07.jpg" alt="07" height="501" width="385"/>
 															<img src="/user/assets/img/products/08.jpg" alt="08" class="second_image img-responsive" height="501" width="385"/>										</a>									</div>
 													<div class="thumb-description">
 														<div class="caption">
-															<h4 class="product-title text-capitalize"><a href="product-details.html">Girls Striped Fit and Flare Dress</a></h4>
+															<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Girls Striped Fit and Flare Dress</a></h4>
 														</div>
 														<div class="rating">
 															<div class="product-ratings d-inline-block align-middle">

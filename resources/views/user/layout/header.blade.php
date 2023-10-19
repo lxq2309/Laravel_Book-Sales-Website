@@ -33,7 +33,7 @@
                 </div>
             <div class="header-middle float-lg-left float-md-left float-sm-left float-xs-none">
                     <div class="logo">
-                                    <a href="index.html"><img src="/user/assets/img/logos/logo.png" alt="logo" width="200" height="50" ></a>		</div>
+                                    <a href="{{ route('index') }}"><img src="/user/assets/img/logos/logo.png" alt="logo" width="200" height="50" ></a>		</div>
             </div>
             <div class="header-right d-flex d-xs-flex d-sm-flex justify-content-end float-right">
             <div class="search-wrapper">

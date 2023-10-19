@@ -11,22 +11,22 @@
 					<div class="ttloading-bg"></div>
 					<div class="slider slider-for owl-carousel" >
 						<div>
-							<a href="#">
+							<a href="{{ route('product-detail') }}">
 								<img src="/user/assets/img/slider/slider-01.jpg" alt=""/>
 							</a>
 						</div>
 						<div>
-							<a href="#">
+							<a href="{{ route('product-detail') }}">
 								<img src="/user/assets/img/slider/slider-02.jpg" alt=""/>
 							</a>
 						</div>
 						<div>
-							<a href="#">
+							<a href="{{ route('product-detail') }}">
 								<img src="/user/assets/img/slider/slider-03.jpg" alt=""/>
 							</a>
 						</div>
 						<div>
-							<a href="#">
+							<a href="{{ route('product-detail') }}">
 								<img src="/user/assets/img/slider/slider-04.jpg" alt=""/>
 							</a>
 						</div>
@@ -35,12 +35,12 @@
 				<div class="banner-sale">
 					<div class="slider" >
 						<div class="col-md-12 d-flex align-items-start">
-							<a href="#">
+							<a href="{{ route('product-detail') }}">
 								<img src="/user/assets/img/slider/slider-01.jpg" style="border-radius: 10px;"/>
 							</a>
 						</div>
 						<div class="col-md-12 align-items-end">
-							<a href="#">
+							<a href="{{ route('product-detail') }}">
 								<img src="/user/assets/img/slider/slider-02.jpg" style="border-radius: 10px;"/>
 							</a>
 						</div>
@@ -49,22 +49,22 @@
 	    	</div>
 			<div class="container d-flex justify-content-between" style="margin-top: 10px;">
 				<div class="d-flex align-items-start">
-					<a href="#">
+					<a href="{{ route('product-detail') }}">
 						<img src="/user/assets/img/slider/Mini_Banner_1.png"/>
 					</a>
 				</div>
 				<div class="align-items-end">
-					<a href="#">
+					<a href="{{ route('product-detail') }}">
 						<img src="/user/assets/img/slider/Mini_Banner_2.png"/>
 					</a>
 				</div>
 				<div class="align-items-end">
-					<a href="#">
+					<a href="{{ route('product-detail') }}">
 						<img src="/user/assets/img/slider/Mini_Banner_3.png"/>
 					</a>
 				</div>
 				<div class="align-items-end">
-					<a href="#">
+					<a href="{{ route('product-detail') }}">
 						<img src="/user/assets/img/slider/Mini_Banner_4.png"/>
 					</a>
 				</div>
@@ -80,7 +80,7 @@
 								<div class="product-layouts">
 									<div class="product-thumb">
 										<div class="image zoom">
-											<a href="#">
+											<a href="{{ route('product-detail') }}">
 												<img src="/user/assets/img/products/01.jpg" alt="01" height="501" width="385"/>
 												<img src="/user/assets/img/products/02.jpg" alt="02" class="second_image img-responsive" height="501" width="385"/>										</a>
 											<ul class="countdown3 countdown">
@@ -120,7 +120,7 @@
 								<div class="product-layouts">
 									<div class="product-thumb">
 										<div class="image zoom">
-											<a href="#">
+											<a href="{{ route('product-detail') }}">
 												<img src="/user/assets/img/products/03.jpg" alt="03" height="501" width="385"/>
 													<img src="/user/assets/img/products/04.jpg" alt="04" class="second_image img-responsive" height="501" width="385"/></a></div>
 										<div class="thumb-description">
@@ -153,7 +153,7 @@
 								<div class="product-layouts">
 									<div class="product-thumb">
 										<div class="image zoom">
-											<a href="#">
+											<a href="{{ route('product-detail') }}">
 												<img src="/user/assets/img/products/05.jpg" alt="05" height="501" width="385"/>
 												<img src="/user/assets/img/products/06.jpg" alt="06" class="second_image img-responsive" height="501" width="385"/>										</a>									</div>
 										<div class="thumb-description">
@@ -463,7 +463,7 @@
 														<img src="/user/assets/img/products/08.jpg" alt="08" class="second_image img-responsive" height="501" width="385"/></a></div>
 												<div class="thumb-description">
 													<div class="caption">
-														<h4 class="product-title text-capitalize"><a href="#">Long Sleeves Cotton Polo</a></h4>
+														<h4 class="product-title text-capitalize"><a href="{{ route('product-detail') }}">Long Sleeves Cotton Polo</a></h4>
 													</div>
 													<div class="rating">
 														<div class="product-ratings d-inline-block align-middle">
@@ -919,22 +919,22 @@
 					<div class="container">
 					<div class="tt-brand owl-carousel">
 						<div class="item">
-							<a href="#"><img src="/user/assets/img/logos/brand-logo-01.png" alt="brand-logo-01" width="140" height="100"></a>
+							<a href="{{ route('product-detail') }}"><img src="/user/assets/img/logos/brand-logo-01.png" alt="brand-logo-01" width="140" height="100"></a>
 						</div>
 						<div class="item">
-							<a href="#"><img src="/user/assets/img/logos/brand-logo-02.png" alt="brand-logo-02" width="140" height="100"></a>
+							<a href="{{ route('product-detail') }}"><img src="/user/assets/img/logos/brand-logo-02.png" alt="brand-logo-02" width="140" height="100"></a>
 						</div>
 						<div class="item">
-							<a href="#"><img src="/user/assets/img/logos/brand-logo-03.png" alt="brand-logo-03" width="140" height="100"></a>
+							<a href="{{ route('product-detail') }}"><img src="/user/assets/img/logos/brand-logo-03.png" alt="brand-logo-03" width="140" height="100"></a>
 						</div>
 						<div class="item">
-							<a href="#"><img src="/user/assets/img/logos/brand-logo-04.png" alt="brand-logo-04" width="140" height="100"></a>
+							<a href="{{ route('product-detail') }}"><img src="/user/assets/img/logos/brand-logo-04.png" alt="brand-logo-04" width="140" height="100"></a>
 						</div>
 						<div class="item">
-							<a href="#"><img src="/user/assets/img/logos/brand-logo-05.png" alt="brand-logo-05" width="140" height="100"></a>
+							<a href="{{ route('product-detail') }}"><img src="/user/assets/img/logos/brand-logo-05.png" alt="brand-logo-05" width="140" height="100"></a>
 						</div>
 						<div class="item">
-							<a href="#"><img src="/user/assets/img/logos/brand-logo-06.png" alt="brand-logo-06" width="140" height="100"></a>
+							<a href="{{ route('product-detail') }}"><img src="/user/assets/img/logos/brand-logo-06.png" alt="brand-logo-06" width="140" height="100"></a>
 						</div>
 					</div>
 					</div>

@@ -1,6 +1,9 @@
 @extends('user.layout.layout')
 
 @section('content')
+    @foreach ($books as $id => $book)
+
+
 <nav aria-label="breadcrumb" class="w-100 float-left">
     <ol class="breadcrumb parallax justify-content-center" data-source-url="/user/assets/img/banner/parallax.jpg" style="background-image: url(&quot;img/banner/parallax.jpg&quot;); background-position: 50% 0.809717%;">
       <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -62,7 +65,7 @@
                       <div class="product-information">
                       <h4 class="product-title text-capitalize float-left w-100"><a href="product-details.html" class="float-left w-100">aliquam quaerat voluptatem</a></h4>
                       <div class="description">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis viverra purus, non viverra nulla. Sed vehicula libero eu lectus eleifend volutpat. Sed et placerat arcu. Proin mi leo, interdum eu tortor at, euismod gravida velit. Fusce non enim lectus. Duis euismod, lorem vitae pharetra rhoncus, ligula risus elementum nunc, at interdum eros nunc eget augue. Donec dapibus nec diam ut tempor. Duis malesuada neque turpis, ut congue ipsum euismod eget. Sed egestas ipsum enim, sed semper magna auctor non.
+                      {{ $book->Description }}
                       </div>
                       <div class="rating">
                                               <div class="product-ratings d-inline-block align-middle">
@@ -82,20 +85,13 @@
                                             <li><span class="seconds">00</span><p class="seconds_text">Seconds</p></li>
                                           </ul>
                                                                   <div class="price float-left w-100 d-flex">
-                                                  <div class="regular-price">$100.00</div>
-                                                  <div class="old-price">$150.00</div>
+                                                  <div class="regular-price">{{ $book->SellingPrice }}</div>
+                                                  <div class="old-price">{{ $book->CostPrice }}</div>
                                               </div>
                                               <div class="product-variants float-left w-100">
                           <div class="col-md-3 col-sm-6 col-xs-12 size-options d-flex align-items-center">
-                                              <h5>Size:</h5>
+                                              <h5>Size: {{ $book->Size }}</h5>
 
-                                  <select class="form-control" name="select">
-                                              <option value="" selected="">Size</option>
-                                              <option value="black">Medium</option>
-                                              <option value="white">Large</option>
-                                              <option value="gold">Small</option>
-                                              <option value="rose gold">Extra large</option>
-                                  </select>
                           </div>
                           <div class="color-option d-flex align-items-center">
                                           <h5>color :</h5>
@@ -175,7 +171,7 @@
                       <div class="tab-content float-left w-100">
                         <div class="tab-pane active" id="product-tab1" role="tabpanel" aria-labelledby="tab1">
                             <div class="description">
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis viverra purus, non viverra nulla. Sed vehicula libero eu lectus eleifend volutpat. Sed et placerat arcu. Proin mi leo, interdum eu tortor at, euismod gravida velit. Fusce non enim lectus. Duis euismod, lorem vitae pharetra rhoncus, ligula risus elementum nunc, at interdum eros nunc eget augue. Donec dapibus nec diam ut tempor. Duis malesuada neque turpis, ut congue ipsum euismod eget. Sed egestas ipsum enim, sed semper magna auctor non. Praesent risus nunc, ultricies vel velit nec, fringilla venenatis sem. Nunc condimentum, elit sed posuere accumsan, mauris nisl ornare metus, nec hendrerit quam velit ut nibh. Vivamus sodales neque vel sodales porta. Mauris hendrerit felis in mi auctor posuere. Mauris a consequat sapien, eget condimentum risus. Curabitur iaculis lorem non pretium varius. In hac habitasse platea dictumst.
+                              {{ $book->Description }}
                             </div>
                         </div>
                         <div class="tab-pane" id="product-tab2" role="tabpanel" aria-labelledby="tab2">
@@ -459,4 +455,5 @@
                       </div>
               </div>
               </div>
+    @endforeach
 @endsection

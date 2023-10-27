@@ -111,71 +111,101 @@
     </div>
 
     <!-- Register modal -->
-    <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-    <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-medium text-left">Sign up</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body mx-3">
-        <div class="md-form mb-4">
-        <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Your name">
-        </div>
-        <div class="md-form mb-4">
-        <input type="email" id="RegisterForm-email" class="form-control validate" placeholder="Your email">
-        </div>
-        <div class="md-form mb-4">
-        <input type="password" id="RegisterForm-pass" class="form-control validate" placeholder="Your password">
-        </div>
-        <div class="checkbox-link d-flex justify-content-between">
-        <div class="left-col">
-            <input id="remember-me" type="checkbox"><label for="remember_me">Remember Me</label>
-        </div>
-        <div class="right-col"><a href="#">Forget Password?</a></div>
-    </div>
-    </div>
+    <form action="{{route('registration.post)}}" method="POST">
+        @csrf
+        <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-medium text-left">Sign up</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="md-form mb-4">
+                            <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="First name" name="firstName">
+                        </div>
+                        <div class="md-form mb-4">
+                            <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Last name" name="lastName">
+                        </div>
+                        <div class="md-form mb-4">
+                            <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Your Username" name="userName">
+                        </div>
+                        <div class="md-form mb-4">
+                            <input type="email" id="RegisterForm-email" class="form-control validate" placeholder="Your email" name="email">
+                        </div>
+                        <div class="md-form mb-4">
+                            <input type="password" id="RegisterForm-pass" class="form-control validate" placeholder="Your password" name="password">
+                        </div>
+                        <div class="md-form mb-4">
+                            <label for="gender">Gender</label>
+                            <div class="form-check">
+                                <input type="radio" id="male" name="gender" value="male">
+                                <label for="male">Male</label>
+                                <input type="radio" id="female" name="gender" value="female">
+                                <label for="female">Female</label>
+                                <input type="radio" id="other" name="gender" value="other">
+                                <label for="other">Other</label>
+                            </div>
+                        </div>
+                        <div class="md-form mb-4">
+                            <input type="tel" id="phone" name="phone" class="form-control validate" placeholder="Your phone number">
+                        </div>
+                        <div class="md-form mb-4">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" name="dob" class="form-control validate">
+                        </div>
+                        <div class="checkbox-link d-flex justify-content-between">
+                            <div class="left-col">
+                                <input id="remember-me" type="checkbox"><label for="remember_me">Remember Me</label>
+                            </div>
+                            <div class="right-col"><a href="#">Forget Password?</a></div>
+                        </div>
+                    </div>
 
-    <div class="modal-footer d-flex justify-content-center">
-        <button class="btn btn-primary">Sign up</button>
-    </div>
-    </div>
-    </div>
-    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn btn-primary">Sign up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <!-- Login modal -->
-    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-    <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-medium text-left">Sign in</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body mx-3">
-        <div class="md-form mb-4">
-        <input type="text" id="LoginForm-name" class="form-control validate" placeholder="Your name">
-        </div>
-        <div class="md-form mb-4">
-        <input type="password" id="LoginForm-pass" class="form-control validate" placeholder="Your password">
-        </div>
-        <div class="checkbox-link d-flex justify-content-between">
-        <div class="left-col">
-            <input type="checkbox" id="remember_me"><label for="remember_me">Remember Me</label>
-        </div>
-        <div class="right-col"><a href="#">Forget Password?</a></div>
-    </div>
-    </div>
+    <form action="{{route('login.post)}}" method="POST">
+        @csrf
+        <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-medium text-left">Sign in</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3"> 
+                        <div class="md-form mb-4">
+                            <input type="text" id="LoginForm-name" class="form-control validate" placeholder="Your name" name="name">
+                        </div>
+                        <div class="md-form mb-4">
+                            <input type="password" id="LoginForm-pass" class="form-control validate" placeholder="Your password" name="password">
+                        </div>
+                        <div class="checkbox-link d-flex justify-content-between">
+                            <div class="left-col">
+                                <input type="checkbox" id="remember_me"><label for="remember_me">Remember Me</label>
+                            </div>
+                            <div class="right-col"><a href="#">Forget Password?</a></div>
+                        </div>
+                    </div>
 
-    <div class="modal-footer d-flex justify-content-center">
-        <button class="btn btn-primary">Sign in</button>
-    </div>
-    </div>
-    </div>
-    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <!-- product_view modal -->
     <div class="modal fade product_view" id="product_view" tabindex="-1" role="dialog" aria-hidden="true">

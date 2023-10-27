@@ -42,49 +42,23 @@
         </div>
         </li>
         <li class="nav-item dropdown mega-dropdown">
-        <a class="nav-link dropdown-toggle text-uppercase" href="category.html">Category</a>
+        <a class="nav-link dropdown-toggle text-uppercase" href="{{ route('ProductCategory') }}">Category</a>
         <div class="dropdown-menu mega-menu v-2 z-depth-1 special-color py-3 px-3">
         <div class="row">
+            @foreach ($formattedCategories as $category)
             <div class="col-md-12 col-xl-4 sub-menu mb-xl-0 mb-4">
-            <h6 class="sub-title text-uppercase font-weight-bold white-text">Variation 1</h6>
+            <h6 class="sub-title text-uppercase font-weight-bold white-text">{{ $category['name'] }}</h6>
             <!--Featured image-->
             <ul class="list-unstyled">
-
+                @foreach ($category['genres'] as $genre)
                 <li>
                 <a class="menu-item pl-0" href="filter-toggle.html">
-                    filter toggle                  </a>                </li>
-                <li>
-                <a class="menu-item pl-0" href="off-canvas-left.html">
-                    off canvas left                </a>                </li>
-                <li>
-                <a class="menu-item pl-0" href="off-canvas-right.html">
-                    off canvas right                </a>                </li>
+                    {{ $genre->GenreName }}                </a>                </li>
+                @endforeach
             </ul>
             </div>
-            <div class="col-md-6 col-xl-4 sub-menu mb-md-0 mb-4">
-            <h6 class="sub-title text-uppercase font-weight-bold white-text">Variation 2</h6>
-                <ul class="list-unstyled">
-                <li>
-                <a class="menu-item pl-0" href="category-5-col.html">
-                    5 columns mode                 </a>                </li>
-                <li>
-                <a class="menu-item pl-0" href="category-6-col.html">
-                6 columns mode                     </a>                </li>
-                <li>
-                <a class="menu-item pl-0" href="category-7-col.html">
-                7 columns mode                     </a>                </li>
-                <li>
-                <a class="menu-item pl-0" href="category-8-col.html">
-                8 columns mode                 </a>                </li>
-            </ul>
-            </div>
-            <div class="col-md-6 col-xl-4 sub-menu mb-0">
+            @endforeach
 
-                    <ul class="list-unstyled">
-                <li>
-                    <span class="menu-banner"><img src="/user/assets/img/banner/menu-banner.jpg" alt="menu-banner" width="161" height="230"/></span>                </li>
-            </ul>
-            </div>
         </div>
         </div>
         </li>

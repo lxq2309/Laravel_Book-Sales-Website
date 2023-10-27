@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Genre extends Model
 {
     use HasFactory;
+
+    protected $table = "Genre";
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }

@@ -111,7 +111,7 @@
     </div>
 
     <!-- Register modal -->
-    <form action="{{route('registration.post)}}" method="POST">
+    <form action="{{route('registration.post')}}" method="POST">
         @csrf
         <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -165,7 +165,7 @@
                     </div>
 
                     <div class="modal-footer d-flex justify-content-center">
-                        <button class="btn btn-primary">Sign up</button>
+                        <button type="submit" class="btn btn-primary">Sign up</button>
                     </div>
                 </div>
             </div>
@@ -173,7 +173,7 @@
     </form>
 
     <!-- Login modal -->
-    <form action="{{route('login.post)}}" method="POST">
+    <form action="{{route('login.post')}}" method="POST">
         @csrf
         <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">

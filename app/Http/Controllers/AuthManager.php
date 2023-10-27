@@ -48,9 +48,13 @@ class AuthManager extends Controller
         $user = User::create($data);
 
         if(!$user){
-            return redirect(route('index'))->with("error", "Registration failed"); 
+            echo "failed to create";
+            // return redirect(route('index'))->with("error", "Registration failed"); 
         }
-        return redirect(route('index'))->with("success", "Registration success"); 
+        // return redirect(route('index'))->with("success", "Registration success"); 
+        else {
+            echo "create successful";
+        }
 
         function logout(){
             Session::flush();

@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $books = DB::table("Book")->get();
+        $books = DB::table("Book")->take(10)->get();
         return view("user.index", compact('books'));
     }
 

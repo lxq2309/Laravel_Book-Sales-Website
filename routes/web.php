@@ -25,7 +25,7 @@ Route::get("/product-category", [CategoryController::class, "ProductCategory"])-
 
 Route::post('/login', [AuthManager::class, 'login'])->name('login.post');
 
-Route::post('/registration', [AuthManager::class, 'login'])->name('registration.post');
+Route::post('/registration', [AuthManager::class, 'registration'])->name('registration.post');
 
 Route::get('/logout', [AuthManager::class, 'logout'])->name('logout');
 

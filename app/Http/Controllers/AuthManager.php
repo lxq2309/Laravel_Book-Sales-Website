@@ -26,42 +26,45 @@ class AuthManager extends Controller
 
     function registration(Request $request){
         $request->validate([
-            'email' =>'required|email|unique:user',
+            'userName' =>'required',
             'password' =>'required',
+            'email' =>'required|email|unique:User',
             'firstName' =>'required',
             'lastName' =>'required',
-            'userName' =>'required',
             'gender' =>'required',
-            'phone' =>'required',
-            'dob' =>'required',
+            'phonenumber' =>'required',
+            'dateofbirth' =>'required',
         ]);
 
-        $data['name'] = $request->name;
         $data['password'] = Hash::make($request->password);
         $data['firstName'] = $request->firstName;
         $data['lastName'] = $request->lastName;
         $data['userName'] = $request->userName;
         $data['gender'] = $request->gender;
-        $data['phone'] = $request->phone;
-        $data['dob'] = $request->dob;
+        $data['phonenumber'] = $request->phonenumber;
+        $data['dateofbirth'] = $request->dateofbirth;
 
         $user = User::create($data);
 
-        if(!$user){
-            echo "failed to create";
-            // return redirect(route('index'))->with("error", "Registration failed"); 
-        }
-        // return redirect(route('index'))->with("success", "Registration success"); 
-        else {
-            echo "create successful";
-        }
+        // if(!$user){
+        //     echo "failed to create";
+        //     // return redirect(route('index'))->with("error", "Registration failed"); 
+        // }
+        // // return redirect(route('index'))->with("success", "Registration success"); 
+        // else {
+        //     echo "create successful";
+        // }
 
-        function logout(){
-            Session::flush();
-            Auth::logout();
-            return redirect(route('index'));
+        if ($user) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'error' => 'Registration failed']);
         }
+    }  
 
+    function logout(){
+        Session::flush();
+        Auth::logout();
+        return redirect(route('index'));
     }
-
 }

@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-			<title>Fashion Template for Bootstrap</title>
+			<title>Website bán sách nhé các bạn</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="description" content="Demo powered by Templatetrip">

@@ -12,3 +12,5 @@ Các thành viên:
 `git clone https://github.com/liamVScode/bansach-app.git`
 ## Install dependency
 `composer install`
+# Deploy
+https://laravel.lxq.id.vn/

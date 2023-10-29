@@ -37,8 +37,6 @@ class AuthManager extends Controller
             'lastName' =>'required',
         ]);
 
-        DB::enableQueryLog();
-
         $data['UserName'] = $request->userName;
         $data['Password'] = Hash::make($request->password);
         $data['Email'] = $request->email;
@@ -52,7 +50,7 @@ class AuthManager extends Controller
         } else {
             return response()->json(['success' => false, 'error' => 'Registration failed']);
         }
-    }  
+    }
 
     function logout(){
         Session::flush();

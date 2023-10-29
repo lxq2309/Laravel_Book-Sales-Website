@@ -28,15 +28,5 @@ class User extends Model implements Authenticatable
 
     public $timestamps = false;
 
-    // // Create an alias for the "Email" field
-    // public function getEmailAttribute()
-    // {
-    //     return $this->attributes['Email'];
-    // }
-
-    // // Create an alias for the "Password" field
-    // public function getPasswordAttribute()
-    // {
-    //     return $this->attributes['Password'];
-    // }
+    protected $primaryKey = 'UserID';
 }

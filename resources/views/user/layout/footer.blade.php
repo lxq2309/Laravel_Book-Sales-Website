@@ -111,7 +111,7 @@
 </div>
 
 <!-- Register modal -->
-<form id="registrationForm" action="{{route('registration.post')}}" method="POST">
+<form action="{{route('registration.post')}}" method="POST">
     @csrf
     <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -137,24 +137,6 @@
                     </div>
                     <div class="md-form mb-4">
                         <input type="password" id="RegisterForm-pass" class="form-control validate" placeholder="Your password" name="password">
-                    </div>
-                    <div class="md-form mb-4">
-                        <label for="gender">Gender</label>
-                        <div class="form-check">
-                            <input type="radio" id="male" name="gender" value="male">
-                            <label for="male">Male</label>
-                            <input type="radio" id="female" name="gender" value="female">
-                            <label for="female">Female</label>
-                            <input type="radio" id="other" name="gender" value="other">
-                            <label for="other">Other</label>
-                        </div>
-                    </div>
-                    <div class="md-form mb-4">
-                        <input type="tel" id="phonenumber" name="phonenumber" class="form-control validate" placeholder="Your phone number">
-                    </div>
-                    <div class="md-form mb-4">
-                        <label for="dob">Date of Birth</label>
-                        <input type="date" id="dateofbirth" name="dateofbirth" class="form-control validate">
                     </div>
                     <div class="checkbox-link d-flex justify-content-between">
                         <div class="left-col">
@@ -370,32 +352,3 @@
     </div>
 </div>
 </div>
-
-<script>
-document.getElementById('registrationForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the default form submission
-
-    // Gather form data
-    const formData = new FormData(this);
-
-    // Send an AJAX request to registration.post
-    fetch("{{ route('registration.post') }}", {
-        method: "POST",
-        body: formData
-    })
-    .then(data => {
-        if (data.success) {
-            // Registration was successful, handle success response
-            alert("Registration successful");
-            // Optionally, you can redirect to another page or perform other actions here.
-        } else {
-            // Registration failed, handle error response
-            alert("Registration failed: " + data.error);
-            // Optionally, you can display error messages or take other actions.
-        }
-    })
-    .catch(error => {
-        console.error("An error occurred:", error);
-    });
-});
-</script>

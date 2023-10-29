@@ -10,4 +10,17 @@ class User extends Model
     use HasFactory;
 
     protected $table = "User";
+
+    protected $fillable = [
+        'UserName',
+        'Password',
+        'Email',
+        'FirstName',
+        'LastName',
+        'Gender',
+        'PhoneNumber',
+        'DateOfBirth',
+    ];
+
+    public $timestamps = false;
 }

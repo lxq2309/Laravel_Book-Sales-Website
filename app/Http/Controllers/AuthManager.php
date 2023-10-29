@@ -11,23 +11,20 @@ use Illuminate\Support\Facades\Session;
 
 class AuthManager extends Controller
 {
-    function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
-            'email' =>'required',
-            'password' =>'required',
+            'email' => 'required',
+            'password' => 'required',
         ]);
 
         $credentials = $request->only('email', 'password');
-        // if(Auth::attempt($credentials)){
-        //     return redirect()->intended(route('index'));
-        // }
-
-        // return redirect(route('index'))->with("error", "Login details are not valid");
 
         if (Auth::attempt($credentials)) {
-            return response()->json(['success' => true]);
+            // return response()->json(['success' => true, 'queries' => $credentials]);
+            return redirect(route('index'));
         } else {
-            return response()->json(['success' => false, 'error' => 'Registration failed']);
+            return response()->json(['error' => false, 'queries' => $credentials]);
         }
     }
 
@@ -50,11 +47,11 @@ class AuthManager extends Controller
 
         $user = User::create($data);
 
-        if (!$user) {
-            return redirect(route('index'))->with("error", "Registration failed");
-        } 
-
-        return redirect(route('index'))->with("success", "Registration success");
+        if ($user) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'error' => 'Registration failed']);
+        }
     }  
 
     function logout(){

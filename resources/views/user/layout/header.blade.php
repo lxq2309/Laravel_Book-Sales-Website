@@ -52,9 +52,14 @@
             <i class="material-icons">perm_identity</i>		</button>
             <div id="user-dropdown" class="user-menu">
             <ul>
-                <li><a href="my-account.html" class="text-capitalize">my account</a></li>
+            @auth
+                <li><a href="my-account.html" class="text-capitalize">My Account</a></li>
+            @endauth
+
+            @guest
                 <li><a href="#" class="modal-view button" data-toggle="modal" data-target="#modalRegisterForm">Register</a></li>
-                <li><a href="#" class="modal-view button" data-toggle="modal" data-target="#modalLoginForm">login</a></li>
+                <li><a href="#" class="modal-view button" data-toggle="modal" data-target="#modalLoginForm">Login</a></li>
+            @endguest
             </ul>
             </div>
             </div>

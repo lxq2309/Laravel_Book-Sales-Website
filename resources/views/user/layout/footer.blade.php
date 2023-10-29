@@ -168,7 +168,7 @@
                 </div>
                 <div class="modal-body mx-3"> 
                     <div class="md-form mb-4">
-                        <input type="text" id="LoginForm-name" class="form-control validate" placeholder="Your name" name="name">
+                        <input type="email" id="LoginForm-name" class="form-control validate" placeholder="Your email" name="email">
                     </div>
                     <div class="md-form mb-4">
                         <input type="password" id="LoginForm-pass" class="form-control validate" placeholder="Your password" name="password">

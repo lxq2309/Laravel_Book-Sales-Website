@@ -19,14 +19,25 @@ class AuthManager extends Controller
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        // $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            Session::put('user', $user);
-            return redirect(route('index'));
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        $user = User::where('email', $email)->first();
+
+        if (empty($user)) {
+            // Email does not exist
+            return response()->json(['error' => true, 'message' => 'Email does not exist']);
         } else {
-            return response()->json(['error' => false, 'queries' => $credentials]);
+            // Email exists, now attempt password validation
+            if (Auth::attempt(['email' => $email, 'password' => $password])) {
+                $user = Auth::user();
+                Session::put('user', $user);
+                // Successful login
+            } else {
+                return response()->json(['error' => true, 'message' => 'Invalid password', 'user' => $user]);
+            }
         }
     }
 
@@ -54,7 +65,6 @@ class AuthManager extends Controller
         $user = User::create($data);
 
         if ($user) {
-            
             Auth::login($user);  
             $user = Auth::user();
             Session::put('user', $user);   

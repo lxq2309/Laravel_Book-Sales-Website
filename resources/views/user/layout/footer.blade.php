@@ -154,7 +154,7 @@
 </form>
 
 <!-- Login modal -->
-<form action="{{route('login.post')}}" method="POST">
+<form id="loginForm" action="{{route('login.post')}}" method="POST">
     @csrf
     <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -167,10 +167,10 @@
                 </div>
                 <div class="modal-body mx-3"> 
                     <div class="md-form mb-4">
-                        <input type="email" id="LoginForm-name" class="form-control validate" placeholder="Email" name="email">
+                        <input type="email" id="LoginForm-email" class="form-control validate" placeholder="Email" name="email" required>
                     </div>
                     <div class="md-form mb-4">
-                        <input type="password" id="LoginForm-pass" class="form-control validate" placeholder="Mật khẩu" name="password">
+                        <input type="password" id="LoginForm-pass" class="form-control validate" placeholder="Mật khẩu" name="password" required>
                     </div>
                     <div class="checkbox-link d-flex justify-content-between">
                         <div class="left-col">
@@ -350,3 +350,38 @@
     </div>
 </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#loginForm').submit(function(event) {
+            event.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(response) {
+                    if (response.error) {
+                        console.log(response);
+                        if (response.message === 'Email does not exist') {
+                            $('#LoginForm-email').after('<div class="text-danger">Email does not exist</div>');
+                        } else if (response.message === 'Invalid password') {
+                            $('#LoginForm-email + .text-danger').remove();
+                            $('#LoginForm-pass').after('<div class="text-danger">Invalid password</div>');
+                        } else {
+                            console.error(response.message);
+                        }
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>

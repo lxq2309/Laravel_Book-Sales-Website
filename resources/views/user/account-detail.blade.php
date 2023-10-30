@@ -5,7 +5,7 @@
 <nav aria-label="breadcrumb" class="w-100 float-left">
     <ol class="breadcrumb parallax justify-content-center" data-source-url="/user/assets/img/banner/parallax.jpg" style="background-image: url(&quot;img/banner/parallax.jpg&quot;); background-position: 50% 0.809717%;">
         <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Account Details</li>
+        <li class="breadcrumb-item active" aria-current="page">Account Detail</li>
     </ol>
 </nav>
 <div class="main-content w-100 float-left blog-list">
@@ -14,7 +14,7 @@
             <div class="products-grid col-xl-9 col-lg-8 order-lg-2">
                 <div class="row">
                     <div class="col-lg-12 order-lg-last account-content">
-                        <h4>Edit Account Information</h4>
+                        <h4>Thông Tin Tài Khoản</h4>
                         <form action="{{ route('account.update') }}" method="POST" class="myacoount-form">
                             @csrf
                             @method('PUT')
@@ -53,14 +53,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="acc-dob">Date of Birth</label>
+                                        <label for="acc-dob">Ngày Sinh</label>
                                         <input type="date" class="form-control" id="acc-dob" name="dateOfBirth" value="{{ Session::get('user')->DateOfBirth }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="acc-phone">Phone Number</label>
+                                        <label for="acc-phone">Số Điện Thoại</label>
                                         <input type="tel" class="form-control" id="acc-phone" name="phoneNumber" pattern="[0-9]{10}" value="{{ Session::get('user')->PhoneNumber }}">
+                                        @error('phoneNumber')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -69,15 +72,15 @@
                                 <label>Gender</label>
                                 <div class="form-check">
                                     <input type="radio" class="form-check-input" id="male" name="gender" value="Male" {{ Session::get('user')->Gender == 'Male' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="male">Male</label>
+                                    <label class="form-check-label" for="male">Trai</label>
                                 </div>
                                 <div class="form-check">
                                     <input type="radio" class="form-check-input" id="female" name="gender" value="Female" {{ Session::get('user')->Gender == 'Female' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="female">Female</label>
+                                    <label class="form-check-label" for="female">Gái</label>
                                 </div>
                                 <div class="form-check">
                                     <input type="radio" class="form-check-input" id="female" name="gender" value="Other" {{ Session::get('user')->Gender == 'Other' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="other">Other</label>
+                                    <label class="form-check-label" for="other">Khác</label>
                                 </div>
                             </div>
 
@@ -105,12 +108,12 @@
                                 </div>
                             </div>
 
-                            <div class="required text-right">* Required Field</div>
+                            <div class="required text-right">* Bắt buộc điền</div>
                             <div class="form-footer d-flex justify-content-between align-items-center">
-                                <a href="#"><i class="material-icons">navigate_before</i>Back</a>
+                                <a href="{{ route('index') }}"><i class="material-icons">navigate_before</i>Quay lại</a>
 
                                 <div class="form-footer-right">
-                                    <button type="submit" class="btn btn-primary btn-primary">Save</button>
+                                    <button type="submit" class="btn btn-primary btn-primary">Lưu</button>
                                 </div>
                             </div>
                         </form>

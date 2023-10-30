@@ -111,7 +111,7 @@
 </div>
 
 <!-- Register modal -->
-<form id="registration-form"action="{{route('registration.post')}}" method="POST">
+<form id="registrationForm"action="{{route('registration.post')}}" method="POST">
     @csrf
     <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -124,10 +124,10 @@
                 </div>
                 <div class="modal-body mx-3">
                     <div class="md-form mb-4">
-                        <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Họ và tên đệm" name="firstName" required>
+                        <input type="text" id="RegisterForm-fname" class="form-control validate" placeholder="Họ và tên đệm" name="firstName" required>
                     </div>
                     <div class="md-form mb-4">
-                        <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Tên" name="lastName" required>
+                        <input type="text" id="RegisterForm-lname" class="form-control validate" placeholder="Tên" name="lastName" required>
                     </div>
                     <div class="md-form mb-4">
                         <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Tên tài khoản" name="userName" required>
@@ -365,12 +365,46 @@
                 data: formData,
                 success: function(response) {
                     if (response.error) {
-                        console.log(response);
                         if (response.message === 'Email does not exist') {
+                            $('#LoginForm-email + .text-danger').remove();
+                            $('#LoginForm-pass + .text-danger').remove();
                             $('#LoginForm-email').after('<div class="text-danger">Email không tồn tại</div>');
                         } else if (response.message === 'Invalid password') {
                             $('#LoginForm-email + .text-danger').remove();
+                            $('#LoginForm-pass + .text-danger').remove();
                             $('#LoginForm-pass').after('<div class="text-danger">Mật khẩu sai, kiểm tra lại</div>');
+                        } else {
+                            console.error(response.message);
+                        }
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $('#registrationForm').submit(function(event) {
+            event.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(response) {
+                    if (response.error) {
+                        if (response.message === 'Email existed') {
+                            $('#RegisterForm-name + .text-danger').remove();
+                            $('#RegisterForm-email + .text-danger').remove();
+                            $('#RegisterForm-email').after('<div class="text-danger">Email đã tồn tại</div>');
+                        } else if (response.message === 'userName existed') {
+                            $('#RegisterForm-name + .text-danger').remove();
+                            $('#RegisterForm-email + .text-danger').remove();
+                            $('#RegisterForm-name').after('<div class="text-danger">Tên tài khoản đã tồn tại</div>');
                         } else {
                             console.error(response.message);
                         }

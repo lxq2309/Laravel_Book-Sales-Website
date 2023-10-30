@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="col-lg-12 order-lg-last account-content">
                         <h4>Thông Tin Tài Khoản</h4>
-                        <form action="{{ route('account.update') }}" method="POST" class="myacoount-form">
+                        <form id="account-form" action="{{ route('account.update') }}" method="POST" class="myacoount-form">
                             @csrf
                             @method('PUT')
                             <div class="form-group required-field">
@@ -90,19 +90,19 @@
                             </div>
 
                             <div id="account-change-password" class="">
-                                <h4>Change Password</h4>
+                                <h4>Đổi mật khẩu</h4>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group required-field">
-                                            <label for="account-pass2">Password</label>
-                                            <input type="password" class="form-control" id="account-pass2" name="account-pass2">
+                                            <label for="account-pass2">Mật khẩu mới</label>
+                                            <input id="new-pass" type="password" class="form-control" id="account-pass2" name="new-pass">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group required-field">
-                                            <label for="account-pass3">Confirm Password</label>
-                                            <input type="password" class="form-control" id="account-pass3" name="account-pass3">
+                                            <label for="account-pass3">Xác nhận mật khẩu mới</label>
+                                            <input id="new-pass-confirm" type="password" class="form-control" id="account-pass3" name="new-pass-confirm">
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +110,7 @@
 
                             <div class="required text-right">* Bắt buộc điền</div>
                             <div class="form-footer d-flex justify-content-between align-items-center">
-                                <a href="{{ route('index') }}"><i class="material-icons">navigate_before</i>Quay lại</a>
+                                <a href="javascript:history.back()"><i class="material-icons">navigate_before</i>Quay lại</a>
 
                                 <div class="form-footer-right">
                                     <button type="submit" class="btn btn-primary btn-primary">Lưu</button>
@@ -193,3 +193,35 @@
 </div>
 
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#account-form').submit(function(event) {
+            event.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: 'PUT',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(response) {
+                    if (response.error) {
+                        if (response.message === 'password not same') {
+                            $('#new-pass-confirm + .text-danger').remove();
+                            $('#new-pass-confirm').after('<div class="text-danger">Mật khẩu không giống nhau</div>');
+                        } else {
+                            console.error(response.message);
+                        }
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -30,6 +31,8 @@ class AccountController extends Controller
                 'regex:/[0-9]{10}/',
             ],
             'gender' => 'nullable|in:Male,Female,Other',
+            'new-pass' => 'nullable',
+            'new-pass-confirm' => 'nullable',
         ]);
 
         // Save the updated user data
@@ -49,8 +52,16 @@ class AccountController extends Controller
             $user->Gender = $validatedData['gender'];
         }
 
+        if($validatedData['new-pass']) {
+            if($validatedData['new-pass'] === $validatedData['new-pass-confirm']) {
+                $user->Password = Hash::make($validatedData['new-pass']);
+            } else {
+                return response()->json(['error' => true, 'message' => 'password not same']);
+            }
+        }
+
         $user->save();
 
-        return redirect()->back()->with('success', 'Account details updated successfully');
+        // return redirect()->back()->with('success', 'Account details updated successfully');
     }
 }

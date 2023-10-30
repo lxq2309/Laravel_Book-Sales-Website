@@ -53,11 +53,15 @@
             <div id="user-dropdown" class="user-menu">
             <ul>
                 @if(Auth::check())
-                    <li><a href="my-account.html" class="text-capitalize">My account</a></li>
-                    <li><a href="{{ route('logout') }}">Log out</a></li>
+                    @if(Session::has('user'))
+                        <li><a href="#" class="text-capitalize">{{ Session::get('user')->UserName }}</a></li>
+                    @else
+                        <li><a href="#" class="text-capitalize">Tài khoản của tôi</a></li>
+                    @endif
+                    <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                 @else
-                    <li><a href="#" class="modal-view button" data-toggle="modal" data-target="#modalRegisterForm">Register</a></li>
-                    <li><a href="#" class="modal-view button" data-toggle="modal" data-target="#modalLoginForm">Login</a></li>
+                    <li><a href="#" class="modal-view button" data-toggle="modal" data-target="#modalRegisterForm">Đăng ký</a></li>
+                    <li><a href="#" class="modal-view button" data-toggle="modal" data-target="#modalLoginForm">Đăng nhập</a></li>
                 @endif
             </ul>
             </div>

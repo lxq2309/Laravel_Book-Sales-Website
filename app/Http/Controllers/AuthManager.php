@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +22,8 @@ class AuthManager extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // return response()->json(['success' => true, 'queries' => $credentials]);
+            $user = Auth::user();
+            Session::put('user', $user);
             return redirect(route('index'));
         } else {
             return response()->json(['error' => false, 'queries' => $credentials]);
@@ -30,23 +32,33 @@ class AuthManager extends Controller
 
     function registration(Request $request){
         $request->validate([
-            'userName' =>'required',
+            'userName' =>'required|unique:User',
             'password' =>'required',
-            'email' =>'required|email|unique:User',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('User')->where(function ($query) use ($request) {
+                    return $query->where('email', $request->email);
+                }),
+            ],
             'firstName' =>'required',
             'lastName' =>'required',
         ]);
 
         $data['UserName'] = $request->userName;
-        $data['Password'] = Hash::make($request->password);
-        $data['Email'] = $request->email;
+        $data['password'] = Hash::make($request->password);
+        $data['email'] = $request->email;
         $data['FirstName'] = $request->firstName;
         $data['LastName'] = $request->lastName;
 
         $user = User::create($data);
 
         if ($user) {
-            return response()->json(['success' => true]);
+            
+            Auth::login($user);  
+            $user = Auth::user();
+            Session::put('user', $user);   
+            return redirect(route('index'));
         } else {
             return response()->json(['success' => false, 'error' => 'Registration failed']);
         }

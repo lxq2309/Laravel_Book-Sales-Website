@@ -22,3 +22,5 @@ Route::get("/product-detail/{id}", [ProductController::class,"ProductDetail"])->
 
 Route::get("/product-category", [CategoryController::class, "ProductCategory"])->name("ProductCategory");
 
+Route::get("/category/{genreID}", [ProductController::class, "getProductsByCategory"])->name("proByCate");
+

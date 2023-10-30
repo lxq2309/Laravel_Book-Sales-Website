@@ -88,6 +88,6 @@
 		<script src="/user/assets/js/imagesloaded.pkgd.min.js"></script>
 		<script src="/user/assets/js/jquery.zoom.min.js"></script>
 		<script src="/user/assets/js/jquery.lazy.min.js"></script>
-
+        @yield('scripts')
 	</body>
 </html>

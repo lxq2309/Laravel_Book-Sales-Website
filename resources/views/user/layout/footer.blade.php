@@ -111,43 +111,42 @@
 </div>
 
 <!-- Register modal -->
-<form action="{{route('registration.post')}}" method="POST">
+<form id="registration-form"action="{{route('registration.post')}}" method="POST">
     @csrf
     <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-medium text-left">Sign up</h4>
+                    <h4 class="modal-title w-100 font-weight-medium text-left">Đăng ký</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body mx-3">
                     <div class="md-form mb-4">
-                        <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="First name" name="firstName">
+                        <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Họ và tên đệm" name="firstName" required>
                     </div>
                     <div class="md-form mb-4">
-                        <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Last name" name="lastName">
+                        <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Tên" name="lastName" required>
                     </div>
                     <div class="md-form mb-4">
-                        <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Your Username" name="userName">
+                        <input type="text" id="RegisterForm-name" class="form-control validate" placeholder="Tên tài khoản" name="userName" required>
                     </div>
                     <div class="md-form mb-4">
-                        <input type="email" id="RegisterForm-email" class="form-control validate" placeholder="Your email" name="email">
+                        <input type="email" id="RegisterForm-email" class="form-control validate" placeholder="Email" name="email" required>
                     </div>
                     <div class="md-form mb-4">
-                        <input type="password" id="RegisterForm-pass" class="form-control validate" placeholder="Your password" name="password">
+                        <input type="password" id="RegisterForm-pass" class="form-control validate" placeholder="Mật khẩu" name="password" required>
                     </div>
                     <div class="checkbox-link d-flex justify-content-between">
                         <div class="left-col">
-                            <input id="remember-me" type="checkbox"><label for="remember_me">Remember Me</label>
                         </div>
-                        <div class="right-col"><a href="#">Forget Password?</a></div>
+                        <div class="right-col"><a href="#">Quên mật khẩu?</a></div>
                     </div>
                 </div>
 
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">Sign up</button>
+                    <button type="submit" class="btn btn-primary">Đăng ký</button>
                 </div>
             </div>
         </div>
@@ -155,34 +154,33 @@
 </form>
 
 <!-- Login modal -->
-<form action="{{route('login.post')}}" method="POST">
+<form id="loginForm" action="{{route('login.post')}}" method="POST">
     @csrf
     <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-medium text-left">Sign in</h4>
+                    <h4 class="modal-title w-100 font-weight-medium text-left">Đăng nhập</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body mx-3"> 
                     <div class="md-form mb-4">
-                        <input type="email" id="LoginForm-name" class="form-control validate" placeholder="Your email" name="email">
+                        <input type="email" id="LoginForm-email" class="form-control validate" placeholder="Email" name="email" required>
                     </div>
                     <div class="md-form mb-4">
-                        <input type="password" id="LoginForm-pass" class="form-control validate" placeholder="Your password" name="password">
+                        <input type="password" id="LoginForm-pass" class="form-control validate" placeholder="Mật khẩu" name="password" required>
                     </div>
                     <div class="checkbox-link d-flex justify-content-between">
                         <div class="left-col">
-                            <input type="checkbox" id="remember_me"><label for="remember_me">Remember Me</label>
                         </div>
-                        <div class="right-col"><a href="#">Forget Password?</a></div>
+                        <div class="right-col"><a href="#">Quên mật khẩu?</a></div>
                     </div>
                 </div>
 
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
                 </div>
             </div>
         </div>
@@ -352,3 +350,38 @@
     </div>
 </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#loginForm').submit(function(event) {
+            event.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(response) {
+                    if (response.error) {
+                        console.log(response);
+                        if (response.message === 'Email does not exist') {
+                            $('#LoginForm-email').after('<div class="text-danger">Email không tồn tại</div>');
+                        } else if (response.message === 'Invalid password') {
+                            $('#LoginForm-email + .text-danger').remove();
+                            $('#LoginForm-pass').after('<div class="text-danger">Mật khẩu sai, kiểm tra lại</div>');
+                        } else {
+                            console.error(response.message);
+                        }
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>

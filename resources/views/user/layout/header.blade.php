@@ -54,7 +54,7 @@
             <ul>
                 @if(Auth::check())
                     @if(Session::has('user'))
-                        <li><a href="#" class="text-capitalize">{{ Session::get('user')->UserName }}</a></li>
+                        <li><a href="{{ route('account.detail') }}" class="text-capitalize">{{ Session::get('user')->UserName }}</a></li>
                     @else
                         <li><a href="#" class="text-capitalize">Tài khoản của tôi</a></li>
                     @endif

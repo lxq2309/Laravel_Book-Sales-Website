@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class User extends Model implements Authenticatable
 {
@@ -14,6 +15,9 @@ class User extends Model implements Authenticatable
     use AuthenticableTrait;
 
     protected $table = "User";
+
+    protected $primaryKey = 'UserID';
+
 
     protected $fillable = [
         'UserName',
@@ -24,9 +28,17 @@ class User extends Model implements Authenticatable
         'Gender',
         'PhoneNumber',
         'DateOfBirth',
+        'ModifiedDate',
     ];
 
     public $timestamps = false;
 
-    protected $primaryKey = 'UserID';
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($user) {
+            $user->ModifiedDate = Carbon::now('Asia/Bangkok');
+        });
+    }
 }

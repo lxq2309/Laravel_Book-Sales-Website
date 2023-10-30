@@ -367,10 +367,10 @@
                     if (response.error) {
                         console.log(response);
                         if (response.message === 'Email does not exist') {
-                            $('#LoginForm-email').after('<div class="text-danger">Email does not exist</div>');
+                            $('#LoginForm-email').after('<div class="text-danger">Email không tồn tại</div>');
                         } else if (response.message === 'Invalid password') {
                             $('#LoginForm-email + .text-danger').remove();
-                            $('#LoginForm-pass').after('<div class="text-danger">Invalid password</div>');
+                            $('#LoginForm-pass').after('<div class="text-danger">Mật khẩu sai, kiểm tra lại</div>');
                         } else {
                             console.error(response.message);
                         }

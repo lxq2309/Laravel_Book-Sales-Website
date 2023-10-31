@@ -50,5 +50,7 @@ class AppServiceProvider extends ServiceProvider
         }
         $view->with('formattedCategories', $formattedCategories);
         });
+
+
     }
 }

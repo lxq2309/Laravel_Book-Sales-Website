@@ -19,6 +19,17 @@ class ProductController extends Controller
         return response()->json(["products" => $products]);
     }
 
+    public function productsByCategory(Request $request, $genreID){
+        $products = DB::table("Book")
+            ->join("BookGenre","Book.BookID","=","BookGenre.BookID")
+            ->join("Genre","BookGenre.GenreID","=","Genre.GenreID")
+            ->where("BookGenre.GenreID",$genreID)
+            ->orderBy("BookGenre.GenreID","asc")
+            ->take(10)->get();
+
+        return view('user.product-category', compact('products'));
+    }
+
     public function getProductsByCategory(Request $request, $genreID){
         $products = DB::table("Book")
         ->join("BookGenre","Book.BookID","=","BookGenre.BookID")

@@ -21,9 +21,10 @@ Route::get("/", [HomeController::class,"index"])->name('index');
 
 Route::get("/product-detail/{id}", [ProductController::class,"ProductDetail"])->name("product-detail");
 
-Route::get("/product-category", [CategoryController::class, "ProductCategory"])->name("ProductCategory");
+//Route::get("/product-category", [CategoryController::class, "ProductCategory"])->name("ProductCategory");
 
-Route::get("/category/{genreID}", [ProductController::class, "getProductsByCategory"])->name("proByCate");
+
+Route::get("/category/{genreID}", [ProductController::class, "productsByCategory"])->name("proByCate");
 
 Route::post('/login', [AuthManager::class, 'login'])->name('login.post');
 

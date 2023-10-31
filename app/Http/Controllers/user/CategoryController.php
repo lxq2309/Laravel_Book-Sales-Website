@@ -11,4 +11,6 @@ class CategoryController extends Controller
     public function ProductCategory(){
         return view("user.product-category");
     }
+
+
 }

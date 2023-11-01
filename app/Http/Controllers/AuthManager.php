@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
 
 class AuthManager extends Controller
 {
-    public function login(Request $request)
-    {
+    public function login(Request $request){
         $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -93,11 +93,14 @@ class AuthManager extends Controller
             return back()->withInput()->with('error', 'Không tồn tại người dùng với Email này');
         }
 
-        $code = 3475;
+        $mailData = [
+            'title' => 'Mail from Sakai',
+            'body' => 'This is for testing email',
+        ];
 
-        Mail::to($user->email)->send($code);
+        Mail::to($request->email)->send(new SendMail($mailData));
 
-        return view("user.confirm-email");
+        dd('Email sent successfully');
     }
 
     function logout(){

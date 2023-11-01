@@ -47,10 +47,12 @@
                             <a>
                                 <i class="material-icons search">search</i>
                                 <i class="material-icons close">close</i> </a>
-                            <form autocomplete="off" action="/action_page.php" class="search-form">
+
+                            <form method="post" autocomplete="off" action="{{ route('searchBook') }}" class="search-form">
+                                @csrf
                                 <div class="autocomplete">
-                                    <input id="myInput" type="text" name="myCountry" placeholder="Search here">
-                                    <button type="button"><i class="material-icons">search</i></button>
+                                    <input id="myInput" type="text" name="keyWord" placeholder="Search here">
+                                    <button type="submit"><i class="material-icons">search</i></button>
                                 </div>
                             </form>
                         </div>

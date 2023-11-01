@@ -52,5 +52,33 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
+        view()->composer('user.product-category', function ($view) {
+            $categories = DB::table('Category')
+                ->select('CategoryID', 'CategoryName')
+                ->take(5)
+                ->get();
+
+            $formattedCategories = [];
+
+            //tim genre cho moi category
+            foreach ($categories as $category) {
+                $categoryId = $category->CategoryID;
+                $categoryName = $category->CategoryName;
+
+                $genres = DB::table('Genre')
+                    ->where('CategoryID', $categoryId)
+                    ->select('GenreID', 'GenreName')
+                    ->take(5)
+                    ->get();
+
+                $formattedCategories[] = [
+                    'id' => $categoryId,
+                    'name' => $categoryName,
+                    'genres' => $genres,
+                ];
+            }
+            $view->with('formattedCategories', $formattedCategories);
+        });
+
     }
 }

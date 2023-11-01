@@ -302,28 +302,35 @@
                                 <h3 class="widget-title"><a data-toggle="collapse" href="#categoriesMenu"
                                         role="button" aria-expanded="true" aria-controls="categoriesMenu">Nhóm sản
                                         phẩm</a></h3>
+                                @foreach ($formattedCategories as $category)
                                 <div id="categoriesMenu" class="expand-lg collapse show">
                                     <div class="nav nav-pills flex-column mt-4"> <a href="#"
-                                            class="nav-link d-flex justify-content-between mb-2 "><span>Văn
-                                                học</span><span class="sidebar-badge"> 120</span></a>
+                                            class="nav-link d-flex justify-content-between mb-2 "><span>{{ $category['name'] }}</span><span class="sidebar-badge"></span></a>
+                                        @foreach ($category['genres'] as $genre)
                                         <div class="nav nav-pills flex-column ml-3">
-                                            <a href="#" class="nav-link mb-2">Tiểu thuyết</a>
-                                            <a href="#" class="nav-link mb-2">Truyện ngắn</a>
+                                            <a href="#" class="nav-link mb-2">{{ $genre->GenreName }}</a>
                                         </div>
+                                        @endforeach
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
                             <div class="sidebar-block price">
                                 <h3 class="widget-title"><a data-toggle="collapse" href="#price" role="button"
                                         aria-expanded="true" aria-controls="price">Giá</a></h3>
-                                <div id="price" class="collapse show">
-                                    <div class="price-inner">
-                                        <label for="amount">Mức giá:</label>
-                                        <input type="text" id="amount" readonly
-                                            style="border:0; font-weight:bold; background:none;">
-                                        <div id="slider-range"></div>
+{{--                                <div id="price" class="collapse show">--}}
+{{--                                    <div class="price-inner">--}}
+{{--                                        <label for="amount">Mức giá:</label>--}}
+{{--                                        <input type="text" id="amount" readonly--}}
+{{--                                            style="border:0; font-weight:bold; background:none;">--}}
+{{--                                        <div id="slider-range"></div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+                                    <div>
+                                        <input type="checkbox" id="checkbox-id" class="checkbox-class"> 0-150000đ
                                     </div>
-                                </div>
+
                             </div>
                             <div class="sidebar-block size">
                                 <h3 class="widget-title"><a data-toggle="collapse" href="#size" role="button"

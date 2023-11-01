@@ -24,6 +24,8 @@ Route::get("/product-detail/{id}", [ProductController::class,"ProductDetail"])->
 //Route::get("/product-category", [CategoryController::class, "ProductCategory"])->name("ProductCategory");
 
 
+Route::post('/searchBook', [ProductController::class, 'searchProduct'])->name('searchBook');
+
 Route::get("/category/{genreID}", [ProductController::class, "productsByCategory"])->name("proByCate");
 
 Route::post('/login', [AuthManager::class, 'login'])->name('login.post');

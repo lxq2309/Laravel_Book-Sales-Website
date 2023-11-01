@@ -22,7 +22,12 @@ Route::get("/", [HomeController::class,"index"])->name('index');
 
 Route::get("/product-detail/{id}", [ProductController::class,"ProductDetail"])->name("product-detail");
 
-Route::get("/product-category", [CategoryController::class, "ProductCategory"])->name("ProductCategory");
+//Route::get("/product-category", [CategoryController::class, "ProductCategory"])->name("ProductCategory");
+
+
+Route::post('/searchBook', [ProductController::class, 'searchProduct'])->name('searchBook');
+
+Route::get("/category/{genreID}", [ProductController::class, "productsByCategory"])->name("proByCate");
 
 Route::get('/account/detail', [AccountController::class, 'accountDetail'])->name('account.detail');
 

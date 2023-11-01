@@ -11,8 +11,9 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $genres = DB::table("Genre")->take(3)->get();
         $books = DB::table("Book")->take(10)->get();
-        return view("user.index", compact('books'));
+        return view("user.index", compact('books', 'genres'));
     }
 
 }

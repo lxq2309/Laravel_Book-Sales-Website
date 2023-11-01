@@ -17,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/category/{genreID}', [\App\Http\Controllers\user\ProductController::class, 'getProductsByCategory']);
+Route::get('/product/{productID}', [\App\Http\Controllers\user\ProductController::class, 'getProductByID']);
+
+Route::get('/product/search', [\App\Http\Controllers\user\ProductController::class, 'searchProduct']);
+
+

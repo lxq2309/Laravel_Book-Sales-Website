@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use App\Mail\SendMail;
 
 class AuthManager extends Controller
@@ -93,14 +94,34 @@ class AuthManager extends Controller
             return back()->withInput()->with('error', 'Không tồn tại người dùng với Email này');
         }
 
+        $confirmationCode = Str::random(6);
+        $user->ConfirmCode = $confirmationCode;
+        $user->save();
+
         $mailData = [
-            'title' => 'Mail from Sakai',
-            'body' => 'This is for testing email',
+            'title' => 'Xác nhận Email',
+            'body' => 'Mã xác nhận Email: ',
+            'confirmationCode' => $confirmationCode,
+            'email' => $request->email,
         ];
 
         Mail::to($request->email)->send(new SendMail($mailData));
 
-        dd('Email sent successfully');
+        return view("user.reset-password", compact('mailData'));
+    }
+
+    function changePassword(Request $request){
+        $user = User::where('email', $request->email)->first();
+
+        if($user->ConfirmCode == $request->confirmCode) { 
+            if($request->password == $request->cfpassword) {
+                $user->password = Hash::make($request->password);
+                $user->save();
+                return redirect(route('index'));
+            }  
+            return back()->withInput()->with('errorPass', 'Vui lòng nhập 2 mật khẩu giống nhau'); 
+        }
+        return back()->withInput()->with('errorCode', 'Sai mã xác nhận'); 
     }
 
     function logout(){

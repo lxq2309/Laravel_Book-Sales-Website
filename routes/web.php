@@ -38,3 +38,4 @@ Route::get('/account/identify', [AuthManager::class, 'forgotPass'])->name('accou
 
 Route::post('/account/identify/email', [AuthManager::class, 'confirmEmail'])->name('email.identify');
 
+Route::put('/account/change/password', [AuthManager::class, 'changePassword'])->name('change.password');

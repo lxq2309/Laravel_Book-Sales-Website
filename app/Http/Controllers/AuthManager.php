@@ -19,22 +19,17 @@ class AuthManager extends Controller
             'password' => 'required',
         ]);
 
-        // $credentials = $request->only('email', 'password');
-
         $email = $request->input('email');
         $password = $request->input('password');
 
         $user = User::where('email', $email)->first();
 
         if (empty($user)) {
-            // Email does not exist
             return response()->json(['error' => true, 'message' => 'Email does not exist']);
         } else {
-            // Email exists, now attempt password validation
             if (Auth::attempt(['email' => $email, 'password' => $password])) {
                 $user = Auth::user();
                 Session::put('user', $user);
-                // Successful login
             } else {
                 return response()->json(['error' => true, 'message' => 'Invalid password', 'user' => $user]);
             }
@@ -43,15 +38,9 @@ class AuthManager extends Controller
 
     function registration(Request $request){
         $request->validate([
-            'userName' =>'required|unique:User',
+            'userName' =>'required',
             'password' =>'required',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('User')->where(function ($query) use ($request) {
-                    return $query->where('email', $request->email);
-                }),
-            ],
+            'email' => 'required',
             'firstName' =>'required',
             'lastName' =>'required',
         ]);
@@ -62,15 +51,29 @@ class AuthManager extends Controller
         $data['FirstName'] = $request->firstName;
         $data['LastName'] = $request->lastName;
 
-        $user = User::create($data);
+        $email = $request->input('email');
+        $user = User::where('email', $email)->first();
 
-        if ($user) {
-            Auth::login($user);  
-            $user = Auth::user();
-            Session::put('user', $user);   
-            return redirect(route('index'));
+        if (! empty($user)) {
+            return response()->json(['error' => true, 'message' => 'Email existed']);
         } else {
-            return response()->json(['success' => false, 'error' => 'Registration failed']);
+            $userName = $request->input('userName');
+            $user = User::where('UserName', $userName)->first();
+            if (! empty($user)) {
+                return response()->json(['error' => true, 'message' => 'userName existed']);
+            }
+            else {
+                $user = User::create($data);
+
+                if ($user) {
+                    Auth::login($user);  
+                    $user = Auth::user();
+                    Session::put('user', $user);   
+                    return redirect(route('index'));
+                } else {
+                    return response()->json(['success' => false, 'error' => 'Registration failed']);
+                }
+            }
         }
     }
 

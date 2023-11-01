@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
 
 class AuthManager extends Controller
 {
@@ -75,6 +76,28 @@ class AuthManager extends Controller
                 }
             }
         }
+    }
+
+    function forgotPass(){
+        return view("user.forgot-password");
+    }
+
+    function confirmEmail(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withInput()->with('error', 'Không tồn tại người dùng với Email này');
+        }
+
+        $code = 3475;
+
+        Mail::to($user->email)->send($code);
+
+        return view("user.confirm-email");
     }
 
     function logout(){

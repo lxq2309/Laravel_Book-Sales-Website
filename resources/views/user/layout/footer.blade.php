@@ -141,7 +141,7 @@
                     <div class="checkbox-link d-flex justify-content-between">
                         <div class="left-col">
                         </div>
-                        <div class="right-col"><a href="#">Quên mật khẩu?</a></div>
+                        <div class="right-col"><a href="{{ route('account.identify') }}">Quên mật khẩu?</a></div>
                     </div>
                 </div>
 
@@ -175,7 +175,7 @@
                     <div class="checkbox-link d-flex justify-content-between">
                         <div class="left-col">
                         </div>
-                        <div class="right-col"><a href="#">Quên mật khẩu?</a></div>
+                        <div class="right-col"><a href="{{ route('account.identify') }}">Quên mật khẩu?</a></div>
                     </div>
                 </div>
 

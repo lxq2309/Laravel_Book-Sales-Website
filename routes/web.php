@@ -34,3 +34,7 @@ Route::post('/registration', [AuthManager::class, 'registration'])->name('regist
 
 Route::get('/logout', [AuthManager::class, 'logout'])->name('logout');
 
+Route::get('/account/identify', [AuthManager::class, 'forgotPass'])->name('account.identify');
+
+Route::post('/account/identify/email', [AuthManager::class, 'confirmEmail'])->name('email.identify');
+

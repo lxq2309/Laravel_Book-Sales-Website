@@ -481,7 +481,7 @@
   }
 }
 .product_view .modal-dialog {
-  max-width: 800px;
+  max-width: 1000px;
 }
 @media (max-width: 767px) {
   .product_view .modal-dialog {
@@ -6781,7 +6781,7 @@ body {
 .slider-wrapper .slider .owl-item img {
   max-width: 100%;
   border-radius: 10px;
-  height: 500; 
+  height: 500;
   width: 1000;
 }
 .slider-wrapper .slider .owl-item .slider-content-wrap {
@@ -9131,3 +9131,7 @@ body {
 }
 
 /*# sourceMappingURL=styles.css.map */
+
+.model-dialog {
+    max-width: 1500px;
+}

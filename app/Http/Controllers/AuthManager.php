@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\ShoppingCart;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -66,8 +67,9 @@ class AuthManager extends Controller
             }
             else {
                 $user = User::create($data);
-
                 if ($user) {
+                    $cartData['UserID'] = $user->UserID;
+                    ShoppingCart::create($cartData);
                     Auth::login($user);  
                     $user = Auth::user();
                     Session::put('user', $user);   

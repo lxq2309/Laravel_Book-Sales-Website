@@ -208,7 +208,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header alert-success">
-                <h4 class="modal-title w-100w-100w-100">Product successfully added to your shopping cart</h4>
+                <h4 class="modal-title w-100w-100w-100">Sản phẩm đã được thêm vào giỏ hàng thành công</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -238,25 +238,157 @@
                         </div>
                     </div>
                     <div class="col-md-6 divide-left">
-                        <p class="cart-products-count">There are 2 items in your cart.</p>
+                        <p class="cart-products-count">Có 2 sản phẩm trong giỏ hàng của bạn.</p>
                         <p class="total-products float-left w-100">
-                            <strong>Total products:</strong> $150.00
+                            <strong>Chi phí sản phẩm:</strong> $150.00
                         </p>
                         <p class="shipping float-left w-100">
-                            <strong>Total shipping:</strong> free
+                            <strong>Chi phí vận chuyển:</strong> free
                         </p>
                         <p class="total-price float-left w-100">
-                            <strong>Total:</strong> $150.00(tax incl.)
+                            <strong>Tổng:</strong> $150.00
                         </p>
                         <div class="cart-content-btn float-left w-100">
                             <form action="#">
-                                <input class="btn pull-right mt_10 btn-primary" value="Continue shopping"
+                                <input class="btn pull-right mt_10 btn-primary" value="Tiếp tục mua hàng"
                                     type="submit">
                             </form>
                             <form action="checkout_page.html">
-                                <input class="btn pull-right mt_10 btn-secondary" value="Proceed to checkout"
+                                <input class="btn pull-right mt_10 btn-secondary" value="Sang trang thanh toán"
                                     type="submit">
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- product_view modal -->
+<div class="modal fade product_view" id="product_view" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100w-100w-100 font-weight-bold d-none">Quick view</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 left-columm">
+                        <div class="product-large-image tab-content">
+                            <div class="tab-pane active" id="product-1" role="tabpanel"
+                                aria-labelledby="product-tab-1">
+                                <div class="single-img img-full">
+                                    <a href="/user/assets/img/products/01.jpg"><img
+                                            src="/user/assets/img/products/01.jpg" class="img-fluid" alt=""
+                                            width="368" height="478"></a>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="product-2" role="tabpanel" aria-labelledby="product-tab-2">
+                                <div class="single-img">
+                                    <a href="/user/assets/img/products/02.jpg"><img
+                                            src="/user/assets/img/products/02.jpg" class="img-fluid" alt=""
+                                            width="368" height="478"></a>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="product-3" role="tabpanel" aria-labelledby="product-tab-3">
+                                <div class="single-img">
+                                    <a href="/user/assets/img/products/03.jpg"><img
+                                            src="/user/assets/img/products/03.jpg" class="img-fluid" alt=""
+                                            width="368" height="478"></a>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="product-4" role="tabpanel" aria-labelledby="product-tab-4">
+                                <div class="single-img">
+                                    <a href="/user/assets/img/products/04.jpg"><img
+                                            src="/user/assets/img/products/04.jpg" class="img-fluid" alt=""
+                                            width="368" height="478"></a>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="product-5" role="tabpanel" aria-labelledby="product-tab-5">
+                                <div class="single-img">
+                                    <a href="/user/assets/img/products/05.jpg"><img
+                                            src="/user/assets/img/products/05.jpg" class="img-fluid" alt=""
+                                            width="368" height="478"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small-image-list float-left w-100">
+                            <div class="nav-add small-image-slider-single-product-tabstyle-3 owl-carousel"
+                                role="tablist">
+                                <div class="single-small-image img-full">
+                                    <a data-toggle="tab" id="product-tab-1" href="#product-1"
+                                        class="img active"><img src="/user/assets/img/products/01.jpg"
+                                            class="img-fluid" alt=""></a>
+                                </div>
+                                <div class="single-small-image img-full">
+                                    <a data-toggle="tab" id="product-tab-2" href="#product-2" class="img"><img
+                                            src="/user/assets/img/products/02.jpg" class="img-fluid"
+                                            alt=""></a>
+                                </div>
+                                <div class="single-small-image img-full">
+                                    <a data-toggle="tab" id="product-tab-3" href="#product-3" class="img"><img
+                                            src="/user/assets/img/products/03.jpg" class="img-fluid"
+                                            alt=""></a>
+                                </div>
+                                <div class="single-small-image img-full">
+                                    <a data-toggle="tab" id="product-tab-4" href="#product-4" class="img"><img
+                                            src="/user/assets/img/products/04.jpg" class="img-fluid"
+                                            alt=""></a>
+                                </div>
+                                <div class="single-small-image img-full">
+                                    <a data-toggle="tab" id="product-tab-5" href="#product-5" class="img"><img
+                                            src="/user/assets/img/products/05.jpg" class="img-fluid"
+                                            alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 product_content">
+                        <h4 class="product-title text-capitalize">${product.BookTitle}</h4>
+                        <div class="rating">
+                            <div class="product-ratings d-inline-block align-middle">
+                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                            </div>
+                        </div>
+                        <span class="description float-left w-100">${product.Description}</span>
+                        <h3 class="price float-left w-100"><span
+                                class="regular-price align-middle">${product.SellingPrice}</span><span
+                                class="old-price align-middle">${product.CostPrice}</span></h3>
+
+                        <div class="product-variants float-left w-100">
+                            <div class="col-md-4 col-sm-6 col-xs-12 size-options d-flex align-items-center">
+                                <h5>Size: ${product.Size}</h5>
+
+                            </div>
+                            <div class="color-option d-flex align-items-center">
+                                <h5>color :</h5>
+                                <ul class="color-categories">
+                                    <li class="active">
+                                        <a class="tt-pink" href="#" title="Pink"></a>
+                                    </li>
+                                    <li>
+                                        <a class="tt-blue" href="#" title="Blue"></a>
+                                    </li>
+                                    <li>
+                                        <a class="tt-yellow" href="#" title="Yellow"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="btn-cart d-flex align-items-center float-left w-100">
+                            <h5>qty:</h5>
+                            <input value="1" type="number">
+                            <button type="button" class="btn btn-primary"><i
+                                    class="material-icons">shopping_cart</i> Add To Cart
+                            </button>
                         </div>
                     </div>
                 </div>

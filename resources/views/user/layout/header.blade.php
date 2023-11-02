@@ -116,7 +116,7 @@
                                         </table>
                                     </li>
                                     <li class="buttons w-100 float-left">
-                                        <form action="cart_page.html">
+                                        <form method="GET" action="{{ route('cart.page') }}">
                                             <input class="btn pull-left mt_10 btn-primary btn-rounded w-100"
                                                 value="View cart" type="submit">
                                         </form>
@@ -135,7 +135,6 @@
                 <div class="container">
 
                     @include('user.layout.nav')
-
 
                 </div>
             </div>

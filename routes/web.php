@@ -3,6 +3,7 @@
 use App\Http\Controllers\user\HomeController;
 use App\Http\Controllers\user\ProductController;
 use App\Http\Controllers\user\CategoryController;
+use App\Http\Controllers\user\CartController;
 use App\Http\Controllers\AuthManager;
 use App\Http\Controllers\user\AccountController;
 use Illuminate\Support\Facades\Route;
@@ -44,3 +45,5 @@ Route::get('/account/identify', [AuthManager::class, 'forgotPass'])->name('accou
 Route::post('/account/identify/email', [AuthManager::class, 'confirmEmail'])->name('email.identify');
 
 Route::put('/account/change/password', [AuthManager::class, 'changePassword'])->name('change.password');
+
+Route::get('/cart/detail', [CartController::class, 'cartPage'])->name('cart.page');

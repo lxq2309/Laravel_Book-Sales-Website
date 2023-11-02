@@ -23,4 +23,6 @@ Route::get('/product/{productID}', [\App\Http\Controllers\user\ProductController
 
 Route::get('/product/search', [\App\Http\Controllers\user\ProductController::class, 'searchProduct']);
 
+Route::post('/product/searchByFilter', [\App\Http\Controllers\user\ProductController::class, 'searchByFilter']);
+
 

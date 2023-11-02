@@ -41,16 +41,15 @@ class ProductController extends Controller
         return response()->json(['products'=>$products]);
     }
 
+    //Tim kiem cho thanh input search
     public function searchProduct(Request $request){
         $textSearch = $request->input('keyWord');
+
         $products = DB::table("Book")
-            ->join("BookGenre","Book.BookID","=","BookGenre.BookID")
-            ->join("Genre","BookGenre.GenreID","=","Genre.GenreID")
             ->join('Publisher', "Book.PublisherID","=","Publisher.PublisherID")
             ->where('BookTitle', 'like', '%' . $textSearch . '%')
             ->orWhere('Author', 'like', '%' . $textSearch . '%')
             ->orWhere('PublisherName', 'like', '%' . $textSearch . '%')
-            ->orWhere('Genre.GenreName', 'like', '%' . $textSearch . '%')
             ->orderBy('Book.BookTitle', 'asc')
             ->take(10)->get();
 //        $products = DB::table("Book")
@@ -63,6 +62,57 @@ class ProductController extends Controller
 
     }
 
+    //Tim kiem theo bo loc
+    public function searchByFilter(Request $request)
+    {
+        // Nhận dữ liệu từ yêu cầu POST
+        $selectedCheckboxes = $request->json()->all();
+
+        $data = json_decode(json_encode($selectedCheckboxes));
+
+        // Khởi tạo mảng điều kiện truy vấn
+        $conditions = [];
+
+        foreach ($data as $checkbox) {
+            $id = $checkbox->id;
+            $name = $checkbox->name;
+
+            if (strpos($name, 'group-1') !== false) {
+                // Xử lý checkbox thuộc group giá cả
+                if ($id === 'price-1') {
+                    $conditions[] = ['column' => 'SellingPrice', 'operator' => '<=', 'value' => 25];
+                } elseif ($id === 'price-2') {
+                    $conditions[] = ['column' => 'SellingPrice', 'operator' => '>', 'value' => 25];
+                    $conditions[] = ['column' => 'SellingPrice', 'operator' => '<=', 'value' => 50];
+                } elseif ($id === 'price-3') {
+                    $conditions[] = ['column' => 'SellingPrice', 'operator' => '>', 'value' => 50];
+                    $conditions[] = ['column' => 'SellingPrice', 'operator' => '<=', 'value' => 75];
+                } elseif ($id === 'price-4') {
+                    $conditions[] = ['column' => 'SellingPrice', 'operator' => '>', 'value' => 75];
+                }
+            } elseif (strpos($name, 'group-2') !== false) {
+                // Xử lý checkbox thuộc group tác giả
+                $conditions[] = ['column' => 'Author', 'operator' => '=', 'value' => $id];
+            } elseif (strpos($name, 'group-3') !== false) {
+                // Xử lý checkbox thuộc group nhà xuất bản
+                $conditions[] = ['column' => 'Book.PublisherID', 'operator' => '=', 'value' => $id];
+            }
+        }
+
+        // Khởi tạo truy vấn
+        $query = DB::table('Book')
+            ->join('Publisher', 'Book.PublisherID', '=', 'Publisher.PublisherID');
+
+        if (!empty($conditions)) {
+            foreach ($conditions as $condition) {
+                $query->where($condition['column'], $condition['operator'], $condition['value']);
+            }
+        }
+
+        $results = $query->take(50)->get();
+
+        return response()->json(['results' => $results]);
+    }
 
 
 }

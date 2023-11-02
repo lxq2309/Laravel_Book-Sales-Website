@@ -46,7 +46,7 @@
                     </header>
                     <div class="tab-content text-center products w-100 float-left">
                         <div class="tab-pane grid fade active" id="grid" role="tabpanel">
-                            <div class="row">
+                            <div class="row showProFilter1">
                                 @foreach($products as $product)
                                     <div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                     <div class="product-thumb">
@@ -111,7 +111,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="tab-pane fade list text-left" id="list" role="tabpanel">
+                        <div class="tab-pane fade list text-left showProFilter2" id="list" role="tabpanel">
                             @foreach($products as $product)
                             <div class="product-layouts">
                                 <div class="product-thumb row">
@@ -193,7 +193,7 @@
                             @endforeach
 
                         </div>
-                        <div class="tab-pane fade sort text-left" id="sort-view" role="tabpanel">
+                        <div class="tab-pane fade sort text-left showProFilter3" id="sort-view" role="tabpanel">
                             @foreach($products as $product)
                             <div class="product-layouts">
                                 <div class="product-thumb row">
@@ -308,56 +308,73 @@
                                             class="nav-link d-flex justify-content-between mb-2 "><span>{{ $category['name'] }}</span><span class="sidebar-badge"></span></a>
                                         @foreach ($category['genres'] as $genre)
                                         <div class="nav nav-pills flex-column ml-3">
-                                            <a href="#" class="nav-link mb-2">{{ $genre->GenreName }}</a>
+                                            <a href="{{ route('proByCate', $genre->GenreID) }}" class="nav-link mb-2">{{ $genre->GenreName }}</a>
                                         </div>
                                         @endforeach
                                     </div>
                                 </div>
                                 @endforeach
                             </div>
-                            <div class="sidebar-block price">
-                                <h3 class="widget-title"><a data-toggle="collapse" href="#price" role="button"
-                                        aria-expanded="true" aria-controls="price">Giá</a></h3>
-{{--                                <div id="price" class="collapse show">--}}
-{{--                                    <div class="price-inner">--}}
-{{--                                        <label for="amount">Mức giá:</label>--}}
-{{--                                        <input type="text" id="amount" readonly--}}
-{{--                                            style="border:0; font-weight:bold; background:none;">--}}
-{{--                                        <div id="slider-range"></div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
 
-                                    <div>
-                                        <input type="checkbox" id="checkbox-id" class="checkbox-class"> 0-150000đ
-                                    </div>
-
-                            </div>
                             <div class="sidebar-block size">
                                 <h3 class="widget-title"><a data-toggle="collapse" href="#size" role="button"
-                                        aria-expanded="true" aria-controls="size">Độ tuổi</a></h3>
+                                        aria-expanded="true" aria-controls="size">Giá</a></h3>
                                 <div id="size" class="sidebar-widget-option-wrapper collapse show">
                                     <div class="size-inner">
-                                        <div class="sidebar-widget-option">
-                                            <input type="checkbox" id="size-1">
-                                            <label for="size-1">18+</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="group-1" id="price-1">
+                                            <label class="form-check-label" for="item1">0-25$</label>
                                         </div>
-                                        <div class="sidebar-widget-option">
-                                            <input type="checkbox" id="size-2">
-                                            <label for="size-2">16+</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="group-1" id="price-2">
+                                            <label class="form-check-label" for="item2">25-50$</label>
                                         </div>
-                                        <div class="sidebar-widget-option">
-                                            <input type="checkbox" id="size-3">
-                                            <label for="size-3">15 - 18</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="group-1" id="price-3">
+                                            <label class="form-check-label" for="item2">50-75$</label>
                                         </div>
-                                        <div class="sidebar-widget-option">
-                                            <input type="checkbox" id="size-4">
-                                            <label for="size-4">11 - 15</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="group-1" id="price-4">
+                                            <label class="form-check-label" for="item2">75$+</label>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sidebar-block size">
+                                <h3 class="widget-title"><a data-toggle="collapse" href="#size" role="button"
+                                                            aria-expanded="true" aria-controls="size">Tác giả</a></h3>
+                                <div id="size" class="sidebar-widget-option-wrapper collapse show">
+                                    <div class="size-inner">
+                                        @foreach($authors as $author)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="group-2" id="{{$author->Author}}">
+                                            <label class="form-check-label" for="item1">{{ $author->Author }}</label>
+                                        </div>
+                                        @endforeach
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sidebar-block size">
+                                <h3 class="widget-title"><a data-toggle="collapse" href="#size" role="button"
+                                                            aria-expanded="true" aria-controls="size">Nhà xuất bản</a></h3>
+                                <div id="size" class="sidebar-widget-option-wrapper collapse show">
+                                    <div class="size-inner">
+                                        @foreach($publisher as $publisher)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="group-3" id="{{$publisher->PublisherID}}">
+                                                <label class="form-check-label" for="item1">{{ $publisher->PublisherName }}</label>
+                                            </div>
+                                        @endforeach
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="sidebar-left-banner left-sidebar w-100 float-left">
                         <div class="ttleftbanner">
                             <a href="#">
@@ -759,6 +776,7 @@
         function initEvents() {
             events.setOnClickBtnQuickView();
             events.setOnClickBtnChangeGenre();
+            events.handleCheckBox();
         }
 
         const events = {
@@ -879,7 +897,6 @@
                     })
                     .then(function(data) {
                         var book = data.products[0];
-                        console.log(book);
                         // Hiển thị dữ liệu sản phẩm trong modal/pop-up
                         var productHTML = `
                         <div class="modal-header">
@@ -982,7 +999,278 @@
                     .catch(function(error) {
                         console.log('Error loading product data:', error);
                     });
+            },
+
+            /**
+             *
+             */
+            handleCheckBox() {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const selectedCheckboxes = [];
+                        checkboxes.forEach(checkbox => {
+                            if (checkbox.checked) {
+                                selectedCheckboxes.push({ id: checkbox.id.toString(), name: checkbox.name.trim() });
+                                console.log(selectedCheckboxes);
+                            }
+                        });
+
+                        fetch('/api/product/searchByFilter', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(selectedCheckboxes)
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                var books = data.results;
+                                var proFilHTML1 = books.map(book => `<div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <div class="product-thumb">
+                                        <div class="image zoom">
+                                            <a href="/product-detail/${book.BookID}">
+                                                <img src="/user/assets/img/products/01.jpg" alt="01" />
+                                                <img src="/user/assets/img/products/02.jpg" alt="02"
+                                                    class="second_image img-responsive" /> </a>
+                                            <ul class="countdown countdown1">
+                                                <li><span class="days">00</span>
+                                                    <p class="days_text">Days</p>
+                                                </li>
+                                                <li><span class="hours">00</span>
+                                                    <p class="hours_text">Hours</p>
+                                                </li>
+                                                <li><span class="minutes">00</span>
+                                                    <p class="minutes_text">Minutes</p>
+                                                </li>
+                                                <li><span class="seconds">00</span>
+                                                    <p class="seconds_text">Seconds</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="thumb-description">
+                                            <div class="caption">
+                                                <h4 class="product-title text-capitalize"><a
+                                                        href="/product-detail/${book.BookID}">${book.BookTitle}</a></h4>
+                                            </div>
+                                            <div class="rating">
+                                                <div class="product-ratings d-inline-block align-middle">
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="price">
+                                                <div class="regular-price">${book.SellingPrice}</div>
+                                                <div class="old-price">${book.CostPrice}</div>
+                                            </div>
+                                            <div class="button-wrapper">
+                                                <div class="button-group text-center">
+                                                    <button type="button" class="btn btn-primary btn-cart"
+                                                        data-target="#cart-pop" data-toggle="modal" disabled><i
+                                                            class="material-icons">shopping_cart</i><span>Out of
+                                                            stock</span></button>
+                                                    <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                            class="material-icons">favorite</i><span>wishlist</span></a>
+                                                    <button type="button" class="btn btn-primary btn-compare"><i
+                                                            class="material-icons">equalizer</i><span>Compare</span></button>
+                                                    <button type="button" class="btn btn-primary btn-quickview"
+                                                        data-toggle="modal" data-target="#product_view"><i
+                                                            class="material-icons">visibility</i><span>Quick
+                                                            View</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`).join('');
+                                var proFilHTML2 = books.map(book => `<div class="product-layouts">
+                                <div class="product-thumb row">
+                                    <div class="image zoom col-xs-12 col-sm-5 col-md-4">
+                                        <a href="/product-detail/${book.BookID}" class="d-block position-relative">
+                                            <img src="/user/assets/img/products/01.jpg" alt="01" />
+                                            <img src="/user/assets/img/products/02.jpg" alt="02"
+                                                 class="second_image img-responsive" />
+                                        </a>
+                                        <ul class="countdown countdown4 text-center">
+                                            <li><span class="days">00</span>
+                                                <p class="days_text">Days</p>
+                                            </li>
+                                            <li><span class="hours">00</span>
+                                                <p class="hours_text">Hours</p>
+                                            </li>
+                                            <li><span class="minutes">00</span>
+                                                <p class="minutes_text">Minutes</p>
+                                            </li>
+                                            <li><span class="seconds">00</span>
+                                                <p class="seconds_text">Seconds</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="thumb-description col-xs-12 col-sm-7 col-md-8 position-static text-left">
+                                        <div class="caption">
+                                            <h4 class="product-title text-capitalize"><a
+                                                    href="/product-detail/${book.BookID}">${book.BookTitle}</a></h4>
+                                        </div>
+                                        <div class="rating mb-10">
+                                            <div class="product-ratings d-inline-block align-middle">
+                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="description">
+                                            ${book.Description} </div>
+
+                                        <div class="price">
+                                            <div class="regular-price">${book.SellingPrice}</div>
+                                            <div class="old-price">${book.CostPrice}</div>
+                                        </div>
+                                        <div class="color-option d-flex align-items-center float-left w-100">
+                                            <ul class="color-categories">
+                                                <li>
+                                                    <a class="tt-pink" href="#" title="Pink"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="tt-blue" href="#" title="Blue"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="tt-yellow" href="#" title="Yellow"></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="button-wrapper">
+                                            <div class="button-group text-center">
+                                                <button type="button" class="btn btn-primary btn-cart"
+                                                        data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i
+                                                        class="material-icons">shopping_cart</i><span>out of
+                                                        stock</span></button>
+                                                <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                        class="material-icons">favorite</i><span>wishlist</span></a>
+                                                <button type="button" class="btn btn-primary btn-compare"><i
+                                                        class="material-icons">equalizer</i><span>Compare</span></button>
+                                                <button type="button" class="btn btn-primary btn-quickview"
+                                                        data-toggle="modal" data-target="#product_view"><i
+                                                        class="material-icons">visibility</i><span>Quick
+                                                        View</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`).join('');
+                                var proFilHTML3 = books.map(book => `<div class="product-layouts">
+                                <div class="product-thumb row">
+                                    <div class="image zoom col-xs-12 col-sm-3 col-md-2">
+                                        <a href="/product-detail/${book.BookID}" class="d-block position-relative">
+                                            <img src="/user/assets/img/products/01.jpg" alt="01" />
+                                            <img src="/user/assets/img/products/02.jpg" alt="02"
+                                                 class="second_image img-responsive" /> </a>
+                                    </div>
+                                    <div class="thumb-description col-xs-12 col-sm-9 col-md-10 position-static text-left">
+                                        <div class="sort-title col-md-5 col-sm-7 float-left">
+                                            <div class="caption">
+                                                <h4 class="product-title text-capitalize"><a
+                                                        href="/product-detail/${book.BookID}">${book.BookTitle}</a></h4>
+                                            </div>
+
+                                            <div class="rating mb-10">
+                                                <div class="product-ratings d-inline-block align-middle">
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i
+                                                            class="material-icons off">star</i></span>
+                                                    <span class="fa fa-stack"><i
+                                                            class="material-icons off">star</i></span>
+                                                </div>
+                                            </div>
+                                            <div class="description mb-10">
+                                                ${book.Description} </div>
+                                            <div class="color-option d-flex align-items-center float-left w-100">
+                                                <ul class="color-categories">
+                                                    <li>
+                                                        <a class="tt-pink" href="#" title="Pink"></a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="tt-blue" href="#" title="Blue"></a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="tt-yellow" href="#" title="Yellow"></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="price-main col-md-3 col-sm-5 float-left text-center text-sm-center text-xs-left">
+                                            <div class="price">
+                                                <div class="regular-price">${book.SellingPrice}</div>
+                                                <div class="old-price">${book.CostPrice}</div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="button-wrapper col-md-4 col-sm-5 float-left text-center text-md-center text-sm-center text-xs-left">
+                                            <div class="button-group text-center">
+                                                <button type="button" class="btn btn-primary btn-cart"
+                                                        data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i
+                                                        class="material-icons">shopping_cart</i><span>out of
+                                                        stock</span></button>
+                                                <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                        class="material-icons">favorite</i><span>wishlist</span></a>
+                                                <button type="button" class="btn btn-primary btn-compare"><i
+                                                        class="material-icons">equalizer</i><span>Compare</span></button>
+                                                <button type="button" class="btn btn-primary btn-quickview"
+                                                        data-toggle="modal" data-target="#product_view"><i
+                                                        class="material-icons">visibility</i><span>Quick
+                                                        View</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`).join('');
+                                document.querySelector('.showProFilter1').innerHTML = proFilHTML1;
+                                document.querySelector('.showProFilter2').innerHTML = proFilHTML2;
+                                document.querySelector('.showProFilter3').innerHTML = proFilHTML3;
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    });
+                });
+
             }
+
+
+
         }
+
+
+        // Lấy tất cả các checkboxes trong group1
+        // Lấy tất cả các nhóm checkboxes
+        const checkboxGroups = document.querySelectorAll('input[type="checkbox"][name^="group"]');
+
+        // Gán sự kiện change cho từng nhóm checkboxes
+        checkboxGroups.forEach(group => {
+            group.addEventListener('change', function() {
+                // Lấy tất cả các checkboxes trong nhóm của checkbox được chọn
+                const checkboxesInGroup = document.querySelectorAll(`input[type="checkbox"][name="${this.name}"]`);
+
+                // Nếu checkbox này được chọn, hủy chọn các checkboxes khác trong nhóm
+                if (this.checked) {
+                    checkboxesInGroup.forEach(checkbox => {
+                        if (checkbox !== this) {
+                            checkbox.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+
+
+
     </script>
 @endsection

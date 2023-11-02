@@ -24,31 +24,31 @@ class AppServiceProvider extends ServiceProvider
     {
         //truyen du lieu cho header o tat ca trang
         view()->composer('user.layout.header', function ($view) {
-        $categories = DB::table('Category')
-                    ->select('CategoryID', 'CategoryName')
+            $categories = DB::table('Category')
+                ->select('CategoryID', 'CategoryName')
+                ->take(5)
+                ->get();
+
+            $formattedCategories = [];
+
+            //tim genre cho moi category
+            foreach ($categories as $category) {
+                $categoryId = $category->CategoryID;
+                $categoryName = $category->CategoryName;
+
+                $genres = DB::table('Genre')
+                    ->where('CategoryID', $categoryId)
+                    ->select('GenreID', 'GenreName')
                     ->take(5)
                     ->get();
 
-        $formattedCategories = [];
-
-        //tim genre cho moi category
-        foreach ($categories as $category) {
-            $categoryId = $category->CategoryID;
-            $categoryName = $category->CategoryName;
-
-            $genres = DB::table('Genre')
-                        ->where('CategoryID', $categoryId)
-                        ->select('GenreID', 'GenreName')
-                        ->take(5)
-                        ->get();
-
-            $formattedCategories[] = [
-                'id' => $categoryId,
-                'name' => $categoryName,
-                'genres' => $genres,
-            ];
-        }
-        $view->with('formattedCategories', $formattedCategories);
+                $formattedCategories[] = [
+                    'id' => $categoryId,
+                    'name' => $categoryName,
+                    'genres' => $genres,
+                ];
+            }
+            $view->with('formattedCategories', $formattedCategories);
         });
 
 
@@ -80,5 +80,29 @@ class AppServiceProvider extends ServiceProvider
             $view->with('formattedCategories', $formattedCategories);
         });
 
+
+        view()->composer('user.product-category', function ($view) {
+            $authors = DB::table('Book')
+                ->select('Author')
+                ->distinct()
+                ->take(5)
+                ->get();
+
+
+            $view->with('authors', $authors);
+
+        });
+
+        view()->composer('user.product-category', function ($view) {
+            $publisher = DB::table('Book')
+                ->join('Publisher', "Book.PublisherID", "=", "Publisher.PublisherID")
+                ->select('Publisher.PublisherID', 'PublisherName')
+                ->distinct()
+                ->take(5)
+                ->get();
+
+
+            $view->with('publisher', $publisher);
+        });
     }
 }

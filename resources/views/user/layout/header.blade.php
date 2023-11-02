@@ -51,7 +51,7 @@
                             <form method="post" autocomplete="off" action="{{ route('searchBook') }}" class="search-form">
                                 @csrf
                                 <div class="autocomplete">
-                                    <input id="myInput" type="text" name="keyWord" placeholder="Search here">
+                                    <input id="myInput" type="text" name="keyWord" placeholder="Tên sách, tác giả, nhà cung cấp">
                                     <button type="submit"><i class="material-icons">search</i></button>
                                 </div>
                             </form>

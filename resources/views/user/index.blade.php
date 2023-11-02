@@ -74,7 +74,7 @@
                 <div id="ttspecial" class="ttspecial my-40 bottom-to-top hb-animate-element">
                     <div class="container">
                         <div class="row">
-                            <div class="tt-title d-inline-block float-none w-100 text-center">Flash Sale</div>
+                            <div class="tt-title d-inline-block float-none w-100 text-center">Có thể bạn không cần</div>
                             <div class="ttspecial-content products grid owl-carousel">
                                 @foreach ($books as $id => $book)
                                     <div class="product-layouts">

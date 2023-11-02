@@ -175,9 +175,9 @@
                                     <section id="ttfeatured" class="ttfeatured-products">
                                         <div class="ttfeatured-content products grid owl-carousel displayProducts"
                                             id="owl1">
-
+                                            @foreach($books as $book)
                                             <div class="product-layouts">
-                                                @foreach($books as $book)
+
                                                 <div class="product-thumb">
                                                     <div class="image zoom">
                                                         <a href="{{ route('product-detail', $book->BookID) }}">
@@ -250,8 +250,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @endforeach
                                             </div>
+
+
+                                                @endforeach
+
                                         </div>
                                     </section>
                                 </div>
@@ -294,138 +297,10 @@
         </div>
     </main>
 
-    <!-- product_view modal -->
-    <div class="modal fade product_view" id="product_view" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title w-100w-100w-100 font-weight-bold d-none">Quick view</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 left-columm">
-                            <div class="product-large-image tab-content">
-                                <div class="tab-pane active" id="product-1" role="tabpanel"
-                                    aria-labelledby="product-tab-1">
-                                    <div class="single-img img-full">
-                                        <a href="/user/assets/img/products/01.jpg"><img
-                                                src="/user/assets/img/products/01.jpg" class="img-fluid" alt=""
-                                                width="368" height="478"></a>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="product-2" role="tabpanel" aria-labelledby="product-tab-2">
-                                    <div class="single-img">
-                                        <a href="/user/assets/img/products/02.jpg"><img
-                                                src="/user/assets/img/products/02.jpg" class="img-fluid" alt=""
-                                                width="368" height="478"></a>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="product-3" role="tabpanel" aria-labelledby="product-tab-3">
-                                    <div class="single-img">
-                                        <a href="/user/assets/img/products/03.jpg"><img
-                                                src="/user/assets/img/products/03.jpg" class="img-fluid" alt=""
-                                                width="368" height="478"></a>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="product-4" role="tabpanel" aria-labelledby="product-tab-4">
-                                    <div class="single-img">
-                                        <a href="/user/assets/img/products/04.jpg"><img
-                                                src="/user/assets/img/products/04.jpg" class="img-fluid" alt=""
-                                                width="368" height="478"></a>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="product-5" role="tabpanel" aria-labelledby="product-tab-5">
-                                    <div class="single-img">
-                                        <a href="/user/assets/img/products/05.jpg"><img
-                                                src="/user/assets/img/products/05.jpg" class="img-fluid" alt=""
-                                                width="368" height="478"></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="small-image-list float-left w-100">
-                                <div class="nav-add small-image-slider-single-product-tabstyle-3 owl-carousel"
-                                    role="tablist">
-                                    <div class="single-small-image img-full">
-                                        <a data-toggle="tab" id="product-tab-1" href="#product-1"
-                                            class="img active"><img src="/user/assets/img/products/01.jpg"
-                                                class="img-fluid" alt=""></a>
-                                    </div>
-                                    <div class="single-small-image img-full">
-                                        <a data-toggle="tab" id="product-tab-2" href="#product-2" class="img"><img
-                                                src="/user/assets/img/products/02.jpg" class="img-fluid"
-                                                alt=""></a>
-                                    </div>
-                                    <div class="single-small-image img-full">
-                                        <a data-toggle="tab" id="product-tab-3" href="#product-3" class="img"><img
-                                                src="/user/assets/img/products/03.jpg" class="img-fluid"
-                                                alt=""></a>
-                                    </div>
-                                    <div class="single-small-image img-full">
-                                        <a data-toggle="tab" id="product-tab-4" href="#product-4" class="img"><img
-                                                src="/user/assets/img/products/04.jpg" class="img-fluid"
-                                                alt=""></a>
-                                    </div>
-                                    <div class="single-small-image img-full">
-                                        <a data-toggle="tab" id="product-tab-5" href="#product-5" class="img"><img
-                                                src="/user/assets/img/products/05.jpg" class="img-fluid"
-                                                alt=""></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 product_content">
-                            <h4 class="product-title text-capitalize">${product.BookTitle}</h4>
-                            <div class="rating">
-                                <div class="product-ratings d-inline-block align-middle">
-                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                </div>
-                            </div>
-                            <span class="description float-left w-100">${product.Description}</span>
-                            <h3 class="price float-left w-100"><span
-                                    class="regular-price align-middle">${product.SellingPrice}</span><span
-                                    class="old-price align-middle">${product.CostPrice}</span></h3>
 
-                            <div class="product-variants float-left w-100">
-                                <div class="col-md-4 col-sm-6 col-xs-12 size-options d-flex align-items-center">
-                                    <h5>Size: ${product.Size}</h5>
 
-                                </div>
-                                <div class="color-option d-flex align-items-center">
-                                    <h5>color :</h5>
-                                    <ul class="color-categories">
-                                        <li class="active">
-                                            <a class="tt-pink" href="#" title="Pink"></a>
-                                        </li>
-                                        <li>
-                                            <a class="tt-blue" href="#" title="Blue"></a>
-                                        </li>
-                                        <li>
-                                            <a class="tt-yellow" href="#" title="Yellow"></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="btn-cart d-flex align-items-center float-left w-100">
-                                <h5>qty:</h5>
-                                <input value="1" type="number">
-                                <button type="button" class="btn btn-primary"><i
-                                        class="material-icons">shopping_cart</i> Add To Cart
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
+
 
 @section('scripts')
     <script>
@@ -478,12 +353,12 @@
 
                     // Gửi yêu cầu AJAX sử dụng Fetch API
                     fetch(`/api/category/${genreID}`, {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                // Bạn cũng có thể thêm các headers khác nếu cần thiết
-                            },
-                        })
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // Bạn cũng có thể thêm các headers khác nếu cần thiết
+                        },
+                    })
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Network response was not ok');
@@ -660,12 +535,293 @@
             </div>
                     `;
 
-                        document.querySelector(".modal-content").innerHTML = productHTML;
+                        document.querySelector(".modal .product_view").innerHTML = productHTML;
                     })
                     .catch(function(error) {
                         console.log('Error loading product data:', error);
                     });
+            },
+
+            /**
+             *
+             */
+            handleCheckBox() {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                const sortSelect = document.getElementById('sort');
+                const applyFilters = () => {
+                    const selectedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked)
+                        .map(checkbox => ({ id: checkbox.id.toString(), name: checkbox.name.trim() }));
+
+                    const selectedSortValue = sortSelect.value;
+
+                    console.log(selectedCheckboxes);
+                    console.log(selectedSortValue);
+
+
+
+                    fetch('/api/product/searchByFilter', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({checkboxes: selectedCheckboxes, sort: selectedSortValue})
+
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            var books = data.results;
+                            var proFilHTML1 = books.map(book => `<div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <div class="product-thumb">
+                                        <div class="image zoom">
+                                            <a href="/product-detail/${book.BookID}">
+                                                <img src="/user/assets/img/products/01.jpg" alt="01" />
+                                                <img src="/user/assets/img/products/02.jpg" alt="02"
+                                                    class="second_image img-responsive" /> </a>
+                                            <ul class="countdown countdown1">
+                                                <li><span class="days">00</span>
+                                                    <p class="days_text">Days</p>
+                                                </li>
+                                                <li><span class="hours">00</span>
+                                                    <p class="hours_text">Hours</p>
+                                                </li>
+                                                <li><span class="minutes">00</span>
+                                                    <p class="minutes_text">Minutes</p>
+                                                </li>
+                                                <li><span class="seconds">00</span>
+                                                    <p class="seconds_text">Seconds</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="thumb-description">
+                                            <div class="caption">
+                                                <h4 class="product-title text-capitalize"><a
+                                                        href="/product-detail/${book.BookID}">${book.BookTitle}</a></h4>
+                                            </div>
+                                            <div class="rating">
+                                                <div class="product-ratings d-inline-block align-middle">
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="price">
+                                                <div class="regular-price">${book.SellingPrice}</div>
+                                                <div class="old-price">${book.CostPrice}</div>
+                                            </div>
+                                            <div class="button-wrapper">
+                                                <div class="button-group text-center">
+                                                    <button type="button" class="btn btn-primary btn-cart"
+                                                        data-target="#cart-pop" data-toggle="modal" disabled><i
+                                                            class="material-icons">shopping_cart</i><span>Out of
+                                                            stock</span></button>
+                                                    <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                            class="material-icons">favorite</i><span>wishlist</span></a>
+                                                    <button type="button" class="btn btn-primary btn-compare"><i
+                                                            class="material-icons">equalizer</i><span>Compare</span></button>
+                                                    <button type="button" class="btn btn-primary btn-quickview"
+                                                        data-toggle="modal" data-target="#product_view"><i
+                                                            class="material-icons">visibility</i><span>Quick
+                                                            View</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`).join('');
+                            var proFilHTML2 = books.map(book => `<div class="product-layouts">
+                                <div class="product-thumb row">
+                                    <div class="image zoom col-xs-12 col-sm-5 col-md-4">
+                                        <a href="/product-detail/${book.BookID}" class="d-block position-relative">
+                                            <img src="/user/assets/img/products/01.jpg" alt="01" />
+                                            <img src="/user/assets/img/products/02.jpg" alt="02"
+                                                 class="second_image img-responsive" />
+                                        </a>
+                                        <ul class="countdown countdown4 text-center">
+                                            <li><span class="days">00</span>
+                                                <p class="days_text">Days</p>
+                                            </li>
+                                            <li><span class="hours">00</span>
+                                                <p class="hours_text">Hours</p>
+                                            </li>
+                                            <li><span class="minutes">00</span>
+                                                <p class="minutes_text">Minutes</p>
+                                            </li>
+                                            <li><span class="seconds">00</span>
+                                                <p class="seconds_text">Seconds</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="thumb-description col-xs-12 col-sm-7 col-md-8 position-static text-left">
+                                        <div class="caption">
+                                            <h4 class="product-title text-capitalize"><a
+                                                    href="/product-detail/${book.BookID}">${book.BookTitle}</a></h4>
+                                        </div>
+                                        <div class="rating mb-10">
+                                            <div class="product-ratings d-inline-block align-middle">
+                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="description">
+                                            ${book.Description} </div>
+
+                                        <div class="price">
+                                            <div class="regular-price">${book.SellingPrice}</div>
+                                            <div class="old-price">${book.CostPrice}</div>
+                                        </div>
+                                        <div class="color-option d-flex align-items-center float-left w-100">
+                                            <ul class="color-categories">
+                                                <li>
+                                                    <a class="tt-pink" href="#" title="Pink"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="tt-blue" href="#" title="Blue"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="tt-yellow" href="#" title="Yellow"></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="button-wrapper">
+                                            <div class="button-group text-center">
+                                                <button type="button" class="btn btn-primary btn-cart"
+                                                        data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i
+                                                        class="material-icons">shopping_cart</i><span>out of
+                                                        stock</span></button>
+                                                <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                        class="material-icons">favorite</i><span>wishlist</span></a>
+                                                <button type="button" class="btn btn-primary btn-compare"><i
+                                                        class="material-icons">equalizer</i><span>Compare</span></button>
+                                                <button type="button" class="btn btn-primary btn-quickview"
+                                                        data-toggle="modal" data-target="#product_view"><i
+                                                        class="material-icons">visibility</i><span>Quick
+                                                        View</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`).join('');
+                            var proFilHTML3 = books.map(book => `<div class="product-layouts">
+                                <div class="product-thumb row">
+                                    <div class="image zoom col-xs-12 col-sm-3 col-md-2">
+                                        <a href="/product-detail/${book.BookID}" class="d-block position-relative">
+                                            <img src="/user/assets/img/products/01.jpg" alt="01" />
+                                            <img src="/user/assets/img/products/02.jpg" alt="02"
+                                                 class="second_image img-responsive" /> </a>
+                                    </div>
+                                    <div class="thumb-description col-xs-12 col-sm-9 col-md-10 position-static text-left">
+                                        <div class="sort-title col-md-5 col-sm-7 float-left">
+                                            <div class="caption">
+                                                <h4 class="product-title text-capitalize"><a
+                                                        href="/product-detail/${book.BookID}">${book.BookTitle}</a></h4>
+                                            </div>
+
+                                            <div class="rating mb-10">
+                                                <div class="product-ratings d-inline-block align-middle">
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                    <span class="fa fa-stack"><i
+                                                            class="material-icons off">star</i></span>
+                                                    <span class="fa fa-stack"><i
+                                                            class="material-icons off">star</i></span>
+                                                </div>
+                                            </div>
+                                            <div class="description mb-10">
+                                                ${book.Description} </div>
+                                            <div class="color-option d-flex align-items-center float-left w-100">
+                                                <ul class="color-categories">
+                                                    <li>
+                                                        <a class="tt-pink" href="#" title="Pink"></a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="tt-blue" href="#" title="Blue"></a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="tt-yellow" href="#" title="Yellow"></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="price-main col-md-3 col-sm-5 float-left text-center text-sm-center text-xs-left">
+                                            <div class="price">
+                                                <div class="regular-price">${book.SellingPrice}</div>
+                                                <div class="old-price">${book.CostPrice}</div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="button-wrapper col-md-4 col-sm-5 float-left text-center text-md-center text-sm-center text-xs-left">
+                                            <div class="button-group text-center">
+                                                <button type="button" class="btn btn-primary btn-cart"
+                                                        data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i
+                                                        class="material-icons">shopping_cart</i><span>out of
+                                                        stock</span></button>
+                                                <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                        class="material-icons">favorite</i><span>wishlist</span></a>
+                                                <button type="button" class="btn btn-primary btn-compare"><i
+                                                        class="material-icons">equalizer</i><span>Compare</span></button>
+                                                <button type="button" class="btn btn-primary btn-quickview"
+                                                        data-toggle="modal" data-target="#product_view"><i
+                                                        class="material-icons">visibility</i><span>Quick
+                                                        View</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`).join('');
+                            document.querySelector('.showProFilter1').innerHTML = proFilHTML1;
+                            document.querySelector('.showProFilter2').innerHTML = proFilHTML2;
+                            document.querySelector('.showProFilter3').innerHTML = proFilHTML3;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                };
+
+                // Bắt sự kiện change cho checkboxes
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', applyFilters);
+                });
+
+                // Bắt sự kiện change cho dropdown
+                sortSelect.addEventListener('change', applyFilters);
+
             }
+
+
+
+
+
         }
+
+
+        // Lấy tất cả các checkboxes trong group1
+        // Lấy tất cả các nhóm checkboxes
+        const checkboxGroups = document.querySelectorAll('input[type="checkbox"][name^="group"]');
+
+        // Gán sự kiện change cho từng nhóm checkboxes
+        checkboxGroups.forEach(group => {
+            group.addEventListener('change', function() {
+                // Lấy tất cả các checkboxes trong nhóm của checkbox được chọn
+                const checkboxesInGroup = document.querySelectorAll(`input[type="checkbox"][name="${this.name}"]`);
+
+                // Nếu checkbox này được chọn, hủy chọn các checkboxes khác trong nhóm
+                if (this.checked) {
+                    checkboxesInGroup.forEach(checkbox => {
+                        if (checkbox !== this) {
+                            checkbox.checked = false;
+                        }
+                    });
+                }
+            });
+        });
     </script>
 @endsection

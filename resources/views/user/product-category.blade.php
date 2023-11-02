@@ -36,14 +36,17 @@
                             <div class="shop-results d-flex align-items-center"><span>Sắp xếp theo</span>
                                 <div class="shop-select">
                                     <select name="sort" id="sort">
-                                        <option value="position">Mặc định</option>
-                                        <option value="p-name">Nổi bật</option>
-                                        <option value="p-price">Giá</option>
+                                        <option id="default" value="position">Mặc định</option>
+                                        <option id="outstanding" value="p-name">Nổi bật</option>
+                                        <option id="pricesell" value="p-price">Giá</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </header>
+                    @if(isset($textSearch) && !empty($textSearch))
+                        <h5>Kết quả tìm kiếm cho: "{{ $textSearch }}"</h5>
+                    @endif
                     <div class="tab-content text-center products w-100 float-left">
                         <div class="tab-pane grid fade active" id="grid" role="tabpanel">
                             <div class="row showProFilter1">
@@ -614,7 +617,6 @@
             </div>
         </div>
     </div>
-
     <!-- product_view modal -->
     <div class="modal fade product_view" id="product_view" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
@@ -746,6 +748,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('scripts')
@@ -761,7 +764,6 @@
             s1.setAttribute('crossorigin', '*');
             s0.parentNode.insertBefore(s1, s0);
         })();
-
 
         /**
          * Khởi tạo cửa sổ
@@ -897,6 +899,7 @@
                     })
                     .then(function(data) {
                         var book = data.products[0];
+                        console.log(book);
                         // Hiển thị dữ liệu sản phẩm trong modal/pop-up
                         var productHTML = `
                         <div class="modal-header">
@@ -1006,27 +1009,31 @@
              */
             handleCheckBox() {
                 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener('change', function() {
-                        const selectedCheckboxes = [];
-                        checkboxes.forEach(checkbox => {
-                            if (checkbox.checked) {
-                                selectedCheckboxes.push({ id: checkbox.id.toString(), name: checkbox.name.trim() });
-                                console.log(selectedCheckboxes);
-                            }
-                        });
+                const sortSelect = document.getElementById('sort');
+                const applyFilters = () => {
+                    const selectedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked)
+                        .map(checkbox => ({ id: checkbox.id.toString(), name: checkbox.name.trim() }));
 
-                        fetch('/api/product/searchByFilter', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(selectedCheckboxes)
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                var books = data.results;
-                                var proFilHTML1 = books.map(book => `<div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    const selectedSortValue = sortSelect.value;
+
+                    console.log(selectedCheckboxes);
+                    console.log(selectedSortValue);
+
+
+
+                    fetch('/api/product/searchByFilter', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({checkboxes: selectedCheckboxes, sort: selectedSortValue})
+
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            var books = data.results;
+                            var proFilHTML1 = books.map(book => `<div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                     <div class="product-thumb">
                                         <div class="image zoom">
                                             <a href="/product-detail/${book.BookID}">
@@ -1086,7 +1093,7 @@
                                         </div>
                                     </div>
                                 </div>`).join('');
-                                var proFilHTML2 = books.map(book => `<div class="product-layouts">
+                            var proFilHTML2 = books.map(book => `<div class="product-layouts">
                                 <div class="product-thumb row">
                                     <div class="image zoom col-xs-12 col-sm-5 col-md-4">
                                         <a href="/product-detail/${book.BookID}" class="d-block position-relative">
@@ -1163,7 +1170,7 @@
                                     </div>
                                 </div>
                             </div>`).join('');
-                                var proFilHTML3 = books.map(book => `<div class="product-layouts">
+                            var proFilHTML3 = books.map(book => `<div class="product-layouts">
                                 <div class="product-thumb row">
                                     <div class="image zoom col-xs-12 col-sm-3 col-md-2">
                                         <a href="/product-detail/${book.BookID}" class="d-block position-relative">
@@ -1232,17 +1239,26 @@
                                     </div>
                                 </div>
                             </div>`).join('');
-                                document.querySelector('.showProFilter1').innerHTML = proFilHTML1;
-                                document.querySelector('.showProFilter2').innerHTML = proFilHTML2;
-                                document.querySelector('.showProFilter3').innerHTML = proFilHTML3;
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
-                    });
+                            document.querySelector('.showProFilter1').innerHTML = proFilHTML1;
+                            document.querySelector('.showProFilter2').innerHTML = proFilHTML2;
+                            document.querySelector('.showProFilter3').innerHTML = proFilHTML3;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                };
+
+                // Bắt sự kiện change cho checkboxes
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', applyFilters);
                 });
 
+                // Bắt sự kiện change cho dropdown
+                sortSelect.addEventListener('change', applyFilters);
+
             }
+
+
 
 
 
@@ -1272,5 +1288,8 @@
 
 
 
+
     </script>
 @endsection
+
+

@@ -25,7 +25,7 @@ class ProductController extends Controller
             ->join("Genre","BookGenre.GenreID","=","Genre.GenreID")
             ->where("BookGenre.GenreID",$genreID)
             ->orderBy("BookGenre.GenreID","asc")
-            ->take(10)->get();
+            ->take(9)->paginate(9);
 
         return view('user.product-category', compact('products'));
     }
@@ -76,11 +76,14 @@ class ProductController extends Controller
         // Nhận dữ liệu từ yêu cầu POST
         $dataRequest = $request->json()->all();
 
-
-
+        //chuyển dữ liệu từ json sang mảng
         $data = json_decode(json_encode($dataRequest));
 
+        //số sản phẩm mỗi trang
+        $perPage = $data->perPage;
 
+        //lay so trang hien tai
+        $page = $data->page;
 
         // Khởi tạo mảng điều kiện truy vấn
         $conditions = [];
@@ -127,6 +130,11 @@ class ProductController extends Controller
                 $query->where($condition['column'], $condition['operator'], $condition['value']);
             }
                 $query->orderBy('Book.SellingPrice', 'asc');
+        }elseif (!empty($conditions) && $data->sort === 'position') {
+            $query->join('Publisher', 'Book.PublisherID', '=', 'Publisher.PublisherID');
+            foreach ($conditions as $condition) {
+                $query->where($condition['column'], $condition['operator'], $condition['value']);
+            }
         } elseif (empty($conditions) && $data->sort === 'p-name'){
             $query->join('getListBookSoldDesc', 'getListBookSoldDesc.BookID', '=', 'Book.BookID');
             $query->select('Book.*', 'getListBookSoldDesc.TotalSold')
@@ -136,9 +144,18 @@ class ProductController extends Controller
         }
 
 
-        $results = $query->take(1000)->get();
+        $skip = ($page - 1) * $perPage; // Tính vị trí bắt đầu của kết quả truy vấn
 
-        return response()->json(['results' => $results]);
+
+        $results = $query->skip($skip)->take($perPage)->paginate($perPage);
+
+        // Lấy tổng số trang
+        $totalPages = $results->lastPage();
+
+        // Lấy tổng số mục
+        $totalItems = $results->total();
+
+        return response()->json(['results' => $results, 'totalPages'=>$totalPages, 'totalItems' => $totalItems]);
     }
 
 

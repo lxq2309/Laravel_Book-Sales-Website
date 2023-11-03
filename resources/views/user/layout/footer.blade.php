@@ -422,6 +422,8 @@
     });
 
     const events = {
+
+
         /**
          * Bắt sự kiện cho các nút Xem trước sản phẩm
          */
@@ -514,7 +516,7 @@
 
                         // Xóa tất cả các sản phẩm cũ và thêm sản phẩm mới vào container
                         document.querySelector(".displayProducts").innerHTML = productsHTML;
-                        // ???????????????clgt
+                        
                         events.setOnClickBtnQuickView();
                     })
                     .catch(error => {
@@ -613,35 +615,71 @@
             console.log(1);
         },
 
+
+        selectedCheckboxes: [], // Lưu trữ các checkbox đã chọn
+        selectedSortValue: '', // Lưu trữ giá trị của dropdown sort
+        selectedPerPageValue: '', // Lưu trữ giá trị của dropdown số sản phẩm trên mỗi trang
+        currentPage: 1, // Trang hiện tại
+        totalPages: 1, // Tổng số trang
+        totalItems: 0, // Tổng số sản phẩm
         /**
          * Handle checkbox (trang tìm kiếm)
          */
         handleCheckBox() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const sortSelect = document.getElementById('sort');
-            const applyFilters = () => {
-                const selectedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked)
-                    .map(checkbox => ({id: checkbox.id.toString(), name: checkbox.name.trim()}));
+            const perPageSelect = document.getElementById('number');
+            const prePage = document.getElementById('previous-page-button');
+            const nextPage = document.getElementById('next-page-button');
 
-                const selectedSortValue = sortSelect.value;
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', this.applyFilters.bind(this));
+            });
 
-                console.log(selectedCheckboxes);
-                console.log(selectedSortValue);
+            sortSelect.addEventListener('change', this.applyFilters.bind(this));
+            perPageSelect.addEventListener('change', this.applyFilters.bind(this));
 
+            prePage.addEventListener('click', this.handlePreviousPageClick.bind(this));
+            nextPage.addEventListener('click', this.handleNextPageClick.bind(this));
+        },
+        applyFilters() {
+            this.selectedCheckboxes = Array.from(document.querySelectorAll('input[type="checkbox"]'))
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => ({ id: checkbox.id.toString(), name: checkbox.name.trim() }));
 
-                fetch('/api/product/searchByFilter', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({checkboxes: selectedCheckboxes, sort: selectedSortValue})
+            this.selectedSortValue = document.getElementById('sort').value;
+            this.selectedPerPageValue = document.getElementById('number').value;
 
+            // Gọi hàm fetchApiData với trang hiện tại
+            this.fetchApiData(this.currentPage);
+
+        },
+
+        fetchApiData(page){
+            fetch('/api/product/searchByFilter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({checkboxes: this.selectedCheckboxes, sort: this.selectedSortValue, perPage: this.selectedPerPageValue, page: page})
+
+            })
+                .then(response => response.json())
+                .then(data => {
+                    this.totalItems = data.totalItems;
+                    this.totalPages = data.totalPages;
+                    console.log(this.totalPages);
+                    events.updateUIWithData(data.results.data);
+                    events.setOnClickBtnQuickView();
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        var books = data.results;
-                        var proFilHTML1 = books.map(book => `<div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        },
+
+        updateUIWithData(books){
+            console.log(books);
+            var proFilHTML1 = books.map(book => `<div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                     <div class="product-thumb">
                                         <div class="image zoom">
                                             <a href="/product-detail/${book.BookID}">
@@ -701,7 +739,7 @@
                                         </div>
                                     </div>
                                 </div>`).join('');
-                        var proFilHTML2 = books.map(book => `<div class="product-layouts">
+            var proFilHTML2 = books.map(book => `<div class="product-layouts">
                                 <div class="product-thumb row">
                                     <div class="image zoom col-xs-12 col-sm-5 col-md-4">
                                         <a href="/product-detail/${book.BookID}" class="d-block position-relative">
@@ -778,7 +816,7 @@
                                     </div>
                                 </div>
                             </div>`).join('');
-                        var proFilHTML3 = books.map(book => `<div class="product-layouts">
+            var proFilHTML3 = books.map(book => `<div class="product-layouts">
                                 <div class="product-thumb row">
                                     <div class="image zoom col-xs-12 col-sm-3 col-md-2">
                                         <a href="/product-detail/${book.BookID}" class="d-block position-relative">
@@ -847,25 +885,28 @@
                                     </div>
                                 </div>
                             </div>`).join('');
-                        document.querySelector('.showProFilter1').innerHTML = proFilHTML1;
-                        document.querySelector('.showProFilter2').innerHTML = proFilHTML2;
-                        document.querySelector('.showProFilter3').innerHTML = proFilHTML3;
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            };
+            document.querySelector('.showProFilter1').innerHTML = proFilHTML1;
+            document.querySelector('.showProFilter2').innerHTML = proFilHTML2;
+            document.querySelector('.showProFilter3').innerHTML = proFilHTML3;
+        },
+        // Bắt sự kiện click cho nút "Previous Page"
+        handlePreviousPageClick() {
 
-            // Bắt sự kiện change cho checkboxes
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', applyFilters);
-            });
+                if (this.currentPage > 1) {
+                    this.currentPage--;
+                    this.fetchApiData(this.currentPage);
+                }
+        },
 
-            // Bắt sự kiện change cho dropdown
-            sortSelect.addEventListener('change', applyFilters);
-
+        // Bắt sự kiện click cho nút "Next Page"
+        handleNextPageClick() {
+                if (this.currentPage < this.totalPages) {
+                    this.currentPage++;
+                    this.fetchApiData(this.currentPage);
+                }
         }
-    }
+    };
+
 
 
     // Lấy tất cả các checkboxes trong group1

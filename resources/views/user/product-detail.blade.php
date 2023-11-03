@@ -281,7 +281,7 @@
         <div id="product-accessories" class="product-accessories my-40 w-100 float-left">
             <div class="container">
                 <div class="row">
-                    <div class="tt-title d-inline-block float-none w-100 text-center">You might also like</div>
+                    <div class="tt-title d-inline-block float-none w-100 text-center">Sách cùng tác giả</div>
                     <div class="product-accessories-content products grid owl-carousel">
                         <div class="product-layouts">
                             <div class="product-thumb">

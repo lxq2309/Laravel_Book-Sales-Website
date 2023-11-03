@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        //
+        Paginator::useBootstrap();
         //truyen du lieu cho header o tat ca trang
         view()->composer('user.layout.header', function ($view) {
             $categories = DB::table('Category')

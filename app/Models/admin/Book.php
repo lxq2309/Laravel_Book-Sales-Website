@@ -45,6 +45,9 @@ class Book extends Model
     protected $table = "Book";
     protected $primaryKey = "BookID";
 
+    const CREATED_AT = "CreatedDate";
+    const UPDATED_AT = "ModifiedDate";
+
     static $rules = [
 		'BookID' => 'required',
     ];
@@ -56,7 +59,7 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = ['BookID','BookTitle','Author','PublisherID','CostPrice','SellingPrice','QuantityInStock','PageCount','Weight','Avatar','CoverStyle','Size','YearPublished','Description','SetID','ViewCount','CreatedDate','CreatedBy','ModifiedDate','ModifiedBy'];
+    protected $fillable = ['BookTitle','Author','PublisherID','CostPrice','SellingPrice','QuantityInStock','PageCount','Weight','Avatar','CoverStyle','CoverStyle','YearPublished','Description','SetID','ViewCount','CreatedDate','CreatedBy','ModifiedDate','ModifiedBy'];
 
 
     /**
@@ -64,7 +67,7 @@ class Book extends Model
      */
     public function bookgenre()
     {
-        return $this->hasOne('App\Models\admin\BookGenre', 'BookID', 'BookID');
+        return $this->hasMany('App\Models\admin\BookGenre', 'BookID', 'BookID');
     }
 
     /**

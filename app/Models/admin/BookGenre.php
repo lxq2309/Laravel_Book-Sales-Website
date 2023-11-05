@@ -21,8 +21,7 @@ class BookGenre extends Model
     protected $primaryKey = ["BookID", "GenreID"];
 
     static $rules = [
-        'BookID' => 'required',
-        'GenreID' => 'required',
+
     ];
 
     protected $perPage = 20;

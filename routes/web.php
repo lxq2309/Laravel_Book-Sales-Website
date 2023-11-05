@@ -51,3 +51,7 @@ Route::get('/cart/detail', [CartController::class, 'cartPage'])->name('cart.page
 Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
 
 Route::resource('/admin/user', \App\Http\Controllers\admin\UserController::class);
+Route::resource('/admin/book', \App\Http\Controllers\admin\BookController::class);
+Route::resource('/admin/publisher', \App\Http\Controllers\admin\PublisherController::class);
+Route::resource('/admin/supplier', \App\Http\Controllers\admin\SupplierController::class);
+Route::resource('/admin/coupon', \App\Http\Controllers\admin\CouponController::class);

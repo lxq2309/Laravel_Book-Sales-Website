@@ -1,7 +1,7 @@
 @extends('admin.layout.default')
 
 @section('template_title')
-    User
+    Nhà xuất bản
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
                         <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0"
                                 aria-controls="example1" type="button"><span>PDF</span></button>
                     </div>
-                    <a href="{{ route('user.create') }}" class="btn btn-primary float-right"
+                    <a href="{{ route('publisher.create') }}" class="btn btn-primary float-right"
                        data-placement="left">
                         {{ __('Create New') }}
                     </a>
@@ -32,55 +32,44 @@
                 @endif
 
                 <div class="card-body">
-                    <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="example1"
-                                       class="table table-bordered table-striped dataTable dtr-inline table-hover table table-responsive"
+                                <table data-bs-spy="scroll"
+                                       class="table table-bordered table-striped dataTable dtr-inline table-hover"
                                        aria-describedby="example1_info">
                                     <thead>
                                     <tr>
-                                        <th>UserID</th>
-                                        <th>Username</th>
-                                        <th>Password</th>
-                                        <th>Email</th>
-                                        <th>Firstname</th>
-                                        <th>Lastname</th>
-                                        <th>Gender</th>
-                                        <th>Phonenumber</th>
-                                        <th>Dateofbirth</th>
-                                        <th>Createddate</th>
-                                        <th>Modifieddate</th>
-                                        <th>Confirmcode</th>
-                                        <th></th>
+                                        <th>Mã NXB</th>
+                                        <th>Tên NXB</th>
+                                        <th>Trạng thái</th>
+                                        <th>Ngày tạo</th>
+                                        <th>Người tạo</th>
+                                        <th>Ngày sửa</th>
+                                        <th>Người sửa</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach ($users as $user)
+                                    @foreach ($publishers as $publisher)
                                         <tr class="even" onmouseover="readListScripts.showTableActions()"
                                             onmouseleave="readListScripts.hideTableActions()">
-                                            <td>{{ $user->UserID }}</td>
-                                            <td>{{ $user->UserName }}</td>
-                                            <td>{{ $user->password }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->FirstName }}</td>
-                                            <td>{{ $user->LastName }}</td>
-                                            <td>{{ $user->Gender }}</td>
-                                            <td>{{ $user->PhoneNumber }}</td>
-                                            <td>{{ $user->DateOfBirth }}</td>
-                                            <td>{{ $user->CreatedDate }}</td>
-                                            <td>{{ $user->ModifiedDate }}</td>
-                                            <td>{{ $user->ConfirmCode }}</td>
+                                            <td>{{ $publisher->PublisherID }}</td>
+                                            <td>{{ $publisher->PublisherName }}</td>
+                                            <td>{{ $publisher->IsActive }}</td>
+                                            <td>{{ $publisher->CreatedDate }}</td>
+                                            <td>{{ $publisher->CreatedBy }}</td>
+                                            <td>{{ $publisher->ModifiedDate }}</td>
+                                            <td>{{ $publisher->ModifiedBy }}</td>
 
                                             <td style="position: absolute; right: 0; display: none">
                                                 <div style="position: sticky;">
-                                                    <form action="{{ route('user.destroy',$user->UserID) }}"
+                                                    <form action="{{ route('publisher.destroy',$publisher->PublisherID) }}"
                                                           method="POST">
                                                         <a class="btn btn-sm btn-primary "
-                                                           href="{{ route('user.show',$user->UserID) }}"><i
+                                                           href="{{ route('publisher.show',$publisher->PublisherID) }}"><i
                                                                 class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
                                                         <a class="btn btn-sm btn-success"
-                                                           href="{{ route('user.edit',$user->UserID) }}"><i
+                                                           href="{{ route('publisher.edit',$publisher->PublisherID) }}"><i
                                                                 class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                         @csrf
                                                         @method('DELETE')
@@ -97,14 +86,14 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12 col-md-7">
-                                {!! $users->links() !!}
+                                {!! $publishers->links() !!}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12 col-md-5">
                                 <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
-                                    Hiển thị {{ $i + 1 }} đến {{ $i + $users->count() }} trong tổng
-                                    số {{ $user->count() }} bản ghi
+                                    Hiển thị {{ $i + 1 }} đến {{ $i + $publishers->count() }} trong tổng
+                                    số {{ $publisher->count() }} bản ghi
                                 </div>
                             </div>
                         </div>

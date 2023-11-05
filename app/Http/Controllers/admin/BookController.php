@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\admin\Book;
+use App\Models\admin\BookGenre;
 use App\Models\admin\Publisher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use function MongoDB\BSON\toJSON;
 
 /**
  * Class BookController
@@ -21,7 +24,7 @@ class BookController extends Controller
     {
         $books = Book::paginate();
 
-        return view('book.index', compact('books'))
+        return view('admin.book.index', compact('books'))
             ->with('i', (request()->input('page', 1) - 1) * $books->perPage());
     }
 
@@ -33,13 +36,13 @@ class BookController extends Controller
     public function create()
     {
         $book = new Book();
-        return view('book.create', compact('book'));
+        return view('admin.book.create', compact('book'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -48,27 +51,33 @@ class BookController extends Controller
 
         $book = Book::create($request->all());
 
-        return redirect()->route('books.index')
+        return redirect()->route('book.index')
             ->with('success', 'Book created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $book = Book::find($id);
 
-        return view('book.show', compact('book'));
+        $genres = DB::table('BookGenre')
+            ->join('Genre', 'BookGenre.GenreID', '=', 'Genre.GenreID')
+            ->where('BookGenre.BookID', $id)
+            ->select('Genre.*')
+            ->get();
+
+        return view('admin.book.show', compact('book', 'genres'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -76,14 +85,14 @@ class BookController extends Controller
         $book = Book::find($id);
         $publishers = Publisher::all();
 
-        return view('book.edit', compact('book', 'publishers'));
+        return view('admin.book.edit', compact('book', 'publishers'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\admin\Book $book
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\admin\Book $book
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Book $book)
@@ -92,7 +101,7 @@ class BookController extends Controller
 
         $book->update($request->all());
 
-        return redirect()->route('books.index')
+        return redirect()->route('book.index')
             ->with('success', 'Book updated successfully');
     }
 
@@ -105,7 +114,7 @@ class BookController extends Controller
     {
         $book = Book::find($id)->delete();
 
-        return redirect()->route('books.index')
+        return redirect()->route('book.index')
             ->with('success', 'Book deleted successfully');
     }
 }

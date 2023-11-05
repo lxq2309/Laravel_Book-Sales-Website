@@ -25,22 +25,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($cartItems as $item)
                             <tr>
                                 <td class="table-remove"><button><i class="material-icons">delete</i></button></td>
                                 <td class="table-image"><a href="product-details.html"><img src="/user/assets/img/products/02.jpg" alt=""></a></td>
-                                <td class="table-p-name text-capitalize"><a href="product-details.html">aspetur autodit autfugit</a></td>
-                                <td class="table-p-price"><p>$100.00</p></td>
-                                <td class="table-p-qty"><input value="1" name="cart-qty" type="number"></td>
-                                <td class="table-total"><p>$100.00</p></td>
+                                <td class="table-p-name text-capitalize"><a href="product-details.html">{{ $item->book->BookTitle }}</a></td>
+                                <td class="table-p-price"><p>{{ $item->book->CostPrice }} đ</p></td>
+                                <td class="table-p-qty"><input value="{{ $item->Quantity }}" name="cart-qty" type="number"></td>
+                                <td class="table-total"><p>{{ $item->book->CostPrice * $item->Quantity }} đ</p></td>
                             </tr>
-                            <tr>
-                                <td class="table-remove"><button><i class="material-icons">delete</i></button></td>
-                                <td class="table-image"><a href="product-details.html"><img src="/user/assets/img/products/03.jpg" alt=""></a></td>
-                                <td class="table-p-name text-capitalize"><a href="product-details.html">magni dolores eosquies</a></td>
-                                <td class="table-p-price"><p>$100.00</p></td>
-                                <td class="table-p-qty"><input value="1" name="cart-qty" type="number"></td>
-                                <td class="table-total"><p>$100.00</p></td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -59,16 +53,15 @@
                     <h2 class="pb-20">Tổng giỏ hàng</h2>
                     <div class="table-total-amount">
                         <div class="single-total-content d-flex justify-content-between float-left w-100">
-                            <strong>Giá sản phẩm</strong>
-                            <span class="c-total-price">$160.00</span>
+                            <strong>Giá sản phẩm</strong>{{$bookPrice}} đ</span>
                         </div>
                         <div class="single-total-content d-flex justify-content-between float-left w-100">
                             <strong>Chi phí vận chuyển</strong>
-                            <span class="c-total-price">$5.00</span>
+                            <span class="c-total-price">{{$shipPrice}} đ</span>
                         </div>
                         <div class="single-total-content tt-total d-flex justify-content-between float-left w-100">
                             <strong>Tổng chi phí</strong>
-                            <span class="c-total-price">$165.00</span>
+                            <span class="c-total-price">{{$totalPrice}} đ</span>
                         </div>
                         <a href="checkout_page.html" class="btn btn-primary float-left w-100 text-center">Chuyển đến trang thanh toán</a>
                     </div>

@@ -63,11 +63,11 @@
                                 <ul>
                                     @if (Auth::check())
                                         @if (Session::has('user'))
-                                            <li><a href="#"
+                                            <li><a href="{{ route('account.detail') }}"
                                                     class="text-capitalize">{{ Session::get('user')->UserName }}</a>
                                             </li>
                                         @else
-                                            <li><a href="#" class="text-capitalize">Tài khoản của tôi</a></li>
+                                            <li><a href="{{ route('account.detail') }}" class="text-capitalize">Tài khoản của tôi</a></li>
                                         @endif
                                         <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                                     @else
@@ -79,6 +79,7 @@
                                 </ul>
                             </div>
                         </div>
+                        @if (Auth::check())
                         <div class="cart-wrapper">
                             <button type="button" class="btn">
                                 <i class="material-icons">shopping_cart</i>
@@ -88,20 +89,22 @@
                                     <li>
                                         <table class="table table-striped">
                                             <tbody>
+                                                @foreach ($cartItems as $item)
                                                 <tr>
                                                     <td class="text-center"><a href="#"><img
                                                                 src="/user/assets/img/products/01.jpg" alt="01"
                                                                 title="01" height="104" width="80"></a></td>
-                                                    <td class="text-left product-name"><a href="#">aliquam quaerat
-                                                            voluptatem</a>
+                                                    <td class="text-left product-name">
+                                                        <a href="#">{{ $item->book->BookTitle }}</a>
                                                         <div class="quantity float-left w-100">
-                                                            <span class="cart-qty">1 × </span>
-                                                            <span class="text-left price"> $20.00</span>
+                                                            <span class="cart-qty">{{ $item->Quantity }} × </span>
+                                                            <span class="text-left price"> {{ $item->book->CostPrice }} đ</span>
                                                         </div>
                                                     </td>
                                                     <td class="text-center close"><a class="close-cart"><i
                                                                 class="material-icons">close</i></a></td>
                                                 </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </li>
@@ -109,8 +112,8 @@
                                         <table class="table price mb-30">
                                             <tbody>
                                                 <tr>
-                                                    <td class="text-left"><strong>Total</strong></td>
-                                                    <td class="text-right"><strong>$2,122.00</strong></td>
+                                                    <td class="text-left"><strong>Tổng chi phí</strong></td>
+                                                    <td class="text-right"><strong>{{$totalPrice}} đ</strong></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -118,16 +121,17 @@
                                     <li class="buttons w-100 float-left">
                                         <form method="GET" action="{{ route('cart.page') }}">
                                             <input class="btn pull-left mt_10 btn-primary btn-rounded w-100"
-                                                value="View cart" type="submit">
+                                                value="Xem giỏ" type="submit">
                                         </form>
                                         <form action="checkout_page.html">
                                             <input class="btn pull-right mt_10 btn-primary btn-rounded w-100"
-                                                value="Checkout" type="submit">
+                                                value="Thanh toán" type="submit">
                                         </form>
                                     </li>
                                 </ul>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>

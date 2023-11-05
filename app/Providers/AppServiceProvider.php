@@ -7,6 +7,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
+use App\Models\ShoppingCart;
+use App\Models\ShoppingCartDetail;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -106,6 +109,44 @@ class AppServiceProvider extends ServiceProvider
 
 
             $view->with('publisher', $publisher);
+        });
+
+        View()->composer('user.layout.header', function($view) {
+            $userID = Auth::id();
+            if($userID) {
+                $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
+                if (!$cart->CartID) {
+                    $cart->save();
+                }
+                $cartID = $cart->CartID;
+                $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
+                $totalPrice = 0;
+                foreach ($cartItems as $cartItem) {
+                    $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
+                }
+                $view->with('cartItems', $cartItems);
+                $view->with('totalPrice', $totalPrice + 5);
+            }
+        });
+
+        View()->composer('user.cart-page', function($view) {
+            $userID = Auth::id();
+            if($userID) {
+                $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
+                if (!$cart->CartID) {
+                    $cart->save();
+                }
+                $cartID = $cart->CartID;
+                $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
+                $totalPrice = 0;
+                foreach ($cartItems as $cartItem) {
+                    $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
+                }
+                $view->with('cartItems', $cartItems);
+                $view->with('bookPrice', $totalPrice);
+                $view->with('shipPrice', 5);
+                $view->with('totalPrice', $totalPrice + 5);
+            }
         });
     }
 }

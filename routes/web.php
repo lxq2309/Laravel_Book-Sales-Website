@@ -30,24 +30,31 @@ Route::post('/searchBook', [ProductController::class, 'searchProduct'])->name('s
 
 Route::get("/category/{genreID}", [ProductController::class, "productsByCategory"])->name("proByCate");
 
+Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
+
+Route::resource('/admin/user', \App\Http\Controllers\admin\UserController::class);
+
+
+// -------------Add_Product_To_Cart------------------------- //
+Route::get('/cart/detail', [CartController::class, 'cartPage'])->name('cart.page');
+
+Route::post('/cart/add', [CartController::class, 'addCart'])->name('cart.add');
+
+// -------------Show_and_update_Account------------------------- //
 Route::get('/account/detail', [AccountController::class, 'accountDetail'])->name('account.detail');
 
 Route::put('/account/update', [AccountController::class, 'updateAccount'])->name('account.update');
 
+// -------------Login, logout and register------------------------- //
 Route::post('/login', [AuthManager::class, 'login'])->name('login.post');
 
 Route::post('/registration', [AuthManager::class, 'registration'])->name('registration.post');
 
 Route::get('/logout', [AuthManager::class, 'logout'])->name('logout');
 
+// -------------Gorget Password------------------------- //
 Route::get('/account/identify', [AuthManager::class, 'forgotPass'])->name('account.identify');
 
 Route::post('/account/identify/email', [AuthManager::class, 'confirmEmail'])->name('email.identify');
 
 Route::put('/account/change/password', [AuthManager::class, 'changePassword'])->name('change.password');
-
-Route::get('/cart/detail', [CartController::class, 'cartPage'])->name('cart.page');
-
-Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
-
-Route::resource('/admin/user', \App\Http\Controllers\admin\UserController::class);

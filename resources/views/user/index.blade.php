@@ -1,6 +1,7 @@
 @extends('user.layout.layout')
 
 @section('content')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <main>
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <div class="slider-wrapper my-40 my-sm-25 float-left w-100">
@@ -116,6 +117,7 @@
                                                                 data-toggle="modal" data-target="#cart-pop"
                                                                 data-book-name="{{ $book->BookTitle }}"
                                                                 data-book-price="{{ $book->SellingPrice }}"
+                                                                data-book-id="{{ $book->BookID }}"
                                                         ><i
                                                                 class="material-icons">shopping_cart</i><span>Add to
                                                             cart</span>
@@ -226,9 +228,11 @@
                                                                     <button type="button"
                                                                             class="btn btn-primary btn-cart"
                                                                             data-target="#cart-pop" data-toggle="modal"
-                                                                            disabled="disabled"><i
-                                                                            class="material-icons">shopping_cart</i><span>Add
-                                                                    to cart</span>
+                                                                            data-book-name="{{ $book->BookTitle }}"
+                                                                            data-book-price="{{ $book->SellingPrice }}"
+                                                                            data-book-id="{{ $book->BookID }}">
+                                                                            <i class="material-icons">shopping_cart</i>
+                                                                            <span>Add to cart</span>
                                                                     </button>
                                                                     <a href="wishlist.html"
                                                                        class="btn btn-primary btn-wishlist"><i
@@ -299,6 +303,30 @@
     <script type="text/javascript">
         $(document).ready(function(){
             events.setOnClickBtnChangeGenre();
+        });
+
+        $('.btn-cart').click(function() {
+            var bookID = $(this).data('book-id');
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            console.log(bookID);
+
+            $.ajax({
+                type: 'POST',
+                url: '/cart/add',
+                data: {
+                    book_id: bookID
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    console.log('Product added to cart successfully.');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error adding product to cart:', error);
+                }
+            });
         });
     </script>
 @endsection

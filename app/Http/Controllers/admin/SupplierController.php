@@ -20,7 +20,7 @@ class SupplierController extends Controller
     {
         $suppliers = Supplier::paginate();
 
-        return view('supplier.index', compact('suppliers'))
+        return view('admin.supplier.index', compact('suppliers'))
             ->with('i', (request()->input('page', 1) - 1) * $suppliers->perPage());
     }
 

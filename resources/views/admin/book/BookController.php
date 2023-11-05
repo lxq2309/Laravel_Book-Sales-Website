@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Models\admin\Coupon;
+use App\Models\admin\Book;
+use App\Models\admin\Publisher;
 use Illuminate\Http\Request;
 
 /**
- * Class CouponController
+ * Class BookController
  * @package App\Http\Controllers
  */
-class CouponController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,10 +19,10 @@ class CouponController extends Controller
      */
     public function index()
     {
-        $coupons = Coupon::paginate();
+        $books = Book::paginate();
 
-        return view('admin.coupon.index', compact('coupons'))
-            ->with('i', (request()->input('page', 1) - 1) * $coupons->perPage());
+        return view('admin.book.index', compact('books'))
+            ->with('i', (request()->input('page', 1) - 1) * $books->perPage());
     }
 
     /**
@@ -31,8 +32,8 @@ class CouponController extends Controller
      */
     public function create()
     {
-        $coupon = new Coupon();
-        return view('coupon.create', compact('coupon'));
+        $book = new Book();
+        return view('book.create', compact('book'));
     }
 
     /**
@@ -43,12 +44,12 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Coupon::$rules);
+        request()->validate(Book::$rules);
 
-        $coupon = Coupon::create($request->all());
+        $book = Book::create($request->all());
 
-        return redirect()->route('coupons.index')
-            ->with('success', 'Coupon created successfully.');
+        return redirect()->route('books.index')
+            ->with('success', 'Book created successfully.');
     }
 
     /**
@@ -59,9 +60,9 @@ class CouponController extends Controller
      */
     public function show($id)
     {
-        $coupon = Coupon::find($id);
+        $book = Book::find($id);
 
-        return view('coupon.show', compact('coupon'));
+        return view('book.show', compact('book'));
     }
 
     /**
@@ -72,26 +73,27 @@ class CouponController extends Controller
      */
     public function edit($id)
     {
-        $coupon = Coupon::find($id);
+        $book = Book::find($id);
+        $publishers = Publisher::all();
 
-        return view('coupon.edit', compact('coupon'));
+        return view('book.edit', compact('book', 'publishers'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  Coupon $coupon
+     * @param  \App\Models\admin\Book $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Coupon $coupon)
+    public function update(Request $request, Book $book)
     {
-        request()->validate(Coupon::$rules);
+        request()->validate(Book::$rules);
 
-        $coupon->update($request->all());
+        $book->update($request->all());
 
-        return redirect()->route('coupons.index')
-            ->with('success', 'Coupon updated successfully');
+        return redirect()->route('books.index')
+            ->with('success', 'Book updated successfully');
     }
 
     /**
@@ -101,9 +103,9 @@ class CouponController extends Controller
      */
     public function destroy($id)
     {
-        $coupon = Coupon::find($id)->delete();
+        $book = Book::find($id)->delete();
 
-        return redirect()->route('coupons.index')
-            ->with('success', 'Coupon deleted successfully');
+        return redirect()->route('books.index')
+            ->with('success', 'Book deleted successfully');
     }
 }

@@ -20,7 +20,7 @@ class PublisherController extends Controller
     {
         $publishers = Publisher::paginate();
 
-        return view('publisher.index', compact('publishers'))
+        return view('admin.publisher.index', compact('publishers'))
             ->with('i', (request()->input('page', 1) - 1) * $publishers->perPage());
     }
 

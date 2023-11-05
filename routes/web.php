@@ -47,3 +47,7 @@ Route::post('/account/identify/email', [AuthManager::class, 'confirmEmail'])->na
 Route::put('/account/change/password', [AuthManager::class, 'changePassword'])->name('change.password');
 
 Route::get('/cart/detail', [CartController::class, 'cartPage'])->name('cart.page');
+
+Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
+
+Route::resource('/admin/user', \App\Http\Controllers\admin\UserController::class);

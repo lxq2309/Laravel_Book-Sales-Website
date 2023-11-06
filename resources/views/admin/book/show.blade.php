@@ -34,7 +34,12 @@
                         </div>
                         <div class="form-group">
                             <strong>Nhà xuất bản:</strong>
-                            {{ $book->PublisherID }}
+
+                            <?php
+                            $publisherName = $book->publisher == null ? '' : $book->publisher->PublisherName;
+                            $publisherId = $book->publisher == null ? '' : $book->publisher->PublisherID;
+                            ?>
+                            <a href="#{{ $publisherId }}">{{ $publisherName }}</a>
                         </div>
                         <div class="form-group">
                             <strong>Giá nhập:</strong>
@@ -74,12 +79,17 @@
                         </div>
                         <div class="form-group">
                             <strong>Thuộc tập:</strong>
-                            {{ $book->SetID }}
+                            <?php
+                            $setTitle = $book->bookset == null ? '' : $book->bookset->SetTitle;
+                            $setId = $book->bookset == null ? '' : $book->bookset->SetID;
+                            ?>
+                            <a href="#{{ $setId }}">{{ $setTitle }}</a>
                         </div>
                         <div class="form-group">
                             <strong>Thể loại:</strong>
                             @foreach($genres as $genre)
-                                <button type="button" class="btn btn-outline-primary btn-sm">{{ $genre->GenreName }}</button>
+                                <button type="button"
+                                        class="btn btn-outline-primary btn-sm">{{ $genre->GenreName }}</button>
 
                             @endforeach
                         </div>

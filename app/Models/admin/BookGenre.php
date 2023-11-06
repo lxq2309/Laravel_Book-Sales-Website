@@ -19,6 +19,7 @@ class BookGenre extends Model
 {
     protected $table = "BookGenre";
     protected $primaryKey = ["BookID", "GenreID"];
+    public $incrementing = false;
 
     static $rules = [
 

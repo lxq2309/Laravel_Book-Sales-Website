@@ -20,7 +20,7 @@ class AdminController extends Controller
     {
         $admins = Admin::paginate();
 
-        return view('admin.index', compact('admins'))
+        return view('admin.admin.index', compact('admins'))
             ->with('i', (request()->input('page', 1) - 1) * $admins->perPage());
     }
 

@@ -20,7 +20,7 @@ class BooksetController extends Controller
     {
         $booksets = Bookset::paginate();
 
-        return view('bookset.index', compact('booksets'))
+        return view('admin.bookset.index', compact('booksets'))
             ->with('i', (request()->input('page', 1) - 1) * $booksets->perPage());
     }
 

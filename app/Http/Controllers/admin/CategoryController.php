@@ -20,7 +20,7 @@ class CategoryController extends Controller
     {
         $categories = Category::paginate();
 
-        return view('category.index', compact('categories'))
+        return view('admin.category.index', compact('categories'))
             ->with('i', (request()->input('page', 1) - 1) * $categories->perPage());
     }
 

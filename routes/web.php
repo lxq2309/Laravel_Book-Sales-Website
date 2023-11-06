@@ -67,3 +67,9 @@ Route::resource('/admin/book', \App\Http\Controllers\admin\BookController::class
 Route::resource('/admin/publisher', \App\Http\Controllers\admin\PublisherController::class);
 Route::resource('/admin/supplier', \App\Http\Controllers\admin\SupplierController::class);
 Route::resource('/admin/coupon', \App\Http\Controllers\admin\CouponController::class);
+Route::resource('/admin/category', \App\Http\Controllers\admin\CategoryController::class);
+Route::resource('/admin/genre', \App\Http\Controllers\admin\GenreController::class);
+Route::resource('/admin/bookset', \App\Http\Controllers\admin\BooksetController::class);
+Route::resource('/admin/admin', \App\Http\Controllers\admin\AdminController::class);
+Route::resource('/admin/purchase-order', \App\Http\Controllers\admin\PurchaseOrderController::class);
+Route::resource('/admin/sales-order', \App\Http\Controllers\admin\SalesOrderController::class);

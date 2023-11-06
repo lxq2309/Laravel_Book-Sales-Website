@@ -22,6 +22,7 @@ class SalesOrderDetail extends Model
 {
     protected $table = "SalesOrderDetail";
     protected $primaryKey = ["OrderID", "BookID"];
+    public $incrementing = false;
     static $rules = [
         'OrderID' => 'required',
         'BookID' => 'required',

@@ -20,7 +20,7 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrders = PurchaseOrder::paginate();
 
-        return view('purchase-order.index', compact('purchaseOrders'))
+        return view('admin.purchase-order.index', compact('purchaseOrders'))
             ->with('i', (request()->input('page', 1) - 1) * $purchaseOrders->perPage());
     }
 
@@ -32,7 +32,7 @@ class PurchaseOrderController extends Controller
     public function create()
     {
         $purchaseOrder = new PurchaseOrder();
-        return view('purchase-order.create', compact('purchaseOrder'));
+        return view('admin.purchase-order.create', compact('purchaseOrder'));
     }
 
     /**
@@ -60,8 +60,9 @@ class PurchaseOrderController extends Controller
     public function show($id)
     {
         $purchaseOrder = PurchaseOrder::find($id);
+        $purchaseOrderDetails = $purchaseOrder->purchaseorderdetail;
 
-        return view('purchase-order.show', compact('purchaseOrder'));
+        return view('admin.purchase-order.show', compact('purchaseOrder', 'purchaseOrderDetails'));
     }
 
     /**
@@ -74,7 +75,7 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrder = PurchaseOrder::find($id);
 
-        return view('purchase-order.edit', compact('purchaseOrder'));
+        return view('admin.purchase-order.edit', compact('purchaseOrder'));
     }
 
     /**

@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Category extends Model
 {
-  protected $table = "Categoy";
+  protected $table = "Category";
   protected $primaryKey = "CategoryID";
   static $rules = [
     'CategoryID' => 'required',

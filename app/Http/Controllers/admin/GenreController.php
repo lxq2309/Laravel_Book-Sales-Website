@@ -20,7 +20,7 @@ class GenreController extends Controller
     {
         $genres = Genre::paginate();
 
-        return view('genre.index', compact('genres'))
+        return view('admin.genre.index', compact('genres'))
             ->with('i', (request()->input('page', 1) - 1) * $genres->perPage());
     }
 

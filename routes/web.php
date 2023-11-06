@@ -40,6 +40,10 @@ Route::get('/cart/detail', [CartController::class, 'cartPage'])->name('cart.page
 
 Route::post('/cart/add', [CartController::class, 'addCart'])->name('cart.add');
 
+Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+Route::post('cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+
 // -------------Show_and_update_Account------------------------- //
 Route::get('/account/detail', [AccountController::class, 'accountDetail'])->name('account.detail');
 

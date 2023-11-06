@@ -121,11 +121,13 @@ class AppServiceProvider extends ServiceProvider
                 $cartID = $cart->CartID;
                 $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
                 $totalPrice = 0;
+                $totalBook = $cartItems->unique('BookID')->count();
                 foreach ($cartItems as $cartItem) {
                     $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
                 }
                 $view->with('cartItems', $cartItems);
                 $view->with('totalPrice', $totalPrice + 5);
+                $view->with('totalBook', $totalBook);
             }
         });
 

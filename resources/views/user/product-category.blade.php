@@ -95,9 +95,12 @@
                                             <div class="button-wrapper">
                                                 <div class="button-group text-center">
                                                     <button type="button" class="btn btn-primary btn-cart"
-                                                        data-target="#cart-pop" data-toggle="modal" disabled><i
-                                                            class="material-icons">shopping_cart</i><span>Out of
-                                                            stock</span></button>
+                                                        data-target="#cart-pop" data-toggle="modal"
+                                                        data-book-name="{{ $product->BookTitle }}"
+                                                        data-book-price="{{ $product->SellingPrice }}"
+                                                        data-book-id="{{ $product->BookID }}">
+                                                        <i class="material-icons">shopping_cart</i>
+                                                    </button>
                                                     <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
                                                             class="material-icons">favorite</i><span>wishlist</span></a>
                                                     <button type="button" class="btn btn-primary btn-compare"><i
@@ -626,6 +629,28 @@
             // events.setOnClickBtnQuickView();
             events.handleCheckBox();
         });
+
+        $('.btn-cart').click(function() {
+        var bookID = $(this).data('book-id');
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            type: 'POST',
+            url: '/cart/add',
+            data: {
+                book_id: bookID
+            },
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function(response) {
+                console.log('Product added to cart successfully.');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error adding product to cart:', error);
+            }
+        });
+    });
     </script>
 @endsection
 

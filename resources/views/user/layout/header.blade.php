@@ -1,3 +1,4 @@
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <header class="header-area header-sticky text-center header-default">
     <div class="header-main-sticky">
         <div class="header-nav">
@@ -83,7 +84,8 @@
                         <div class="cart-wrapper">
                             <button type="button" class="btn">
                                 <i class="material-icons">shopping_cart</i>
-                                <span class="ttcount">2</span> </button>
+                                <span class="ttcount">{{$totalBook}}</span> 
+                            </button>
                             <div id="cart-dropdown" class="cart-menu">
                                 <ul class="w-100 float-left">
                                     <li>
@@ -101,8 +103,11 @@
                                                             <span class="text-left price"> {{ $item->book->CostPrice }} đ</span>
                                                         </div>
                                                     </td>
-                                                    <td class="text-center close"><a class="close-cart"><i
-                                                                class="material-icons">close</i></a></td>
+                                                    <td class="text-center close">
+                                                        <a class="close-cart" data-bookid="{{ $item->book->BookID }}">
+                                                            <i class="material-icons">close</i>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -145,3 +150,43 @@
         </div>
     </div>
 </header>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function updateTotalBookCount(count) {
+        $('.ttcount').text(count);
+    }
+
+    $(document).ready(function () {
+        $(".close-cart").click(function () {
+            var bookID = $(this).data('bookid');
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            var currentRow = $(this).closest('tr');
+            
+            $.ajax({
+                url: '/cart/remove',
+                method: 'POST',
+                data: { book_id: bookID },
+                success: function (response) {
+                    // Handle success, such as updating the cart display or removing the row from the table.
+                    console.log(response.message);
+                    currentRow.remove();
+                    updateTotalBookCount(response.totalBookCount);
+                },
+                error: function (error) {
+                    // Handle errors, if any.
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>

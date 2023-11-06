@@ -130,8 +130,14 @@
                             <div class="btn-cart d-flex align-items-center float-left w-100">
                                 <h5>qty:</h5>
                                 <input value="1" type="number">
-                                <button type="button" class="btn btn-primary btn-cart m-0" data-target="#cart-pop"
-                                    data-toggle="modal"><i class="material-icons">shopping_cart</i> Add To Cart</button>
+                                <button type="button" class="btn btn-primary btn-cart btn-cart-add m-0" data-target="#cart-pop"
+                                    data-toggle="modal"
+                                    data-book-name="{{ $book->BookTitle }}"
+                                    data-book-price="{{ $book->SellingPrice }}"
+                                    data-book-id="{{ $book->BookID }}">
+                                    <i class="material-icons">shopping_cart</i> 
+                                    Add To Cart
+                                </button>
                             </div>
                             <div class="tt-links d-flex align-items-center float-left w-100 mb-15">
                                 <a class="link btn-compare"><i
@@ -180,12 +186,9 @@
                                             </svg>
                                         </a>
                                     </li>
-
-
                                 </ul>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -357,7 +360,7 @@
                                         <div class="button-group text-center">
                                             <button type="button" class="btn btn-primary btn-cart"
                                                 data-target="#cart-pop" data-toggle="modal"><i
-                                                    class="material-icons">shopping_cart</i><span>Add to
+                                                class="material-icons">shopping_cart</i><span>Add to
                                                     cart</span></button>
                                             <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
                                                     class="material-icons">favorite</i><span>wishlist</span></a>
@@ -553,4 +556,32 @@
             </div>
         </div>
     @endforeach
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+    $('.btn-cart-add').click(function() {
+        var bookID = $(this).data('book-id');
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        var inputValue = $('input[type="number"]').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/cart/add',
+            data: {
+                book_id: bookID,
+                book_quantity: inputValue
+            },
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function(response) {
+                console.log('Product added to cart successfully.');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error adding product to cart:', error);
+            }
+        });
+    });
+</script>
 @endsection

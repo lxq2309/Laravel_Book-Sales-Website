@@ -300,33 +300,31 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function(){
-            events.setOnClickBtnChangeGenre();
+<script type="text/javascript">
+    $(document).ready(function(){
+        events.setOnClickBtnChangeGenre();
+    });
+
+    $('.btn-cart').click(function() {
+        var bookID = $(this).data('book-id');
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            type: 'POST',
+            url: '/cart/add',
+            data: {
+                book_id: bookID
+            },
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function(response) {
+                console.log('Product added to cart successfully.');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error adding product to cart:', error);
+            }
         });
-
-        $('.btn-cart').click(function() {
-            var bookID = $(this).data('book-id');
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            console.log(bookID);
-
-            $.ajax({
-                type: 'POST',
-                url: '/cart/add',
-                data: {
-                    book_id: bookID
-                },
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                success: function(response) {
-                    console.log('Product added to cart successfully.');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error adding product to cart:', error);
-                }
-            });
-        });
-    </script>
+    });
+</script>
 @endsection

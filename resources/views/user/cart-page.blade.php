@@ -11,43 +11,46 @@
 <div class="cart-area table-area pt-110 pb-95 float-left w-100">
     <div class="container">
 		<div class="row">
-			<div class="col-lg-8 col-md-12 col-sm-12 float-left cart-wrapper">
-                <div class="table-responsive">
-                    <table class="table product-table text-center">
-                        <thead>
-                            <tr>
-                                <th class="table-remove text-capitalize">Xóa</th>
-                                <th class="table-image text-capitalize">Ảnh</th>
-                                <th class="table-p-name text-capitalize">Tên sách</th>
-                                <th class="table-p-price text-capitalize">Giá</th>
-                                <th class="table-p-qty text-capitalize">Số lượng</th>
-                                <th class="table-total text-capitalize">Tổng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($cartItems as $item)
-                            <tr>
-                                <td class="table-remove"><button><i class="material-icons">delete</i></button></td>
-                                <td class="table-image"><a href="product-details.html"><img src="/user/assets/img/products/02.jpg" alt=""></a></td>
-                                <td class="table-p-name text-capitalize"><a href="product-details.html">{{ $item->book->BookTitle }}</a></td>
-                                <td class="table-p-price"><p>{{ $item->book->CostPrice }} đ</p></td>
-                                <td class="table-p-qty"><input value="{{ $item->Quantity }}" name="cart-qty" type="number"></td>
-                                <td class="table-total"><p>{{ $item->book->CostPrice * $item->Quantity }} đ</p></td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="table-bottom-wrapper">
-                    <div class="table-coupon d-flex d-xs-block d-lg-flex d-sm-flex fix justify-content-start float-left">
-                        <input type="text" placeholder="Nhập mã khuyến mại">
-                        <button type="submit" class="btn-primary btn">Áp dụng khuyến mại</button>
+            <form action="{{ route('cart.update') }}" method="POST">
+                @csrf
+                <div class="col-lg-8 col-md-12 col-sm-12 float-left cart-wrapper">
+                    <div class="table-responsive">
+                        <table class="table product-table text-center">
+                            <thead>
+                                <tr>
+                                    <th class="table-remove text-capitalize">Xóa</th>
+                                    <th class="table-image text-capitalize">Ảnh</th>
+                                    <th class="table-p-name text-capitalize">Tên sách</th>
+                                    <th class="table-p-price text-capitalize">Giá</th>
+                                    <th class="table-p-qty text-capitalize">Số lượng</th>
+                                    <th class="table-total text-capitalize">Tổng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($cartItems as $item)
+                                <tr>
+                                    <td class="table-remove"><button><i class="material-icons">delete</i></button></td>
+                                    <td class="table-image"><a href="product-details.html"><img src="/user/assets/img/products/02.jpg" alt=""></a></td>
+                                    <td class="table-p-name text-capitalize"><a href="product-details.html">{{ $item->book->BookTitle }}</a></td>
+                                    <td class="table-p-price"><p>{{ $item->book->CostPrice }} đ</p></td>
+                                    <td class="table-p-qty"><input value="{{ $item->Quantity }}" name="cart-qty[{{ $item->CartItemID }}]" value="{{ $item->Quantity }}" type="number"></td>
+                                    <td class="table-total"><p>{{ $item->book->CostPrice * $item->Quantity }} đ</p></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="table-update d-flex d-xs-block d-lg-flex d-sm-flex justify-content-end">
-                        <button type="button" class="btn-primary btn">Cập nhật giỏ hàng
+                    <div class="table-update d-flex d-xs-block d-lg-flex d-sm-flex">
+                        <button type="submit" class="btn-primary btn">Cập nhật giỏ hàng</button>
+                    </div>
+                    <div class="table-bottom-wrapper">
+                        <div class="table-coupon d-flex d-xs-block d-lg-flex d-sm-flex fix justify-content-start float-left">
+                            <input type="text" placeholder="Nhập mã khuyến mại">
+                            <button type="button" class="btn-primary btn">Áp dụng khuyến mại</button>
+                        </div>
                     </div>
                 </div>
-			</div>
+            </form>
 			<div class="table-total-wrapper d-flex justify-content-end pt-60 col-md-12 col-sm-12 col-lg-4 float-left  align-items-center">
                 <div class="table-total-content">
                     <h2 class="pb-20">Tổng giỏ hàng</h2>

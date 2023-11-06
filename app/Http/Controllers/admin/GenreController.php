@@ -32,7 +32,7 @@ class GenreController extends Controller
     public function create()
     {
         $genre = new Genre();
-        return view('genre.create', compact('genre'));
+        return view('admin.genre.create', compact('genre'));
     }
 
     /**
@@ -47,7 +47,7 @@ class GenreController extends Controller
 
         $genre = Genre::create($request->all());
 
-        return redirect()->route('genres.index')
+        return redirect()->route('genre.index')
             ->with('success', 'Genre created successfully.');
     }
 
@@ -61,7 +61,7 @@ class GenreController extends Controller
     {
         $genre = Genre::find($id);
 
-        return view('genre.show', compact('genre'));
+        return view('admin.genre.show', compact('genre'));
     }
 
     /**
@@ -74,7 +74,7 @@ class GenreController extends Controller
     {
         $genre = Genre::find($id);
 
-        return view('genre.edit', compact('genre'));
+        return view('admin.genre.edit', compact('genre'));
     }
 
     /**
@@ -90,7 +90,7 @@ class GenreController extends Controller
 
         $genre->update($request->all());
 
-        return redirect()->route('genres.index')
+        return redirect()->route('genre.index')
             ->with('success', 'Genre updated successfully');
     }
 
@@ -103,7 +103,7 @@ class GenreController extends Controller
     {
         $genre = Genre::find($id)->delete();
 
-        return redirect()->route('genres.index')
+        return redirect()->route('genre.index')
             ->with('success', 'Genre deleted successfully');
     }
 }

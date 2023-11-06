@@ -1,7 +1,7 @@
 @extends('admin.layout.default')
 
 @section('template_title')
-    Administrator
+    Quản trị viên
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
                     </div>
                     <a href="{{ route('admin.create') }}" class="btn btn-primary float-right"
                        data-placement="left">
-                        {{ __('Create New') }}
+                        {{ __('Thêm mới') }}
                     </a>
                     <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem"><input type="search"
                                                                                                    class="form-control form-control-sm"
@@ -63,14 +63,14 @@
                                                           method="POST">
                                                         <a class="btn btn-sm btn-primary "
                                                            href="{{ route('admin.show',$admin->AdminID) }}"><i
-                                                                class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                                class="fa fa-fw fa-eye"></i> {{ __('Xem chi tiết') }}</a>
                                                         <a class="btn btn-sm btn-success"
                                                            href="{{ route('admin.edit',$admin->AdminID) }}"><i
-                                                                class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                                class="fa fa-fw fa-edit"></i> {{ __('Sửa') }}</a>
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"><i
-                                                                class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
+                                                                class="fa fa-fw fa-trash"></i> {{ __('Xoá') }}
                                                         </button>
                                                     </form>
                                                 </div>

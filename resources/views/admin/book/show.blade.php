@@ -98,6 +98,10 @@
                             {{ $book->ViewCount }}
                         </div>
                         <div class="form-group">
+                            <strong>Mô tả:</strong>
+                            {{ $book->Description == null ? 'Chưa có mô tả' : $book->Description }}
+                        </div>
+                        <div class="form-group">
                             <strong>Ngày tạo:</strong>
                             {{ $book->CreatedDate }}
                         </div>

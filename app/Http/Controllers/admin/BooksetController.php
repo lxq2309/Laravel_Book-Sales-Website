@@ -32,7 +32,7 @@ class BooksetController extends Controller
     public function create()
     {
         $bookset = new Bookset();
-        return view('bookset.create', compact('bookset'));
+        return view('admin.bookset.create', compact('bookset'));
     }
 
     /**
@@ -47,7 +47,7 @@ class BooksetController extends Controller
 
         $bookset = Bookset::create($request->all());
 
-        return redirect()->route('booksets.index')
+        return redirect()->route('bookset.index')
             ->with('success', 'Bookset created successfully.');
     }
 
@@ -60,8 +60,9 @@ class BooksetController extends Controller
     public function show($id)
     {
         $bookset = Bookset::find($id);
+        $books = $bookset->books;
 
-        return view('bookset.show', compact('bookset'));
+        return view('admin.bookset.show', compact('bookset', 'books'));
     }
 
     /**
@@ -74,7 +75,7 @@ class BooksetController extends Controller
     {
         $bookset = Bookset::find($id);
 
-        return view('bookset.edit', compact('bookset'));
+        return view('admin.bookset.edit', compact('bookset'));
     }
 
     /**
@@ -90,7 +91,7 @@ class BooksetController extends Controller
 
         $bookset->update($request->all());
 
-        return redirect()->route('booksets.index')
+        return redirect()->route('bookset.index')
             ->with('success', 'Bookset updated successfully');
     }
 
@@ -103,7 +104,7 @@ class BooksetController extends Controller
     {
         $bookset = Bookset::find($id)->delete();
 
-        return redirect()->route('booksets.index')
+        return redirect()->route('bookset.index')
             ->with('success', 'Bookset deleted successfully');
     }
 }

@@ -32,7 +32,7 @@ class PublisherController extends Controller
     public function create()
     {
         $publisher = new Publisher();
-        return view('publisher.create', compact('publisher'));
+        return view('admin.publisher.create', compact('publisher'));
     }
 
     /**
@@ -47,7 +47,7 @@ class PublisherController extends Controller
 
         $publisher = Publisher::create($request->all());
 
-        return redirect()->route('publishers.index')
+        return redirect()->route('publisher.index')
             ->with('success', 'Publisher created successfully.');
     }
 
@@ -61,7 +61,7 @@ class PublisherController extends Controller
     {
         $publisher = Publisher::find($id);
 
-        return view('publisher.show', compact('publisher'));
+        return view('admin.publisher.show', compact('publisher'));
     }
 
     /**
@@ -74,7 +74,7 @@ class PublisherController extends Controller
     {
         $publisher = Publisher::find($id);
 
-        return view('publisher.edit', compact('publisher'));
+        return view('admin.publisher.edit', compact('publisher'));
     }
 
     /**
@@ -90,7 +90,7 @@ class PublisherController extends Controller
 
         $publisher->update($request->all());
 
-        return redirect()->route('publishers.index')
+        return redirect()->route('publisher.index')
             ->with('success', 'Publisher updated successfully');
     }
 
@@ -103,7 +103,7 @@ class PublisherController extends Controller
     {
         $publisher = Publisher::find($id)->delete();
 
-        return redirect()->route('publishers.index')
+        return redirect()->route('publisher.index')
             ->with('success', 'Publisher deleted successfully');
     }
 }

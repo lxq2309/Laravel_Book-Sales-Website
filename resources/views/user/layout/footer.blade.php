@@ -234,24 +234,21 @@
                                     </div>
                                 </div>
                                 <h3 class="price float-left w-100"><span
-                                        class="regular-price align-middle">$75.00</span><span
-                                        class="old-price align-middle">$60.00</span></h3>
+                                        class="regular-price align-middle">$75.00</span> đ<span
+                                        class="old-price align-middle">$60.00</span> đ</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 divide-left">
                         <p class="cart-products-count">Có 2 sản phẩm trong giỏ hàng của bạn.</p>
                         <p class="total-products float-left w-100">
-                            <strong>Chi phí sản phẩm:</strong> $150.00
+                            <strong>Chi phí sản phẩm:</strong> <span class="regular-price">$150.00</span>
                         </p>
                         <p class="shipping float-left w-100">
-                            <strong>Chi phí vận chuyển:</strong> free
-                        </p>
-                        <p class="total-price float-left w-100">
-                            <strong>Tổng:</strong> $150.00
+                            <strong>Chi phí vận chuyển:</strong> 5 đ
                         </p>
                         <div class="cart-content-btn float-left w-100">
-                            <form action="#">
+                            <form id="reloadForm">
                                 <input class="btn pull-right mt_10 btn-primary" value="Tiếp tục mua hàng"
                                        type="submit">
                             </form>
@@ -940,5 +937,9 @@
         });
     });
 
+    document.getElementById('reloadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        location.reload(); 
+    });
 
 </script>

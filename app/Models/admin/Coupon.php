@@ -22,21 +22,28 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Coupon extends Model
 {
-  protected $table = "Coupon";
-  protected $primaryKey = "CouponID";
-  static $rules = [
-    'CouponID' => 'required',
-  ];
+    protected $table = "Coupon";
+    protected $primaryKey = "CouponID";
+    static $rules = [
+        'CouponCode' => 'required|unique:Coupon',
+        'DiscountAmount' => 'required|numeric|max:100',
+        'ExpiryDate' => 'required|date|after_or_equal:today',
+    ];
 
-  protected $perPage = 20;
+    protected $perPage = 20;
 
-  /**
-   * Attributes that should be mass-assignable.
-   *
-   * @var array
-   */
-  protected $fillable = ['CouponID', 'CouponCode', 'DiscountAmount', 'ExpiryDate', 'IsUsed', 'CreatedDate', 'CreatedBy', 'ModifiedDate', 'ModifiedBy'];
+    const CREATED_AT = "CreatedDate";
+    const UPDATED_AT = "ModifiedDate";
 
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['CouponCode', 'DiscountAmount', 'ExpiryDate', 'CreatedBy'];
 
-
+    public function setDiscountAmountAttribute($value)
+    {
+        $this->attributes['DiscountAmount'] = $value / 100;
+    }
 }

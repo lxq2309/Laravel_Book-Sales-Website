@@ -32,7 +32,7 @@ class SupplierController extends Controller
     public function create()
     {
         $supplier = new Supplier();
-        return view('supplier.create', compact('supplier'));
+        return view('admin.supplier.create', compact('supplier'));
     }
 
     /**
@@ -47,7 +47,7 @@ class SupplierController extends Controller
 
         $supplier = Supplier::create($request->all());
 
-        return redirect()->route('suppliers.index')
+        return redirect()->route('supplier.index')
             ->with('success', 'Supplier created successfully.');
     }
 
@@ -61,7 +61,7 @@ class SupplierController extends Controller
     {
         $supplier = Supplier::find($id);
 
-        return view('supplier.show', compact('supplier'));
+        return view('admin.supplier.show', compact('supplier'));
     }
 
     /**
@@ -74,7 +74,7 @@ class SupplierController extends Controller
     {
         $supplier = Supplier::find($id);
 
-        return view('supplier.edit', compact('supplier'));
+        return view('admin.supplier.edit', compact('supplier'));
     }
 
     /**
@@ -90,7 +90,7 @@ class SupplierController extends Controller
 
         $supplier->update($request->all());
 
-        return redirect()->route('suppliers.index')
+        return redirect()->route('supplier.index')
             ->with('success', 'Supplier updated successfully');
     }
 
@@ -103,7 +103,7 @@ class SupplierController extends Controller
     {
         $supplier = Supplier::find($id)->delete();
 
-        return redirect()->route('suppliers.index')
+        return redirect()->route('supplier.index')
             ->with('success', 'Supplier deleted successfully');
     }
 }

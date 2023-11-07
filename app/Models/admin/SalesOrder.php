@@ -43,11 +43,11 @@ class SalesOrder extends Model
 
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function salesorderdetail()
     {
-        return $this->hasOne('App\Models\admin\SalesOrderDetail', 'OrderID', 'OrderID');
+        return $this->hasMany('App\Models\admin\SalesOrderDetail', 'OrderID', 'OrderID');
     }
 
     /**
@@ -55,7 +55,7 @@ class SalesOrder extends Model
      */
     public function shippingaddress()
     {
-        return $this->hasOne('App\Models\Shippingaddress', 'AddressID', 'ShippingAddressID');
+        return $this->hasOne('App\Models\admin\ShippingAddress', 'AddressID', 'ShippingAddressID');
     }
 
     /**

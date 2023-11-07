@@ -20,7 +20,7 @@ class AdminController extends Controller
     {
         $admins = Admin::paginate();
 
-        return view('admin.index', compact('admins'))
+        return view('admin.admin.index', compact('admins'))
             ->with('i', (request()->input('page', 1) - 1) * $admins->perPage());
     }
 
@@ -32,7 +32,7 @@ class AdminController extends Controller
     public function create()
     {
         $admin = new Admin();
-        return view('admin.create', compact('admin'));
+        return view('admin.admin.create', compact('admin'));
     }
 
     /**
@@ -47,8 +47,8 @@ class AdminController extends Controller
 
         $admin = Admin::create($request->all());
 
-        return redirect()->route('admins.index')
-            ->with('success', 'Admin created successfully.');
+        return redirect()->route('admin.index')
+            ->with('success', 'Tạo tài khoản mới thành công!');
     }
 
     /**
@@ -61,7 +61,7 @@ class AdminController extends Controller
     {
         $admin = Admin::find($id);
 
-        return view('admin.show', compact('admin'));
+        return view('admin.admin.show', compact('admin'));
     }
 
     /**
@@ -74,7 +74,7 @@ class AdminController extends Controller
     {
         $admin = Admin::find($id);
 
-        return view('admin.edit', compact('admin'));
+        return view('admin.admin.edit', compact('admin'));
     }
 
     /**
@@ -90,8 +90,8 @@ class AdminController extends Controller
 
         $admin->update($request->all());
 
-        return redirect()->route('admins.index')
-            ->with('success', 'Admin updated successfully');
+        return redirect()->route('admin.index')
+            ->with('success', 'Cập nhật thông tin tài khoản thành công!');
     }
 
     /**
@@ -103,7 +103,7 @@ class AdminController extends Controller
     {
         $admin = Admin::find($id)->delete();
 
-        return redirect()->route('admins.index')
-            ->with('success', 'Admin deleted successfully');
+        return redirect()->route('admin.index')
+            ->with('success', 'Xoá tài khoản thành công!');
     }
 }

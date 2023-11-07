@@ -24,17 +24,20 @@ class Publisher extends Model
   protected $table = "Publisher";
   protected $primaryKey = "PublisherID";
     static $rules = [
-		'PublisherID' => 'required',
+		'PublisherName' => 'required',
     ];
 
     protected $perPage = 20;
+
+    const CREATED_AT = "CreatedDate";
+    const UPDATED_AT = "ModifiedDate";
 
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = ['PublisherID','PublisherName','IsActive','CreatedDate','CreatedBy','ModifiedDate','ModifiedBy'];
+    protected $fillable = ['PublisherName','IsActive','CreatedBy','ModifiedBy'];
 
 
     /**

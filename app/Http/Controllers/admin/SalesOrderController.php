@@ -20,35 +20,8 @@ class SalesOrderController extends Controller
     {
         $salesOrders = SalesOrder::paginate();
 
-        return view('sales-order.index', compact('salesOrders'))
+        return view('admin.sales-order.index', compact('salesOrders'))
             ->with('i', (request()->input('page', 1) - 1) * $salesOrders->perPage());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $salesOrder = new SalesOrder();
-        return view('sales-order.create', compact('salesOrder'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        request()->validate(SalesOrder::$rules);
-
-        $salesOrder = SalesOrder::create($request->all());
-
-        return redirect()->route('sales-orders.index')
-            ->with('success', 'SalesOrder created successfully.');
     }
 
     /**
@@ -60,38 +33,9 @@ class SalesOrderController extends Controller
     public function show($id)
     {
         $salesOrder = SalesOrder::find($id);
+        $salesOrderDetails = $salesOrder->salesorderdetail;
 
-        return view('sales-order.show', compact('salesOrder'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $salesOrder = SalesOrder::find($id);
-
-        return view('sales-order.edit', compact('salesOrder'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  SalesOrder $salesOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, SalesOrder $salesOrder)
-    {
-        request()->validate(SalesOrder::$rules);
-
-        $salesOrder->update($request->all());
-
-        return redirect()->route('sales-orders.index')
-            ->with('success', 'SalesOrder updated successfully');
+        return view('admin.sales-order.show', compact('salesOrder', 'salesOrderDetails'));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Models\admin;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class Admin
@@ -18,22 +19,35 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Admin extends Model
 {
-  protected $table = "Admin";
-  protected $primaryKey = "AdminID";
+    protected $table = "Admin";
+    protected $primaryKey = "AdminID";
 
-  static $rules = [
-    'AdminID' => 'required',
-  ];
+    public $timestamps = false;
 
-  protected $perPage = 20;
+    static $rules = [
+        'Email' => 'required|email',
+        'FullName' => 'required',
+        'PhoneNumber' => 'required'
+    ];
 
-  /**
-   * Attributes that should be mass-assignable.
-   *
-   * @var array
-   */
-  protected $fillable = ['AdminID', 'Email', 'Password', 'FullName', 'PhoneNumber'];
+    protected $perPage = 20;
 
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['Email', 'Password', 'FullName', 'PhoneNumber'];
+
+    public function setPasswordAttribute($value)
+    {
+        // Kiểm tra xem mật khẩu đã được mã hóa hay chưa
+        if (Hash::needsRehash($value)) {
+            $this->attributes['Password'] = bcrypt($value);
+        } else {
+            $this->attributes['Password'] = $value;
+        }
+    }
 
 
 }

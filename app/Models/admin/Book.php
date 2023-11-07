@@ -49,7 +49,7 @@ class Book extends Model
     const UPDATED_AT = "ModifiedDate";
 
     static $rules = [
-		'BookID' => 'required',
+		'BookTitle' => 'required',
     ];
 
     protected $perPage = 20;
@@ -59,7 +59,7 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = ['BookTitle','Author','PublisherID','CostPrice','SellingPrice','QuantityInStock','PageCount','Weight','Avatar','CoverStyle','CoverStyle','YearPublished','Description','SetID','ViewCount','CreatedDate','CreatedBy','ModifiedDate','ModifiedBy'];
+    protected $fillable = ['BookTitle','Author','PublisherID','CostPrice','SellingPrice','PageCount','Weight','Avatar','CoverStyle', 'Size','YearPublished','Description','SetID','CreatedBy','ModifiedBy'];
 
 
     /**

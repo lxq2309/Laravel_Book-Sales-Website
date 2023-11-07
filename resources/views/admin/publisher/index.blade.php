@@ -17,7 +17,7 @@
                     </div>
                     <a href="{{ route('publisher.create') }}" class="btn btn-primary float-right"
                        data-placement="left">
-                        {{ __('Create New') }}
+                        {{ __('Thêm mới') }}
                     </a>
                     <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem"><input type="search"
                                                                                                    class="form-control form-control-sm"
@@ -55,7 +55,7 @@
                                             onmouseleave="readListScripts.hideTableActions()">
                                             <td>{{ $publisher->PublisherID }}</td>
                                             <td>{{ $publisher->PublisherName }}</td>
-                                            <td>{{ $publisher->IsActive }}</td>
+                                            <td>{{ $publisher->IsActive ? 'Đang hoạt động' : 'Ngưng hoạt động' }}</td>
                                             <td>{{ $publisher->CreatedDate }}</td>
                                             <td>{{ $publisher->CreatedBy }}</td>
                                             <td>{{ $publisher->ModifiedDate }}</td>

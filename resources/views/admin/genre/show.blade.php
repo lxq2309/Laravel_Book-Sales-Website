@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <strong>Thuộc danh mục:</strong>
-                            {{ $genre->category->CategoryName }}
+                            {{ $genre->category?->CategoryName }}
                         </div>
                         <div class="form-group">
                             <strong>Ngày tạo:</strong>

@@ -1,7 +1,7 @@
 @extends('admin.layout.default')
 
 @section('template_title')
-    Tập sách
+    Bộ sách
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
                     </div>
                     <a href="{{ route('bookset.create') }}" class="btn btn-primary float-right"
                        data-placement="left">
-                        {{ __('Create New') }}
+                        {{ __('Thêm mới') }}
                     </a>
                     <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem"><input type="search"
                                                                                                    class="form-control form-control-sm"
@@ -40,8 +40,8 @@
                                        aria-describedby="example1_info">
                                     <thead>
                                     <tr>
-                                        <th>Mã tập sách</th>
-                                        <th>Tên tập sách</th>
+                                        <th>Mã bộ sách</th>
+                                        <th>Tên bộ sách</th>
                                         <th>Ảnh</th>
                                         <th>Số lượng sách</th>
                                         <th>Ngày tạo</th>
@@ -56,7 +56,7 @@
                                             onmouseleave="readListScripts.hideTableActions()">
                                             <td>{{ $bookset->SetID }}</td>
                                             <td>{{ $bookset->SetTitle }}</td>
-                                            <td>{{ $bookset->SetAvatar }}</td>
+                                            <td><img src="{{ $bookset->SetAvatar }}" alt="{{ $bookset->SetTitle }}" class="img-thumbnail rounded check-image" style="max-width: 100px"></td>
                                             <td>{{ $bookset->books->count() }}</td>
                                             <td>{{ $bookset->CreatedDate }}</td>
                                             <td>{{ $bookset->CreatedBy }}</td>
@@ -69,14 +69,14 @@
                                                           method="POST">
                                                         <a class="btn btn-sm btn-primary "
                                                            href="{{ route('bookset.show',$bookset->SetID) }}"><i
-                                                                class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                                class="fa fa-fw fa-eye"></i> {{ __('Xem chi tiết') }}</a>
                                                         <a class="btn btn-sm btn-success"
                                                            href="{{ route('bookset.edit',$bookset->SetID) }}"><i
-                                                                class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                                class="fa fa-fw fa-edit"></i> {{ __('Sửa') }}</a>
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"><i
-                                                                class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
+                                                                class="fa fa-fw fa-trash"></i> {{ __('Xoá') }}
                                                         </button>
                                                     </form>
                                                 </div>

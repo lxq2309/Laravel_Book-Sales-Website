@@ -1,7 +1,7 @@
 @extends('admin.layout.default')
 
 @section('template_title')
-    {{ __('Sửa thông tin quản trị viên') }}
+    {{ "Sửa thông tin bộ sách $bookset->SetTitle" }}
 @endsection
 
 @php
@@ -21,16 +21,16 @@
                             <span class="card-title">{{ __('Sửa thông tin') }}</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('admin.index') }}"> {{ __('Back') }}</a>
+                            <a class="btn btn-primary" href="{{ route('bookset.index') }}"> {{ __('Trở lại') }}</a>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.update', $admin->AdminID) }}" role="form"
+                        <form method="POST" action="{{ route('bookset.update', $bookset->SetID) }}" role="form"
                               enctype="multipart/form-data">
                             {{ method_field($method) }}
                             @csrf
 
-                            @include('admin.admin.form')
+                            @include('admin.bookset.form')
 
                         </form>
                     </div>

@@ -65,36 +65,6 @@ class CouponController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $coupon = Coupon::find($id);
-
-        return view('admin.coupon.edit', compact('coupon'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Coupon $coupon
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Coupon $coupon)
-    {
-        request()->validate(Coupon::$rules);
-
-        $coupon->update($request->all());
-
-        return redirect()->route('coupon.index')
-            ->with('success', 'Coupon updated successfully');
-    }
-
-    /**
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception

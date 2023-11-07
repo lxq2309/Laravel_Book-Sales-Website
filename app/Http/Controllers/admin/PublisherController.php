@@ -60,8 +60,9 @@ class PublisherController extends Controller
     public function show($id)
     {
         $publisher = Publisher::find($id);
+        $books = $publisher->books;
 
-        return view('admin.publisher.show', compact('publisher'));
+        return view('admin.publisher.show', compact('publisher', 'books'));
     }
 
     /**

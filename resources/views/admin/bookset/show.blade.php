@@ -11,7 +11,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">{{ __('Thông tin tập sách') }}</span>
+                            <span class="card-title">{{ __('Thông tin bộ sách') }}</span>
                         </div>
                         <div class="float-right">
                             <a class="btn btn-primary" href="{{ route('bookset.index') }}"> {{ __('Back') }}</a>
@@ -19,17 +19,20 @@
                     </div>
 
                     <div class="card-body">
+                        <div class="form-group">
+                            <img src="{{ $bookset->SetAvatar }}" alt="{{ $bookset->SetTitle }}" class="img-thumbnail rounded" style="max-width: 300px">
+                        </div>
 
                         <div class="form-group">
-                            <strong>Mã tập sách:</strong>
+                            <strong>Mã bộ sách:</strong>
                             {{ $bookset->SetID }}
                         </div>
                         <div class="form-group">
-                            <strong>Tên tập sách:</strong>
+                            <strong>Tên bộ sách:</strong>
                             {{ $bookset->SetTitle }}
                         </div>
                         <div class="form-group">
-                            <strong>Ảnh:</strong>
+                            <strong>Đường dẫn ảnh:</strong>
                             {{ $bookset->SetAvatar }}
                         </div>
                         <div class="form-group">
@@ -38,7 +41,7 @@
                         </div>
                         <div class="form-group">
                             <strong>Mô tả:</strong>
-                            {{ $bookset->Description == null ? 'Chưa có mô tả' : $bookset->Description }}
+                            {{ $books->count() == 0 ? 'Chưa có mô tả' : ($books[0]->Description == null ? 'Chưa có mô tả' : $books[0]->Description) }}
                         </div>
                         <div class="form-group">
                             <strong>Ngày tạo:</strong>
@@ -62,7 +65,8 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Các cuốn sách thuộc <strong>{{ $bookset->SetTitle }}</strong></span>
+                            <span
+                                class="card-title">Các cuốn sách thuộc <strong>{{ $bookset->SetTitle }}</strong></span>
                         </div>
                     </div>
 

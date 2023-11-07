@@ -60,8 +60,9 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::find($id);
+        $genres = $category->genres;
 
-        return view('admin.category.show', compact('category'));
+        return view('admin.category.show', compact('category', 'genres'));
     }
 
     /**

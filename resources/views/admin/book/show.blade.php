@@ -11,14 +11,24 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">{{ __('Thông tin') }} sách</span>
+                            <span class="card-title">{{ __('Thông tin sách') }}</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('book.index') }}"> {{ __('Back') }}</a>
+                            <a href="{{ route('book.edit', $book->BookID) }}" class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i> Sửa thông tin</a>
+                            <a class="btn btn-primary" href="{{ route('book.index') }}"> {{ __('Trở lại') }}</a>
                         </div>
                     </div>
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
 
                     <div class="card-body">
+
+                        <div class="form-group">
+                            <img src="{{ $book->Avatar }}" alt="{{ $book->BookTitle }}" class="img-thumbnail rounded" style="max-width: 300px">
+                        </div>
 
                         <div class="form-group">
                             <strong>BookID:</strong>
@@ -42,11 +52,11 @@
                             <a href="#{{ $publisherId }}">{{ $publisherName }}</a>
                         </div>
                         <div class="form-group">
-                            <strong>Giá nhập:</strong>
+                            <strong>Giá bán:</strong>
                             {{ $book->CostPrice }}
                         </div>
                         <div class="form-group">
-                            <strong>Giá bán:</strong>
+                            <strong>Giá khuyến mại:</strong>
                             {{ $book->SellingPrice }}
                         </div>
                         <div class="form-group">
@@ -78,7 +88,7 @@
                             {{ $book->YearPublished }}
                         </div>
                         <div class="form-group">
-                            <strong>Thuộc tập:</strong>
+                            <strong>Thuộc bộ:</strong>
                             <?php
                             $setTitle = $book->bookset == null ? '' : $book->bookset->SetTitle;
                             $setId = $book->bookset == null ? '' : $book->bookset->SetID;
@@ -118,6 +128,29 @@
                             {{ $book->ModifiedBy }}
                         </div>
 
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="float-left">
+                            <span
+                                class="card-title">Danh sách ảnh đính kèm của <strong>{{ $book->BookTitle }}</strong> ({{ $images->count() }})</span>
+                        </div>
+                        <div class="float-right"><a href="#" class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i> Sửa</a></div>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="row">
+
+                            @foreach($images as $image)
+                                <div class="col-3">
+                                    <img src="{{ $image->ImagePath }}" alt="{{ $image->Description }}" class="img-thumbnail rounded" style="max-width: 200px">
+                                </div>
+
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

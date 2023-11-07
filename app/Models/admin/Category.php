@@ -23,17 +23,20 @@ class Category extends Model
   protected $table = "Category";
   protected $primaryKey = "CategoryID";
   static $rules = [
-    'CategoryID' => 'required',
+    'CategoryName' => 'required',
   ];
 
   protected $perPage = 20;
+
+    const CREATED_AT = "CreatedDate";
+    const UPDATED_AT = "ModifiedDate";
 
   /**
    * Attributes that should be mass-assignable.
    *
    * @var array
    */
-  protected $fillable = ['CategoryID', 'CategoryName', 'CreatedDate', 'CreatedBy', 'ModifiedDate', 'ModifiedBy'];
+  protected $fillable = ['CategoryName', 'CreatedBy', 'ModifiedBy'];
 
 
   /**
@@ -43,6 +46,4 @@ class Category extends Model
   {
     return $this->hasMany('App\Models\admin\Genre', 'CategoryID', 'CategoryID');
   }
-
-
 }

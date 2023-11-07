@@ -38,14 +38,30 @@ class BooksetController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         request()->validate(Bookset::$rules);
 
-        $bookset = Bookset::create($request->all());
+        $input = $request->all();
+
+        // Xử lý lưu tệp tải lên
+        if ($request->hasFile('SetAvatar')) {
+            $image = $request->file('SetAvatar');
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $image->move(public_path('images/bookset'), $imageName);
+            $input['SetAvatar'] = '/images/bookset/' . $imageName;
+        } else {
+            if ($input['SetAvatarUrl']) {
+                $input['SetAvatar'] = $input['SetAvatarUrl'];
+            } else {
+                $input['SetAvatar'] = '/images/bookset/default.jpg';
+            }
+        }
+
+        $bookset = Bookset::create($input);
 
         return redirect()->route('bookset.index')
             ->with('success', 'Bookset created successfully.');
@@ -54,7 +70,7 @@ class BooksetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -68,7 +84,7 @@ class BooksetController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -81,15 +97,31 @@ class BooksetController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Bookset $bookset
+     * @param \Illuminate\Http\Request $request
+     * @param Bookset $bookset
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Bookset $bookset)
     {
         request()->validate(Bookset::$rules);
 
-        $bookset->update($request->all());
+        $input = $request->all();
+
+        // Xử lý lưu tệp tải lên
+        if ($request->hasFile('SetAvatar')) {
+            $image = $request->file('SetAvatar');
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $image->move(public_path('images/bookset'), $imageName);
+            $input['SetAvatar'] = '/images/bookset/' . $imageName;
+        } else {
+            if ($input['SetAvatarUrl']) {
+                $input['SetAvatar'] = $input['SetAvatarUrl'];
+            } else {
+                $input['SetAvatar'] = '/images/bookset/default.jpg';
+            }
+        }
+
+        $bookset->update($input);
 
         return redirect()->route('bookset.index')
             ->with('success', 'Bookset updated successfully');

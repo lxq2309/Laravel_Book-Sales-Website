@@ -1,7 +1,7 @@
 @extends('admin.layout.default')
 
 @section('template_title')
-    {{ __('Thêm mới bộ sách') }}
+    {{ __('Thêm mới mã giảm giá') }}
 @endsection
 
 @php
@@ -21,15 +21,15 @@
                             <span class="card-title">{{ __('Thêm mới') }}</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('bookset.index') }}"> {{ __('Trở lại') }}</a>
+                            <a class="btn btn-primary" href="{{ route('coupon.index') }}"> {{ __('Trở lại') }}</a>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('bookset.store') }}" role="form"
+                        <form method="POST" action="{{ route('coupon.store') }}" role="form"
                               enctype="multipart/form-data">
                             @csrf
 
-                            @include('admin.bookset.form')
+                            @include('admin.coupon.form')
 
                         </form>
                     </div>

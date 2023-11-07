@@ -4,6 +4,8 @@ namespace App\Http\Controllers\admin;
 
 use App\Models\admin\Book;
 use App\Models\admin\BookGenre;
+use App\Models\admin\Bookset;
+use App\Models\admin\Genre;
 use App\Models\admin\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,33 +31,6 @@ class BookController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $book = new Book();
-        return view('admin.book.create', compact('book'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        request()->validate(Book::$rules);
-
-        $book = Book::create($request->all());
-
-        return redirect()->route('book.index')
-            ->with('success', 'Book created successfully.');
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param int $id
@@ -71,7 +46,9 @@ class BookController extends Controller
             ->select('Genre.*')
             ->get();
 
-        return view('admin.book.show', compact('book', 'genres'));
+        $images = $book->bookimages;
+
+        return view('admin.book.show', compact('book', 'genres', 'images'));
     }
 
     /**
@@ -83,9 +60,12 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = Book::find($id);
+        $genres = Genre::all();
         $publishers = Publisher::all();
+        $bookSets = BookSet::all();
+        $selectedGenres = $book->bookgenre->pluck('GenreID')->toArray();
 
-        return view('admin.book.edit', compact('book', 'publishers'));
+        return view('admin.book.edit', compact('book', 'publishers', 'genres', 'bookSets', 'selectedGenres'));
     }
 
     /**
@@ -99,10 +79,26 @@ class BookController extends Controller
     {
         request()->validate(Book::$rules);
 
-        $book->update($request->all());
+        $input = $request->all();
 
-        return redirect()->route('book.index')
-            ->with('success', 'Book updated successfully');
+        // Xử lý lưu tệp tải lên
+        if ($request->hasFile('Avatar')) {
+            $image = $request->file('Avatar');
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $image->move(public_path('images/book'), $imageName);
+            $input['Avatar'] = '/images/book/' . $imageName;
+        } else {
+            if ($input['AvatarUrl']) {
+                $input['Avatar'] = $input['AvatarUrl'];
+            } else {
+                $input['Avatar'] = '/images/book/default.jpg';
+            }
+        }
+
+        $book->update($input);
+
+        return redirect()->route('book.show', $book->BookID)
+            ->with('success', 'Sửa thông tin thành công!');
     }
 
     /**
@@ -112,9 +108,11 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        $book = Book::find($id)->delete();
+        $book = Book::find($id);
+        $title = $book->BookTitle;
+        $book->delete();
 
         return redirect()->route('book.index')
-            ->with('success', 'Book deleted successfully');
+            ->with('success', "Xoá thành công cuốn sách $title với mã sách là $id");
     }
 }

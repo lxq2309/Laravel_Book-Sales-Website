@@ -1,8 +1,12 @@
 @extends('admin.layout.default')
 
 @section('template_title')
-    {{ __('Update') }} User
+    {{ "Sửa thông tin sách $book->SetTitle" }}
 @endsection
+
+@php
+    $method = 'PATCH';
+@endphp
 
 @section('content')
     <section class="content container-fluid">
@@ -13,14 +17,20 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">{{ __('Update') }} User</span>
+                        <div class="float-left">
+                            <span class="card-title">{{ __('Sửa thông tin') }}</span>
+                        </div>
+                        <div class="float-right">
+                            <a class="btn btn-primary" href="{{ route('book.index') }}"> {{ __('Trở lại') }}</a>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('user.update', $user->UserID) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
+                        <form method="POST" action="{{ route('book.update', $book->BookID) }}" role="form"
+                              enctype="multipart/form-data">
+                            {{ method_field($method) }}
                             @csrf
 
-                            @include('admin.user.form')
+                            @include('admin.book.form')
 
                         </form>
                     </div>

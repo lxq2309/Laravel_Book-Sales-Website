@@ -29,8 +29,8 @@
                             {{ $coupon->CouponCode }}
                         </div>
                         <div class="form-group">
-                            <strong>% giảm giá:</strong>
-                            {{ $coupon->DiscountAmount }}
+                            <strong>Giảm giá:</strong>
+                            {{ $coupon->DiscountAmount * 100 }}%
                         </div>
                         <div class="form-group">
                             <strong>Ngày hết hạn:</strong>

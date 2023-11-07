@@ -25,17 +25,20 @@ class Genre extends Model
     protected $table = "Genre";
     protected $primaryKey = "GenreID";
     static $rules = [
-        'GenreID' => 'required',
+        'GenreName' => 'required',
     ];
 
     protected $perPage = 20;
+
+    const CREATED_AT = "CreatedDate";
+    const UPDATED_AT = "ModifiedDate";
 
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = ['GenreID', 'GenreName', 'CategoryID', 'CreatedDate', 'CreatedBy', 'ModifiedDate', 'ModifiedBy'];
+    protected $fillable = ['GenreName', 'CategoryID', 'CreatedBy', 'ModifiedBy'];
 
 
     /**

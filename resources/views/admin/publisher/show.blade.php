@@ -50,6 +50,24 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="float-left">
+                            <span class="card-title">Các cuốn sách của nhà xuất bản <strong>{{ $publisher->PublisherName }}</strong></span>
+                        </div>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="list-group">
+                            @foreach($books as $book)
+                                <a href="{{ route('book.show', $book->BookID) }}"
+                                   class="list-group-item list-group-item-action">{{ $book->BookTitle }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

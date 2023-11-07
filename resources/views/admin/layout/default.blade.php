@@ -11,7 +11,7 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
@@ -220,8 +220,6 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-                         with font-awesome or any other icon font library -->
                     <li class="nav-item">
                         <a href="/admin" class="nav-link active">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -230,104 +228,131 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route("user.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                    <li class="nav-item menu-is-opening menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="fa-solid fa-user"></i>
                             <p>
-                                Người dùng
-                                <span class="right badge badge-danger">New</span>
+                                Quản lý tài khoản
+                                <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview" style="display: block;">
+                            <li class="nav-item">
+                                <a href="{{ route("user.index") }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Người dùng
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route("admin.index") }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Quản trị viên
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route("book.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                    <li class="nav-item menu-is-opening menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="fa-solid fa-book"></i>
                             <p>
-                                Sách
-                                <span class="right badge badge-danger">New</span>
+                                Quản lý sách
+                                <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview" style="display: block;">
+                            <li class="nav-item">
+                                <a href="{{ route("book.index") }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Sách
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route("bookset.index") }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Bộ sách
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route("publisher.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="fa-solid fa-newspaper"></i>
                             <p>
                                 Nhà xuất bản
-                                <span class="right badge badge-danger">New</span>
+
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route("supplier.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="fa-solid fa-industry"></i>
                             <p>
                                 Nhà cung cấp
-                                <span class="right badge badge-danger">New</span>
+
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route("coupon.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="fa-solid fa-tag"></i>
                             <p>
                                 Mã giảm giá
-                                <span class="right badge badge-danger">New</span>
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route("category.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="fa-solid fa-bars"></i>
                             <p>
                                 Danh mục
-                                <span class="right badge badge-danger">New</span>
+
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route("genre.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="fa-solid fa-bars-staggered"></i>
                             <p>
                                 Thể loại
-                                <span class="right badge badge-danger">New</span>
+
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route("bookset.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+
+                    <li class="nav-item menu-is-opening menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="fa-solid fa-file-invoice"></i>
                             <p>
-                                Tập sách
-                                <span class="right badge badge-danger">New</span>
+                                Quản lý hoá đơn
+                                <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route("admin.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                Quản trị viên
-                                <span class="right badge badge-danger">New</span>
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route("purchase-order.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                Hoá đơn nhập
-                                <span class="right badge badge-danger">New</span>
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route("sales-order.index") }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                               Hoá đơn bán
-                                <span class="right badge badge-danger">New</span>
-                            </p>
-                        </a>
+                        <ul class="nav nav-treeview" style="display: block;">
+                            <li class="nav-item">
+                                <a href="{{ route("purchase-order.index") }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Hoá đơn nhập
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route("sales-order.index") }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Hoá đơn bán
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </nav>
@@ -417,6 +442,7 @@
 <script src="/dist/js/adminlte.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/dist/js/pages/dashboard.js"></script>
+<script src="/dist/js/custom.js"></script>
 <script>
     const readListScripts = {
         showTableActions() {

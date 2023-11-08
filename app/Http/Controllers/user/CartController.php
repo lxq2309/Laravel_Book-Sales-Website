@@ -35,6 +35,6 @@ class CartController extends Controller
                 'Quantity' => 1,
             ]);
             $cartItem->save();
-        }   
+        }
     }
 }

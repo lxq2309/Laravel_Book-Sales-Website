@@ -2,20 +2,40 @@
 
 namespace App\Http\Controllers\user;
 
+
 use App\Http\Controllers\Controller;
+use App\Models\Book;
+use App\Models\Review;
+use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
 
 
 class ProductController extends Controller
 {
     public function ProductDetail(Request $request, $id){
-        $books = DB::table("Book")->where("BookId",$id)->get();
-        return view("user.product-detail", ["books"=> $books]);
+        $books = DB::table("Book")->where("BookID",$id)->get();
+        $reviews = DB::table('Review')->join('User', 'User.UserID', '=', 'Review.UserID')->where("BookID",$id)->select('Review.*', 'User.FirstName', 'User.LastName')->get();
+        $totalRv= DB::table('Review')->where("BookID",$id)->count();
+        $author = DB::table('Book')->where('BookID', $id)->pluck('Author')->first();
+        $sameAuthor = DB::table('Book')->where('Author', $author)->get();
+
+        DB::update('UPDATE Book SET ViewCount = ViewCount + 1 WHERE BookID = ?', [$id]);
+        $bookAlter = \App\Models\admin\Book::find($id);
+        $listGenre = DB::table('BookGenre')
+            ->join('Genre', 'BookGenre.GenreID', '=', 'Genre.GenreID')
+            ->where('BookGenre.BookID', $id)
+            ->select('Genre.*')
+            ->get();
+        return view("user.product-detail", compact("books", 'reviews', 'totalRv', 'sameAuthor', 'bookAlter', 'listGenre'));
     }
 
     public function getProductByID(Request $request, $productID){
         $products = DB::table("Book")->where("BookId",$productID)->get();
+
         return response()->json(["products" => $products]);
     }
 
@@ -156,6 +176,63 @@ class ProductController extends Controller
         $totalItems = $results->total();
 
         return response()->json(['results' => $results, 'totalPages'=>$totalPages, 'totalItems' => $totalItems]);
+    }
+
+    public function reviewProduct(Request $request){
+
+
+        $dataForm = $request->json()->all();
+
+        $data = json_decode(json_encode($dataForm));
+
+//        return response()->json($data->data->rating);
+        // Kiểm tra nếu userID là null
+        if (is_null($data->data->userID)) {
+            // Trả về message yêu cầu đăng nhập
+            return response()->json([
+                'message' => 'Vui lòng đăng nhập để thực hiện hành động này.'
+            ]);
+        }
+        else{
+            $checkSale = DB::table('User')
+                ->join('SalesOrder', 'User.UserID', "=", 'SalesOrder.UserID')
+                ->join('SalesOrderDetail', 'SalesOrder.OrderID', '=', 'SalesOrderDetail.OrderID')
+                ->where('SalesOrderDetail.BookID', '=', $data->data->bookID)->count();
+            if($checkSale <= 0){
+                return response()->json(['message' => "Không thể đánh giá khi chưa mua hàng này."]);
+            }else{
+
+
+                $newReviewId = DB::table('Review')->insertGetId([
+                    'BookID' => $data->data->bookID,
+                    'UserID' => $data->data->userID,
+                    'Content' => $data->data->review,
+                    'Rating' => $data->data->rating
+                ]);
+
+                $totalRv = DB::table('Review')->where("BookID", $data->data->bookID)->count();
+                // Truy vấn đánh giá vừa thêm từ cơ sở dữ liệu
+                $newReview = DB::table('Review')->join('User', 'User.UserID', '=', 'Review.UserID')->where('ReviewID', $newReviewId)->select('Review.*', 'User.FirstName', 'User.LastName')->first();
+                return response()->json(['review' => $newReview, 'totalRv' => $totalRv]);
+            }
+        }
+
+
+    }
+
+    public function deleteReview(Request $request, $reviewID){
+
+
+        // Kiểm tra xem bình luận có tồn tại không
+        $review = Review::find($reviewID);
+
+        if (!$review) {
+            return response()->json(['error' => 'Review not found'], 404);
+        }
+
+        $review->delete();
+
+        return response()->json(['message' => 'Review deleted successfully']);
     }
 
 

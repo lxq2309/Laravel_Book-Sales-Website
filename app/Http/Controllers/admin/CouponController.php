@@ -32,7 +32,7 @@ class CouponController extends Controller
     public function create()
     {
         $coupon = new Coupon();
-        return view('coupon.create', compact('coupon'));
+        return view('admin.coupon.create', compact('coupon'));
     }
 
     /**
@@ -47,7 +47,7 @@ class CouponController extends Controller
 
         $coupon = Coupon::create($request->all());
 
-        return redirect()->route('coupons.index')
+        return redirect()->route('coupon.index')
             ->with('success', 'Coupon created successfully.');
     }
 
@@ -61,37 +61,7 @@ class CouponController extends Controller
     {
         $coupon = Coupon::find($id);
 
-        return view('coupon.show', compact('coupon'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $coupon = Coupon::find($id);
-
-        return view('coupon.edit', compact('coupon'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Coupon $coupon
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Coupon $coupon)
-    {
-        request()->validate(Coupon::$rules);
-
-        $coupon->update($request->all());
-
-        return redirect()->route('coupons.index')
-            ->with('success', 'Coupon updated successfully');
+        return view('admin.coupon.show', compact('coupon'));
     }
 
     /**
@@ -103,7 +73,7 @@ class CouponController extends Controller
     {
         $coupon = Coupon::find($id)->delete();
 
-        return redirect()->route('coupons.index')
+        return redirect()->route('coupon.index')
             ->with('success', 'Coupon deleted successfully');
     }
 }

@@ -41,7 +41,7 @@ class PurchaseOrder extends Model
      */
     public function purchaseorderdetail()
     {
-        return $this->hasOne('App\Models\admin\PurchaseOrderDetail', 'OrderID', 'OrderID');
+        return $this->hasMany('App\Models\admin\PurchaseOrderDetail', 'OrderID', 'OrderID');
     }
 
     /**

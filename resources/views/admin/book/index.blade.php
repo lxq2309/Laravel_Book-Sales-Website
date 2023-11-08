@@ -15,9 +15,9 @@
                         <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0"
                                 aria-controls="example1" type="button"><span>PDF</span></button>
                     </div>
-                    <a href="{{ route('book.create') }}" class="btn btn-primary float-right"
+                    <a href="{{ route('purchase-order.create') }}" class="btn btn-primary float-right"
                        data-placement="left">
-                        {{ __('Create New') }}
+                        {{ __('Nhập sách') }}
                     </a>
                     <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem"><input type="search"
                                                                                                    class="form-control form-control-sm"
@@ -44,8 +44,8 @@
                                         <th>Tên sách</th>
                                         <th>Tác giả</th>
                                         <th>Nhà xuất bản</th>
-                                        <th>Giá nhập</th>
                                         <th>Giá bán</th>
+                                        <th>Giá khuyến mại</th>
                                         <th>Số lượng</th>
                                         <th>Số trang</th>
                                         <th>Trọng lượng</th>
@@ -54,6 +54,7 @@
                                         <th>Kích tước</th>
                                         <th>Năm xuất bản</th>
                                         <th>Thuộc bộ sách</th>
+                                        <th>Số lượng ảnh đính kèm</th>
                                         <th>Lượt xem</th>
                                         <th>Ngày tạo</th>
                                         <th>Người tạo</th>
@@ -68,29 +69,30 @@
                                             <td>{{ $book->BookID }}</td>
                                             <td>{{ $book->BookTitle }}</td>
                                             <td>{{ $book->Author }}</td>
-                                                <?php
-                                                $data = $book->publisher()->get()->first();
-                                                $data = json_decode($data, true);
-                                                $publisherName = $data == null ? '' : $data['PublisherName'];
-                                                $publisherId = $data == null ? '' : $data['PublisherID'];
-                                                ?>
-                                            <td><a href="#{{ $publisherId }}">{{ $publisherName }}</a></td>
+                                            @php
+                                                $publisherName = $book->publisher == null ? '' : $book->publisher->PublisherName;
+                                                $publisherId = $book->publisher == null ? '' : $book->publisher->PublisherID;
+                                            @endphp
+                                            <td>
+                                                <a href="{{ route('publisher.show', $publisherId)}}">{{ $publisherName }}</a>
+                                            </td>
                                             <td>{{ $book->CostPrice }}</td>
                                             <td>{{ $book->SellingPrice }}</td>
                                             <td>{{ $book->QuantityInStock }}</td>
                                             <td>{{ $book->PageCount }}</td>
                                             <td>{{ $book->Weight }}</td>
-                                            <td>{{ $book->Avatar }}</td>
+                                            <td><img src="{{ $book->Avatar }}" alt="{{ $book->BookTitle }}"
+                                                     class="img-thumbnail rounded check-image" style="max-width: 100px">
+                                            </td>
                                             <td>{{ $book->CoverStyle }}</td>
                                             <td>{{ $book->Size }}</td>
                                             <td>{{ $book->YearPublished }}</td>
-                                                <?php
-                                                $data = $book->bookset()->get()->first();
-                                                $data = json_decode($data, true);
-                                                $setTitle = $data == null ? '' : $data['SetTitle'];
-                                                $setId = $data == null ? '' : $data['SetID'];
-                                                ?>
-                                            <td><a href="#{{ $setId }}">{{ $setTitle }}</a></td>
+                                            @php
+                                                $setTitle = $book->bookset == null ? '' : $book->bookset->SetTitle;
+                                                $setId = $book->bookset == null ? '' : $book->bookset->SetID;
+                                            @endphp
+                                            <td><a href="{{ route('bookset.show', $setId) }}">{{ $setTitle }}</a></td>
+                                            <td>{{ $book->bookimages->count() }}</td>
                                             <td>{{ $book->ViewCount }}</td>
                                             <td>{{ $book->CreatedDate }}</td>
                                             <td>{{ $book->CreatedBy }}</td>

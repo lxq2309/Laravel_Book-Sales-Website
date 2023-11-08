@@ -20,7 +20,7 @@ class BooksetController extends Controller
     {
         $booksets = Bookset::paginate();
 
-        return view('bookset.index', compact('booksets'))
+        return view('admin.bookset.index', compact('booksets'))
             ->with('i', (request()->input('page', 1) - 1) * $booksets->perPage());
     }
 
@@ -32,65 +32,98 @@ class BooksetController extends Controller
     public function create()
     {
         $bookset = new Bookset();
-        return view('bookset.create', compact('bookset'));
+        return view('admin.bookset.create', compact('bookset'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         request()->validate(Bookset::$rules);
 
-        $bookset = Bookset::create($request->all());
+        $input = $request->all();
 
-        return redirect()->route('booksets.index')
+        // Xử lý lưu tệp tải lên
+        if ($request->hasFile('SetAvatar')) {
+            $image = $request->file('SetAvatar');
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $image->move(public_path('images/bookset'), $imageName);
+            $input['SetAvatar'] = '/images/bookset/' . $imageName;
+        } else {
+            if ($input['SetAvatarUrl']) {
+                $input['SetAvatar'] = $input['SetAvatarUrl'];
+            } else {
+                $input['SetAvatar'] = '/images/bookset/default.jpg';
+            }
+        }
+
+        $bookset = Bookset::create($input);
+
+        return redirect()->route('bookset.index')
             ->with('success', 'Bookset created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $bookset = Bookset::find($id);
+        $books = $bookset->books;
 
-        return view('bookset.show', compact('bookset'));
+        return view('admin.bookset.show', compact('bookset', 'books'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $bookset = Bookset::find($id);
 
-        return view('bookset.edit', compact('bookset'));
+        return view('admin.bookset.edit', compact('bookset'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Bookset $bookset
+     * @param \Illuminate\Http\Request $request
+     * @param Bookset $bookset
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Bookset $bookset)
     {
         request()->validate(Bookset::$rules);
 
-        $bookset->update($request->all());
+        $input = $request->all();
 
-        return redirect()->route('booksets.index')
+        // Xử lý lưu tệp tải lên
+        if ($request->hasFile('SetAvatar')) {
+            $image = $request->file('SetAvatar');
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $image->move(public_path('images/bookset'), $imageName);
+            $input['SetAvatar'] = '/images/bookset/' . $imageName;
+        } else {
+            if ($input['SetAvatarUrl']) {
+                $input['SetAvatar'] = $input['SetAvatarUrl'];
+            } else {
+                $input['SetAvatar'] = '/images/bookset/default.jpg';
+            }
+        }
+
+        $bookset->update($input);
+
+        return redirect()->route('bookset.index')
             ->with('success', 'Bookset updated successfully');
     }
 
@@ -103,7 +136,7 @@ class BooksetController extends Controller
     {
         $bookset = Bookset::find($id)->delete();
 
-        return redirect()->route('booksets.index')
+        return redirect()->route('bookset.index')
             ->with('success', 'Bookset deleted successfully');
     }
 }

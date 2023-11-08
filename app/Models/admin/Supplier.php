@@ -21,29 +21,32 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Supplier extends Model
 {
-  protected $table = "Supplier";
-  protected $primaryKey = "SupplierID";
-  static $rules = [
-    'SupplierID' => 'required',
-  ];
+    protected $table = "Supplier";
+    protected $primaryKey = "SupplierID";
+    static $rules = [
+        'SupplierName' => 'required',
+    ];
 
-  protected $perPage = 20;
+    protected $perPage = 20;
 
-  /**
-   * Attributes that should be mass-assignable.
-   *
-   * @var array
-   */
-  protected $fillable = ['SupplierID', 'SupplierName', 'IsActive', 'CreatedDate', 'CreatedBy', 'ModifiedDate', 'ModifiedBy'];
+    const CREATED_AT = "CreatedDate";
+    const UPDATED_AT = "ModifiedDate";
+
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['SupplierName', 'IsActive', 'CreatedBy', 'ModifiedBy'];
 
 
-  /**
-   * @return \Illuminate\Database\Eloquent\Relations\HasMany
-   */
-  public function purchaseorders()
-  {
-    return $this->hasMany('App\Models\admin\PurchaseOrder', 'SupplierID', 'SupplierID');
-  }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function purchaseorders()
+    {
+        return $this->hasMany('App\Models\admin\PurchaseOrder', 'SupplierID', 'SupplierID');
+    }
 
 
 }

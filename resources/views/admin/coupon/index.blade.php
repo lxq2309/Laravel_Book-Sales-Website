@@ -17,7 +17,7 @@
                     </div>
                     <a href="{{ route('coupon.create') }}" class="btn btn-primary float-right"
                        data-placement="left">
-                        {{ __('Create New') }}
+                        {{ __('Thêm mới') }}
                     </a>
                     <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem"><input type="search"
                                                                                                    class="form-control form-control-sm"
@@ -42,13 +42,11 @@
                                     <tr>
                                         <th>CouponID</th>
                                         <th>Mã giảm giá</th>
-                                        <th>% giảm giá</th>
+                                        <th>Giảm giá</th>
                                         <th>Ngày hết hạn</th>
                                         <th>Trạng thái</th>
                                         <th>Ngày tạo</th>
                                         <th>Người tạo</th>
-                                        <th>Ngày sửa</th>
-                                        <th>Người sửa</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -57,28 +55,22 @@
                                             onmouseleave="readListScripts.hideTableActions()">
                                             <td>{{ $coupon->CouponID }}</td>
                                             <td>{{ $coupon->CouponCode }}</td>
-                                            <td>{{ $coupon->DiscountAmount }}</td>
+                                            <td>{{ $coupon->DiscountAmount * 100 }}%</td>
                                             <td>{{ $coupon->ExpiryDate }}</td>
-                                            <td>{{ $coupon->IsUsed }}</td>
+                                            <td>{{ $coupon->IsUsed ? 'Đã sử dụng' : 'Chưa sử dụng' }}</td>
                                             <td>{{ $coupon->CreatedDate }}</td>
                                             <td>{{ $coupon->CreatedBy }}</td>
-                                            <td>{{ $coupon->ModifiedDate }}</td>
-                                            <td>{{ $coupon->ModifiedBy }}</td>
-
                                             <td style="position: absolute; right: 0; display: none">
                                                 <div style="position: sticky;">
                                                     <form action="{{ route('coupon.destroy',$coupon->CouponID) }}"
                                                           method="POST">
                                                         <a class="btn btn-sm btn-primary "
                                                            href="{{ route('coupon.show',$coupon->CouponID) }}"><i
-                                                                class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                        <a class="btn btn-sm btn-success"
-                                                           href="{{ route('coupon.edit',$coupon->CouponID) }}"><i
-                                                                class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                                class="fa fa-fw fa-eye"></i> {{ __('Xem chi tiết') }}</a>
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"><i
-                                                                class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
+                                                                class="fa fa-fw fa-trash"></i> {{ __('Xoá') }}
                                                         </button>
                                                     </form>
                                                 </div>

@@ -55,7 +55,7 @@
                                             onmouseleave="readListScripts.hideTableActions()">
                                             <td>{{ $supplier->SupplierID }}</td>
                                             <td>{{ $supplier->SupplierName }}</td>
-                                            <td>{{ $supplier->IsActive }}</td>
+                                            <td>{{ $supplier->IsActive ? 'Đang hoạt động' : 'Ngưng hoạt động' }}</td>
                                             <td>{{ $supplier->CreatedDate }}</td>
                                             <td>{{ $supplier->CreatedBy }}</td>
                                             <td>{{ $supplier->ModifiedDate }}</td>

@@ -29,7 +29,13 @@
                             <tbody>
                                 @foreach ($cartItems as $item)
                                 <tr>
-                                    <td class="table-remove"><button><i class="material-icons">delete</i></button></td>
+                                    <td class="table-remove">
+                                        <button>
+                                            <a class="close-cart" data-bookid="{{ $item->book->BookID }}">
+                                                <i class="material-icons">delete</i>
+                                            </a>
+                                        </button>
+                                    </td>
                                     <td class="table-image"><a href="product-details.html"><img src="/user/assets/img/products/02.jpg" alt=""></a></td>
                                     <td class="table-p-name text-capitalize"><a href="product-details.html">{{ $item->book->BookTitle }}</a></td>
                                     <td class="table-p-price"><p>{{ $item->book->CostPrice }} đ</p></td>
@@ -40,6 +46,7 @@
                             </tbody>
                         </table>
                     </div>
+                    @if ($cartItems && count($cartItems) > 0)
                     <div class="table-update d-flex d-xs-block d-lg-flex d-sm-flex">
                         <button type="submit" class="btn-primary btn">Cập nhật giỏ hàng</button>
                     </div>
@@ -49,6 +56,7 @@
                             <button type="button" class="btn-primary btn">Áp dụng khuyến mại</button>
                         </div>
                     </div>
+                    @endif
                 </div>
             </form>
 			<div class="table-total-wrapper d-flex justify-content-end pt-60 col-md-12 col-sm-12 col-lg-4 float-left  align-items-center">
@@ -66,7 +74,9 @@
                             <strong>Tổng chi phí</strong>
                             <span class="c-total-price">{{$totalPrice}} đ</span>
                         </div>
-                        <a href="checkout_page.html" class="btn btn-primary float-left w-100 text-center">Chuyển đến trang thanh toán</a>
+                        @if ($cartItems && count($cartItems) > 0)
+                            <a href="checkout_page.html" class="btn btn-primary float-left w-100 text-center">Chuyển đến trang thanh toán</a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -74,4 +84,44 @@
     </div>     
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    function updateTotalBookCount(count) {
+        $('.ttcount').text(count);
+    }
+
+    $(document).ready(function () {
+        $(".close-cart").click(function () {
+            var bookID = $(this).data('bookid');
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            var currentRow = $(this).closest('tr');
+            
+            $.ajax({
+                url: '/cart/remove',
+                method: 'POST',
+                data: { book_id: bookID },
+                success: function (response) {
+                    // Handle success, such as updating the cart display or removing the row from the table.
+                    console.log(response.message);
+                    currentRow.remove();
+                    updateTotalBookCount(response.totalBookCount);
+                },
+                error: function (error) {
+                    // Handle errors, if any.
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
 @endsection

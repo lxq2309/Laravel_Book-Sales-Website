@@ -29,13 +29,13 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header bold">{{ __('Tìm kiếm tài khoản') }}</div>
+                    <div class="card-header bold">Tìm kiếm tài khoản</div>
                     <div class="card-body">
                         <p class="text-center">Vui lòng nhập email để tìm kiếm tài khoản của bạn..</p>
                         <form action="{{ route('email.identify') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="email" class="sr-only">{{ __('Email') }}</label>
+                                <label for="email" class="sr-only">Email</label>
                                 <input id="email" type="email" class="form-control" name="email" required autofocus placeholder="Nhập Email">
                             </div>
                             @if(session('error'))

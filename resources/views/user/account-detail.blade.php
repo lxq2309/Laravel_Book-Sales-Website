@@ -83,7 +83,17 @@
                                     <label class="form-check-label" for="other">Khác</label>
                                 </div>
                             </div>
-
+                            @if(!empty($shippingAddress))
+                            <div class="form-group required-field">
+                                <label for="acc-email">Địa chỉ</label>
+                                <input type="text" class="form-control" id="acc-address" name="address" value="{{ $shippingAddress }}">
+                            </div>
+                            @else
+                            <div class="form-group required-field">
+                                <label for="acc-email">Địa chỉ</label>
+                                <input type="text" class="form-control" id="acc-address" name="address" placeholder="Nhập địa chỉ">
+                            </div>
+                            @endif
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="change-password-checkbox" value="1">
                                 <label class="custom-control-label" for="change-password-checkbox">Change Password</label>

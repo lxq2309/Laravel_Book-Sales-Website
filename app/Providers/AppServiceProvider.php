@@ -150,5 +150,25 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('totalPrice', $totalPrice + 5);
             }
         });
+
+        View()->composer('user.checkout-page', function($view) {
+            $userID = Auth::id();
+            if($userID) {
+                $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
+                if (!$cart->CartID) {
+                    $cart->save();
+                }
+                $cartID = $cart->CartID;
+                $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
+                $totalPrice = 0;
+                foreach ($cartItems as $cartItem) {
+                    $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
+                }
+                $view->with('cartItems', $cartItems);
+                $view->with('bookPrice', $totalPrice);
+                $view->with('shipPrice', 5);
+                $view->with('totalPrice', $totalPrice + 5);
+            }
+        });
     }
 }

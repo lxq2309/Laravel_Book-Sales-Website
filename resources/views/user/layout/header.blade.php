@@ -128,7 +128,8 @@
                                             <input class="btn pull-left mt_10 btn-primary btn-rounded w-100"
                                                 value="Xem giỏ" type="submit">
                                         </form>
-                                        <form action="checkout_page.html">
+                                        <form action="{{ route('checkout.page') }}" method="GET">
+                                            @csrf
                                             <input class="btn pull-right mt_10 btn-primary btn-rounded w-100"
                                                 value="Thanh toán" type="submit">
                                         </form>

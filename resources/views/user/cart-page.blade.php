@@ -53,7 +53,7 @@
                     <div class="table-bottom-wrapper">
                         <div class="table-coupon d-flex d-xs-block d-lg-flex d-sm-flex fix justify-content-start float-left">
                             <input type="text" placeholder="Nhập mã khuyến mại">
-                            <button type="button" class="btn-primary btn">Áp dụng khuyến mại</button>
+                            <button type="button" class="btn-primary btn" onclick="applyCoupon()">Áp dụng khuyến mại</button>
                         </div>
                     </div>
                     @endif
@@ -75,7 +75,7 @@
                             <span class="c-total-price">{{$totalPrice}} đ</span>
                         </div>
                         @if ($cartItems && count($cartItems) > 0)
-                            <a href="checkout_page.html" class="btn btn-primary float-left w-100 text-center">Chuyển đến trang thanh toán</a>
+                            <a href="{{ route('checkout.page') }}" class="btn btn-primary float-left w-100 text-center">Chuyển đến trang thanh toán</a>
                         @endif
                     </div>
                 </div>
@@ -123,5 +123,29 @@
             });
         });
     });
+
+    function applyCoupon() {
+        var couponCode = $('#couponCode').val();
+
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            type: 'POST',
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            url: '/coupon',
+            data: {
+                coupon_code: couponCode
+            },
+            success: function (response) {
+                alert(response.message);
+                $('#couponCode').prop('disabled', true);
+            },
+            error: function (error) {
+                alert(error.responseJSON.message);
+            }
+        });
+    }
 </script>
 @endsection

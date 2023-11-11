@@ -64,12 +64,14 @@ class BookController extends Controller
         $publishers = Publisher::all();
         $bookSets = BookSet::all();
         $selectedGenres = $book->bookgenre->pluck('GenreID')->toArray();
+        $images = $book->bookimages;
 
-        return view('admin.book.edit', compact('book', 'publishers', 'genres', 'bookSets', 'selectedGenres'));
+        return view('admin.book.edit', compact('book', 'publishers', 'genres', 'bookSets', 'selectedGenres', 'images'));
     }
 
     /**
      * Update the specified resource in storage.
+     * (Ta truyền vào BookID, sau đó nhờ cơ chế Route Model Binding của Laravel mà nó tự binding sang bản ghi Book tương ứng)
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\admin\Book $book
@@ -79,6 +81,7 @@ class BookController extends Controller
     {
         request()->validate(Book::$rules);
 
+        // lấy dữ liệu từ các thẻ input
         $input = $request->all();
 
         // Xử lý lưu tệp tải lên
@@ -95,7 +98,58 @@ class BookController extends Controller
             }
         }
 
+        // cập nhật dữ liệu của sách
         $book->update($input);
+
+        // Lấy danh sách thể loại đã chọn từ form
+        $selectedGenres = $request->input('bookgenre', []);
+
+        /**
+         * Cập nhật danh sách thể loại cho cuốn sách này bằng hàm sync()
+         * Hàm sync() sẽ thực hiện các bước sau:
+         *
+         * - Xoá các bản ghi của bảng BookGenre mà không tồn tại trong $selectedGenres
+         * - Thêm các bản ghi trong $selectedGenres mà chưa tồn tại trong bảng BookGenre
+         * - Giữ lại các bản ghi có trong cả $selectedGenres và bảng BookGenre.
+         */
+        $book->genres()->sync($selectedGenres);
+
+
+        // Xoá các hình ảnh đã chọn
+        $selectedImageIds = $request->input('ImagesIds', []);
+        $imagesToDelete = $book->bookimages->whereNotIn('ImageID', $selectedImageIds);
+        foreach ($imagesToDelete as $image) {
+            $image->delete();
+        }
+        // Thêm các hình ảnh mới vào
+        $newBookImages = [];
+        $randomNumber = time();
+        $newImagesUrl = $request->input('images-url', []);
+        //  Thêm từ url
+        if ($newImagesUrl) {
+            foreach ($newImagesUrl as $imageUrl) {
+                if (!empty($imageUrl)) {
+                    $newBookImages[] = [
+                        'ImagePath' => $imageUrl,
+                        'Description' => "$book->BookTitle-$randomNumber"
+                    ];
+                }
+            }
+        }
+        // Thêm từ file
+        if ($request->hasFile('images-file')) {
+            $newImagesFile = $request['images-file'];
+            foreach ($newImagesFile as $image) {
+                $imageName = time() . '-' . $image->getClientOriginalName();
+                $image->move(public_path('images/book/images'), $imageName);
+                $imagePath = '/images/book/images/' . $imageName;
+                $newBookImages[] = [
+                    'ImagePath' => $imagePath,
+                    'Description' => "$book->BookTitle-$randomNumber"
+                ];
+            }
+        }
+        $book->bookimages()->createMany($newBookImages);
 
         return redirect()->route('book.show', $book->BookID)
             ->with('success', 'Sửa thông tin thành công!');

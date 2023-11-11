@@ -73,7 +73,7 @@ Route::get('/checkout/confirm', [CheckoutController::class, 'checkoutConfirm'])-
 Route::post('/coupon', [CouponController::class, 'applyCoupon'])->name('coupon.apply');
 
 // -------------Admin------------------------- //
-Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
+Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin-dashboard');
 Route::resource('/admin/user', \App\Http\Controllers\admin\UserController::class);
 Route::resource('/admin/book', \App\Http\Controllers\admin\BookController::class);
 Route::resource('/admin/publisher', \App\Http\Controllers\admin\PublisherController::class);

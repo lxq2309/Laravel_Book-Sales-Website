@@ -123,8 +123,50 @@
             </select>
         </div>
 
+        <div class="form-group" id="ImageAttach">
+            {{ Form::label('Danh Sách Hình Ảnh Đính Kèm') }}
+            <div class="row">
+                @foreach($images as $image)
+                    <div class="col-3 position-relative image-items d-flex align-items-center justify-content-center">
+                        <img src="{{ $image->ImagePath }}" alt="{{ $image->Description }}" class="img-thumbnail rounded" style="max-width: 200px">
+                        <div class="image-overlay">
+                            <div id="btnDeleteImage" data-imgid="{{ $image->ImageID }}" style="cursor: pointer;"><i class="fa fa-trash" aria-hidden="true"></i> Xoá</div>
+                        </div>
+                        <input type="hidden" name="ImagesIds[]" value="{{ $image->ImageID }}">
+                    </div>
 
-        @switch($method)
+                @endforeach
+            </div>
+
+            <label>Thêm ảnh đính kèm mới</label>
+            <ul class="nav nav-tabs" id="myTabs2" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="tab1-2-tab" data-toggle="tab" href="#tab1-2" role="tab"
+                       aria-controls="tab1-2" aria-selected="true">Nhập URL ảnh</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab2-2-tab" data-toggle="tab" href="#tab2-2" role="tab" aria-controls="tab2-2"
+                       aria-selected="false">Tải lên tệp</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabsContent2">
+                <div class="tab-pane fade show active" id="tab1-2" role="tabpanel" aria-labelledby="tab1-2-tab">
+                    <button type="button" class="btn btn-sm btn-outline-primary " id="add-image-url-input">Thêm url</button>
+                    <div class="form-group mt-4" id="image-url-upload-container">
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab2-2" role="tabpanel" aria-labelledby="tab2-2-tab">
+                    <button type="button" class="btn btn-sm btn-outline-primary " id="add-image-input">Thêm tệp</button>
+                    <div class="form-group mt-4" id="image-upload-container">
+
+                    </div>
+                </div>
+            </div>
+            {!! $errors->first('images', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
+
+    @switch($method)
             @case('POST')
                 <input type="hidden" name="CreatedBy" value="LXQ">
                 @break
@@ -137,3 +179,65 @@
         <button type="submit" class="btn btn-primary">{{ __('Xác nhận') }}</button>
     </div>
 </div>
+
+@section('formBookScripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('add-image-input').addEventListener('click', function () {
+                var container = document.getElementById('image-upload-container');
+                var input = document.createElement('input');
+                input.type = 'file';
+                input.name = 'images-file[]';
+                input.accept = 'image/*';
+                input.className = 'form-control-file mt-2';
+                container.appendChild(input);
+            });
+
+            document.getElementById('add-image-url-input').addEventListener('click', function () {
+                var container = document.getElementById('image-url-upload-container');
+                var input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'images-url[]';
+                input.className = 'form-control';
+                input.placeholder = 'https://example.com/image.jpg';
+                container.appendChild(input);
+            });
+        });
+    </script>
+@endsection
+
+<style>
+    .image-overlay {
+        display: none;
+        background-color: rgba(0, 0, 0, 0.2);
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        color: #fff;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<script>
+    let image_items = document.querySelectorAll(".image-items");
+    image_items.forEach(function (item) {
+        item.addEventListener('mouseenter', function () {
+            item.querySelector('.image-overlay').style.display = 'flex';
+        });
+
+        item.addEventListener('mouseleave', function () {
+            item.querySelector('.image-overlay').style.display = 'none';
+        })
+
+        item.querySelector("#btnDeleteImage").addEventListener('click', function (){
+            let imgId = this.dataset.imgid;
+            var result = confirm("Bạn có muốn xoá ảnh này không?");
+            if (result) {
+                alert(`Đã xoá ${imgId}`);
+                item.remove();
+            }
+        })
+    })
+</script>

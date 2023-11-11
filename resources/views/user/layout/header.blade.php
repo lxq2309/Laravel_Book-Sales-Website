@@ -83,7 +83,7 @@
                         <div class="cart-wrapper">
                             <button type="button" class="btn">
                                 <i class="material-icons">shopping_cart</i>
-                                <span class="ttcount">{{$totalBook}}</span> 
+                                <span class="ttcount">{{$totalBook}}</span>
                             </button>
                             <div id="cart-dropdown" class="cart-menu">
                                 <ul class="w-100 float-left">
@@ -96,14 +96,14 @@
                                                                 src="/user/assets/img/products/01.jpg" alt="01"
                                                                 title="01" height="104" width="80"></a></td>
                                                     <td class="text-left product-name">
-                                                        <a href="#">{{ $item->book->BookTitle }}</a>
+                                                        <a href="#">{{ $item->book?->BookTitle }}</a>
                                                         <div class="quantity float-left w-100">
                                                             <span class="cart-qty">{{ $item->Quantity }} × </span>
-                                                            <span class="text-left price"> {{ $item->book->CostPrice }} đ</span>
+                                                            <span class="text-left price"> {{ $item->book?->CostPrice }} đ</span>
                                                         </div>
                                                     </td>
                                                     <td class="text-center close">
-                                                        <a class="close-cart" data-bookid="{{ $item->book->BookID }}">
+                                                        <a class="close-cart" data-bookid="{{ $item->book?->BookID }}">
                                                             <i class="material-icons">close</i>
                                                         </a>
                                                     </td>
@@ -170,7 +170,7 @@
             });
 
             var currentRow = $(this).closest('tr');
-            
+
             $.ajax({
                 url: '/cart/remove',
                 method: 'POST',

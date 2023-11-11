@@ -94,5 +94,6 @@
     <script src="/user/assets/js/jquery.lazy.min.js"></script>
     @yield('scripts')
 </body>
+@yield('styleProductDetail')
 
 </html>

@@ -133,7 +133,7 @@ class AppServiceProvider extends ServiceProvider
             $totalPrice = 0;
             $totalBook = $cartItems->unique('BookID')->count();
             foreach ($cartItems as $cartItem) {
-                $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
+                $totalPrice += $cartItem->Quantity * $cartItem->book?->CostPrice;
             }
 
             $view->with('cartItems', $cartItems);
@@ -161,7 +161,7 @@ class AppServiceProvider extends ServiceProvider
             $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
             $totalPrice = 0;
             foreach ($cartItems as $cartItem) {
-                $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
+                $totalPrice += $cartItem->Quantity * $cartItem->book?->CostPrice;
             }
             $view->with('cartItems', $cartItems);
             $view->with('bookPrice', $totalPrice);
@@ -180,7 +180,7 @@ class AppServiceProvider extends ServiceProvider
                 $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
                 $totalPrice = 0;
                 foreach ($cartItems as $cartItem) {
-                    $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
+                    $totalPrice += $cartItem->Quantity * $cartItem->book?->CostPrice;
                 }
                 $view->with('cartItems', $cartItems);
                 $view->with('bookPrice', $totalPrice);

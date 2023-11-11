@@ -137,18 +137,16 @@
                             <span
                                 class="card-title">Danh sách ảnh đính kèm của <strong>{{ $book->BookTitle }}</strong> ({{ $images->count() }})</span>
                         </div>
-                        <div class="float-right"><a href="#" class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i> Sửa</a></div>
+                        <div class="float-right"><a href="{{ route('book.edit', $book->BookID) }}#ImageAttach" class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i> Sửa</a></div>
                     </div>
 
 
                     <div class="card-body">
                         <div class="row">
-
                             @foreach($images as $image)
                                 <div class="col-3">
                                     <img src="{{ $image->ImagePath }}" alt="{{ $image->Description }}" class="img-thumbnail rounded" style="max-width: 200px">
                                 </div>
-
                             @endforeach
                         </div>
                     </div>

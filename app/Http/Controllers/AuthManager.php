@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\SendMail;
+use App\Models\ShoppingCartDetail;
 
 class AuthManager extends Controller
 {
@@ -30,11 +31,43 @@ class AuthManager extends Controller
         if (empty($user)) {
             return response()->json(['error' => true, 'message' => 'Email does not exist']);
         } else {
-            if (Auth::attempt(['email' => $email, 'password' => $password])) {
-                $user = Auth::user();
-                Session::put('user', $user);
-            } else {
-                return response()->json(['error' => true, 'message' => 'Invalid password', 'user' => $user]);
+            $localCartID = session()->get('cartID');
+            if ($localCartID) {
+                $localCartItems = ShoppingCartDetail::with('book')->where('CartID', $localCartID)->get();
+                if (Auth::attempt(['email' => $email, 'password' => $password])) {
+                    $user = Auth::user();
+                    Session::put('user', $user);
+                    $userID = Auth::id();
+                    $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
+                    $cartID = $cart->CartID;
+                    
+                    foreach ($localCartItems as $item) {
+                        $bookID = $item->book->BookID;
+                        $bookQnt = $item->Quantity;
+                        $cartItem = ShoppingCartDetail::where('CartID', $cartID)
+                            ->where('BookID', $bookID)
+                            ->first();
+                        if($cartItem) {
+                            if($bookQnt) {
+                                $cartItem->Quantity += $bookQnt;
+                            }
+                            else {    
+                                $cartItem->Quantity += 1;
+                            }
+                            $cartItem->save();
+                        } else {
+                            $cartItem = new ShoppingCartDetail([
+                                'CartID' => $cartID,
+                                'BookID' => $bookID,
+                                'Quantity' => $bookQnt ? $bookQnt : 1,
+                            ]);
+                            $cartItem->save();
+                        }   
+                    }
+                    return response()->json(['error' => false, 'message' => 'Login successful', 'user' => $user]);
+                } else {
+                    return response()->json(['error' => true, 'message' => 'Invalid password', 'user' => $user]);
+                }
             }
         }
     }

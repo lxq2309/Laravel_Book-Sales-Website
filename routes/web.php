@@ -6,6 +6,8 @@ use App\Http\Controllers\user\CategoryController;
 use App\Http\Controllers\user\CartController;
 use App\Http\Controllers\AuthManager;
 use App\Http\Controllers\user\AccountController;
+use App\Http\Controllers\user\CheckoutController;
+use App\Http\Controllers\user\CouponController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,16 +62,22 @@ Route::post('/registration', [AuthManager::class, 'registration'])->name('regist
 
 Route::get('/logout', [AuthManager::class, 'logout'])->name('logout');
 
-// -------------Gorget Password------------------------- //
+// -------------Forget Password------------------------- //
 Route::get('/account/identify', [AuthManager::class, 'forgotPass'])->name('account.identify');
 
 Route::post('/account/identify/email', [AuthManager::class, 'confirmEmail'])->name('email.identify');
 
 Route::put('/account/change/password', [AuthManager::class, 'changePassword'])->name('change.password');
-Route::get('/cart/detail', [CartController::class, 'cartPage'])->name('cart.page');
 
-Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
+// -------------Checkout------------------------- //
+Route::get('/checkout', [CheckoutController::class, 'checkoutPage'])->name('checkout.page');
+Route::get('/checkout/confirm', [CheckoutController::class, 'checkoutConfirm'])->name('checkout.confirm');
 
+// -------------Coupon------------------------- //
+Route::post('/coupon', [CouponController::class, 'applyCoupon'])->name('coupon.apply');
+
+// -------------Admin------------------------- //
+Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin-dashboard');
 Route::resource('/admin/user', \App\Http\Controllers\admin\UserController::class);
 Route::resource('/admin/book', \App\Http\Controllers\admin\BookController::class);
 Route::resource('/admin/publisher', \App\Http\Controllers\admin\PublisherController::class);

@@ -15,12 +15,20 @@ class CartController extends Controller
     }
 
     function addCart(Request $request){
-        $userID = Auth::id();
-        $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
-        if (!$cart->CartID) {
-            $cart->save();
+        if(Auth::check()) {
+            $userID = Auth::id();
+            $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
+            $cartID = $cart->CartID;
+        } else {
+            $cartID = session()->get('cartID');
+            $cart = ShoppingCart::find($cartID);
+            if(!$cart) {
+                $cart = new ShoppingCart();
+                $cart->save();
+                session(['cartID' => $cart->CartID]);
+            }
         }
-        $cartID = $cart->CartID;
+
         $bookID = $request->input('book_id');
         $bookQnt = $request->input('book_quantity');
         $cartItem = ShoppingCartDetail::where('CartID', $cartID)
@@ -46,8 +54,18 @@ class CartController extends Controller
 
     public function removeFromCart(Request $request)
     {
-        $userID = Auth::id();
-        $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
+        if(Auth::check()) {
+            $userID = Auth::id();
+            $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
+        } else {
+            $cartID = session()->get('cartID');
+            $cart = ShoppingCart::find($cartID);
+            if(!$cart) {
+                $cart = new ShoppingCart();
+                $cart->save();
+                session(['cartID' => $cart->CartID]);
+            }
+        }
 
         if (!$cart->CartID) {
             $cart->save();
@@ -55,10 +73,8 @@ class CartController extends Controller
 
         $cartID = $cart->CartID;
 
-        // Get the BookID that you want to remove
         $bookID = $request->input('book_id');
 
-        // Remove rows with the same BookID and CartID
         ShoppingCartDetail::where('CartID', $cartID)
             ->where('BookID', $bookID)
             ->delete();
@@ -76,7 +92,6 @@ class CartController extends Controller
 
         $cartQuantities = $request->input('cart-qty');
         
-        // Loop through the cart items and update the quantities in the database.
         foreach ($cartQuantities as $cartItemID => $quantity) {
             $cartDetail = ShoppingCartDetail::find($cartItemID);
             if ($cartDetail) {
@@ -84,7 +99,6 @@ class CartController extends Controller
             }
         }
 
-        // Redirect back to the cart page with a success message or any other desired action.
         return redirect()->back()->with('success', 'Cart updated successfully');
     }
 }

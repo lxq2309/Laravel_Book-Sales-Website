@@ -85,7 +85,7 @@
                             <div class="card card-info">
                                 <div class="card-header">
                                     <div class="float-left">
-                                        <span class="card-title">{{ $salesOrderDetail->book->BookTitle }}</span>
+                                        <span class="card-title">{{ $salesOrderDetail->book?->BookTitle }}</span>
                                     </div>
                                 </div>
 

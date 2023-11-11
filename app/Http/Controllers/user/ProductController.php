@@ -21,7 +21,7 @@ class ProductController extends Controller
         $reviews = DB::table('Review')->join('User', 'User.UserID', '=', 'Review.UserID')->where("BookID", $id)->select('Review.*', 'User.FirstName', 'User.LastName')->get();
         $totalRv = DB::table('Review')->where("BookID", $id)->count();
         $author = DB::table('Book')->where('BookID', $id)->pluck('Author')->first();
-        $sameAuthor = DB::table('Book')->join('avgRatingBook', 'Book.BookID', '=', 'avgRatingBook.BookID')->where('Author', $author)->get();
+        $sameAuthor = DB::table('Book')->join('avgRatingBook', 'Book.BookID', '=', 'avgRatingBook.BookID')->where('Author', $author)->where('Book.BookID', '!=', $id)->inRandomOrder()->get();
 
         $products = \App\Models\admin\Book::find($id);
         //lay danh sach anh con
@@ -79,11 +79,10 @@ class ProductController extends Controller
 
     public function getProductByID($productID)
     {
-        $products = \App\Models\admin\Book::find($productID);
-        $images = $products->bookimages;
+        $products = DB::table("Book")
+            ->join('avgRatingBook', 'Book.BookID', '=', 'avgRatingBook.BookID')->where('Book.BookID', $productID)->first();
 
-
-        return response()->json(["products" => $products, "images" => $images]);
+        return response()->json(["products" => $products]);
     }
 
     public function productsByCategory(Request $request, $genreID)

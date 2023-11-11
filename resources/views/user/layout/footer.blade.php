@@ -288,7 +288,8 @@
                             <!-- Add more image tabs (product-2, product-3, etc.) similarly -->
                         </div>
                         <div class="small-image-list float-left w-100">
-                            <div class="nav-add small-image-slider-single-product-tabstyle-3 owl-carousel" role="tablist" data-small-image>
+                            <div class="nav-add small-image-slider-single-product-tabstyle-3 owl-carousel"
+                                 role="tablist" data-small-image>
 
                             </div>
                         </div>
@@ -307,7 +308,13 @@
                         </h3>
 
                         <div class="product-variants float-left w-100">
-                            <div class="col-md-4 col-sm-6 col-xs-12 size-options d-flex align-items-center"
+                            <div class="col-md-6 col-sm-6 col-xs-12 size-options d-flex align-items-center"
+                                 data-product-author>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 size-options d-flex align-items-center"
+                                 data-product-year-published>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 size-options d-flex align-items-center"
                                  data-product-size>
                             </div>
                             <div class="color-option d-flex align-items-center" data-product-cover-style>
@@ -316,8 +323,9 @@
                         <div class="btn-cart d-flex align-items-center float-left w-100">
                             <h5>Qty:</h5>
                             <input type="number" value="1" data-product-quantity>
-                            <button type="button" class="btn btn-primary" data-add-to-cart>
-                                <i class="material-icons">shopping_cart</i> Add To Cart
+                            <button type="button" class="btn btn-primary" data-target="#cart-pop" data-toggle="modal"
+                                    data-add-to-cart>
+                                <i class="material-icons">shopping_cart</i> Thêm vào giỏ hàng
                             </button>
                         </div>
                     </div>
@@ -467,8 +475,7 @@
                 })
                 .then(function (data) {
                     let book = data.products;
-                    let images = data.images;
-                    events.showModalProductDetail(book, images);
+                    events.showModalProductDetail(book);
                 })
                 .catch(function (error) {
                     console.log('Error loading product data:', error);
@@ -479,7 +486,7 @@
         /**
          * Hiển thị modal chi tiết sản phẩm
          */
-        showModalProductDetail(product, images) {
+        showModalProductDetail(product) {
             console.log(product);
 
             strImg = `<div class="single-img img-full">
@@ -495,10 +502,16 @@
             // Populate star ratings
             var ratingsElement = document.querySelector("[data-product-ratings]");
             ratingsElement.innerHTML = '';
-            for (var i = 0; i < product.Rating; i++) {
+            for (var i = 0; i < product.AVGRating; i++) {
                 var starIcon = document.createElement('span');
                 starIcon.classList.add('fa', 'fa-stack');
                 starIcon.innerHTML = '<i class="material-icons">star</i>';
+                ratingsElement.appendChild(starIcon);
+            }
+            for (var i = product.AVGRating; i < 5; i++) {
+                var starIcon = document.createElement('span');
+                starIcon.classList.add('fa', 'fa-stack');
+                starIcon.innerHTML = '<i class="material-icons off">star</i>';
                 ratingsElement.appendChild(starIcon);
             }
 
@@ -506,6 +519,9 @@
             document.querySelector("[data-product-selling-price]").textContent = '$' + product.SellingPrice;
             document.querySelector("[data-product-cost-price]").textContent = product.CostPrice;
             document.querySelector("[data-product-size]").textContent = 'Kích thước: ' + product.Size;
+            document.querySelector("[data-product-author]").textContent = 'Tác giả: ' + product.Author;
+            document.querySelector("[data-product-year-published]").textContent = 'Năm xuất bản: ' + product.YearPublished;
+            document.querySelector("#product_view .btn-cart").setAttribute('data-book-id', product.BookID);
             let coverstyle = '';
             switch (product.CoverStyle) {
                 case 0:
@@ -517,36 +533,12 @@
             }
             document.querySelector("[data-product-cover-style]").textContent = 'Loại bìa: ' + coverstyle;
 
-            // Update small product images
-            var smallImagesContainer = document.querySelector("[data-small-image]");
-            smallImagesContainer.innerHTML = '';
-            let str = ``;
-            if(images) {
-                images.forEach(function (image, index) {
-                    str += `<div class="single-small-image img-full">
-                                    <a data-toggle="tab" id="product-tab-${index+1}" href="#product-${index+1}" class="img"><img src="${image.ImagePath}" class="img-fluid" alt=""></a>
-                                </div>`
-
-                });
-            }
-            smallImagesContainer.innerHTML = str;
-
-            // Kích hoạt carousel cho smallImagesContainer
-            $('.small-image-list.float-left.w-100').owlCarousel({
-                items: 3, // Số lượng hình ảnh hiển thị trên carousel
-                loop: true, // Lặp lại carousel
-                nav: true, // Hiển thị nút điều hướng trước và sau
-                dots: true // Hiển thị các chấm điều hướng
-            });
 
             // Handle the Add to Cart button click event
             var addToCartButton = document.querySelector("[data-add-to-cart]");
             var quantityInput = document.querySelector("[data-product-quantity]");
             addToCartButton.addEventListener('click', function () {
-                var quantity = parseInt(quantityInput.value);
-
-                alert(quantity);
-
+                $('#product_view').modal('hide');
             });
         },
 
@@ -582,7 +574,7 @@
         applyFilters() {
             this.selectedCheckboxes = Array.from(document.querySelectorAll('input[type="checkbox"]'))
                 .filter(checkbox => checkbox.checked)
-                .map(checkbox => ({ id: checkbox.id.toString(), name: checkbox.name.trim() }));
+                .map(checkbox => ({id: checkbox.id.toString(), name: checkbox.name.trim()}));
 
             this.selectedSortValue = document.getElementById('sort').value;
             this.selectedPerPageValue = document.getElementById('number').value;
@@ -597,13 +589,19 @@
 
         },
 
-        fetchApiData(page){
+        fetchApiData(page) {
             fetch('/api/product/searchByFilter', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({checkboxes: this.selectedCheckboxes, sort: this.selectedSortValue, perPage: this.selectedPerPageValue, page: page, textSearch: this.textSearch})
+                body: JSON.stringify({
+                    checkboxes: this.selectedCheckboxes,
+                    sort: this.selectedSortValue,
+                    perPage: this.selectedPerPageValue,
+                    page: page,
+                    textSearch: this.textSearch
+                })
 
             })
                 .then(response => response.json())
@@ -620,7 +618,7 @@
                 });
         },
 
-        updateUIWithData(books){
+        updateUIWithData(books) {
 
             var proFilHTML1 = books.data.map(book => renderProductSight1(book)).join('');
             var proFilHTML2 = books.data.map(book => renderProductSight2(book)).join('');
@@ -629,27 +627,28 @@
             document.querySelector('.showProFilter2').innerHTML = proFilHTML2;
             document.querySelector('.showProFilter3').innerHTML = proFilHTML3;
             document.querySelector("#pagination-left-text").innerHTML = `Hiển thị ${books.from} đến ${books.to} trong tổng số ${books.total} bản ghi (Trang ${books.current_page})`;
+
+            setBtnAddToCartOnClick();
         },
 
 
         // Bắt sự kiện click cho nút "Previous Page"
         handlePreviousPageClick() {
 
-                if (this.currentPage > 1) {
-                    this.currentPage--;
-                    this.fetchApiData(this.currentPage);
-                }
+            if (this.currentPage > 1) {
+                this.currentPage--;
+                this.fetchApiData(this.currentPage);
+            }
         },
 
         // Bắt sự kiện click cho nút "Next Page"
         handleNextPageClick() {
-                if (this.currentPage < this.totalPages) {
-                    this.currentPage++;
-                    this.fetchApiData(this.currentPage);
-                }
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+                this.fetchApiData(this.currentPage);
+            }
         }
     };
-
 
 
     // Lấy tất cả các checkboxes trong group1
@@ -683,12 +682,12 @@
         });
     });
 
-    document.getElementById('reloadForm').addEventListener('submit', function(event) {
+    document.getElementById('reloadForm').addEventListener('submit', function (event) {
         event.preventDefault();
         location.reload();
     });
 
-    function renderProductSight3(product){
+    function renderProductSight3(product) {
         let starRatingHTML = '';
         let star = product.AVGRating >= 5 ? 5 : product.AVGRating;
         for (let i = 0; i < star; i++) {
@@ -744,10 +743,10 @@
                                             class="button-wrapper col-md-4 col-sm-5 float-left text-center text-md-center text-sm-center text-xs-left">
                                             <div class="button-group text-center">
                                                 <button type="button" class="btn btn-primary btn-cart"
-                                                        data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i
+                                                        data-target="#cart-pop" data-toggle="modal" data-book-id="${product.BookID}"><i
                                                         class="material-icons">shopping_cart</i><span>out of
                                                         stock</span></button>
-                                                <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                <a href="#" class="btn btn-primary btn-wishlist"><i
                                                         class="material-icons">favorite</i><span>wishlist</span></a>
                                                 <button type="button" class="btn btn-primary btn-compare"><i
                                                         class="material-icons">equalizer</i><span>Compare</span></button>
@@ -762,7 +761,7 @@
                             </div>`;
     }
 
-    function renderProductSight2(product){
+    function renderProductSight2(product) {
         let starRatingHTML = '';
         let star = product.AVGRating >= 5 ? 5 : product.AVGRating;
         for (let i = 0; i < star; i++) {
@@ -815,7 +814,7 @@
                                         <div class="button-wrapper">
                                             <div class="button-group text-center">
                                                 <button type="button" class="btn btn-primary btn-cart"
-                                                        data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i
+                                                        data-target="#cart-pop" data-toggle="modal" data-book-id="${product.BookID}"><i
                                                         class="material-icons">shopping_cart</i><span>out of
                                                         stock</span></button>
                                                 <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
@@ -833,7 +832,7 @@
                             </div>`;
     }
 
-    function renderProductSight1(product){
+    function renderProductSight1(product) {
         let starRatingHTML = '';
         let star = product.AVGRating >= 5 ? 5 : product.AVGRating;
         for (let i = 0; i < star; i++) {
@@ -868,7 +867,7 @@
                                             <div class="button-wrapper">
                                                 <div class="button-group text-center">
                                                     <button type="button" class="btn btn-primary btn-cart"
-                                                        data-target="#cart-pop" data-toggle="modal" disabled><i
+                                                        data-target="#cart-pop" data-toggle="modal" data-book-id="${product.BookID}"><i
                                                             class="material-icons">shopping_cart</i><span>Out of
                                                             stock</span></button>
                                                     <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
@@ -886,7 +885,7 @@
                                 </div>`;
     }
 
-    function renderProduct(product){
+    function renderProduct(product) {
         let starRatingHTML = '';
         let star = product.AVGRating >= 5 ? 5 : product.AVGRating;
         for (let i = 0; i < star; i++) {
@@ -917,7 +916,7 @@
 														</div>
 														<div class="button-wrapper">
 														<div class="button-group text-center">
-															<button type="button" class="btn btn-primary btn-cart" data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i class="material-icons">shopping_cart</i><span>Add to cart</span></button>
+															<button type="button" class="btn btn-primary btn-cart" data-target="#cart-pop" data-toggle="modal" data-book-id="${product.BookID}"><i class="material-icons">shopping_cart</i><span>Add to cart</span></button>
 															<a href="wishlist.html" class="btn btn-primary btn-wishlist"><i class="material-icons">favorite</i><span>wishlist</span></a>
 															<button type="button" class="btn btn-primary btn-compare"><i class="material-icons">equalizer</i><span>Compare</span></button>
 															<button type="button" class="btn btn-primary btn-quickview"  data-toggle="modal" data-target="#product_view"><i class="material-icons">visibility</i><span>Quick View</span></button>
@@ -952,6 +951,7 @@
                 document.querySelector(".displayProducts").innerHTML = productsHTML;
 
                 events.setOnClickBtnQuickView();
+                setBtnAddToCartOnClick();
 
                 document.querySelector("#pagination-left-text").innerHTML = `Hiển thị ${paginate.from} đến ${paginate.to} trong tổng số ${paginate.total} bản ghi (Trang ${paginate.current_page})`;
             })
@@ -959,5 +959,37 @@
                 console.error('There has been a problem with your fetch operation:', error);
             });
     }
+
+    function setBtnAddToCartOnClick() {
+        // Duyệt qua mỗi phần tử có class là '.btn-cart'
+        $('.btn-cart').each(function () {
+            // Kiểm tra xem phần tử đã có sự kiện click chưa
+            if (!$._data(this, 'events') || !$._data(this, 'events').click) {
+                // Gán sự kiện click nếu chưa có
+                $(this).click(function () {
+                    var bookID = $(this).data('book-id');
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/cart/add',
+                        data: {
+                            book_id: bookID
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        success: function (response) {
+                            console.log('Product added to cart successfully.');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error adding product to cart:', error);
+                        }
+                    });
+                });
+            }
+        });
+    }
+
 
 </script>

@@ -5,8 +5,8 @@
     <nav aria-label="breadcrumb" class="w-100 float-left">
         <ol class="breadcrumb parallax justify-content-center" data-source-url="/user/assets/img/banner/parallax.jpg"
             style="background-image: url(&quot;img/banner/parallax.jpg&quot;); background-position: 50% 0.809717%;">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Shop</li>
+            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chi tiết sản phẩm</li>
         </ol>
     </nav>
     <div class="product-deatils-section float-left w-100">
@@ -19,48 +19,51 @@
                                  aria-labelledby="product-tab-01">
                                 <div class="single-img img-full">
                                     <a href="{{$book->Avatar}}"><img
-                                                src="{{$book->Avatar}}"
-                                                class="img-fluid zoomImg" alt=""></a>
+                                            src="{{$book->Avatar}}"
+                                            class="img-fluid zoomImg" alt=""></a>
                                 </div>
                             </div>
                             @php
-                            $i = 2;
+                                $i = 2;
                             @endphp
                             @foreach($images as $image)
                                 <div class="tab-pane" id="product-0{{ $i }}" role="tabpanel"
                                      aria-labelledby="product-tab-0{{ $i++ }}">
                                     <div class="single-img img-full">
                                         <a href="{{$image->ImagePath}}"><img
-                                                    src="{{$image->ImagePath}}"
-                                                    class="img-fluid" alt=""></a>
+                                                src="{{$image->ImagePath}}"
+                                                class="img-fluid" alt=""></a>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
-                        <div class="default small-image-list float-left w-100">
-                            <div class="nav-add small-image-slider-single-product-tabstyle-3 owl-carousel"
-                                 role="tablist">
-                                <div class="single-small-image img-full">
-                                    <a data-toggle="tab" id="product-tab-01" href="#product-01" class="img active"><img
-                                                src="{{$book->Avatar}}" class="img-fluid" alt=""></a>
-                                </div>
-                                @php
-                                    $i = 2;
-                                @endphp
-                                @foreach($images as $image)
+                        @if($images->count() > 0)
+                            <div class="default small-image-list float-left w-100">
+                                <div class="nav-add small-image-slider-single-product-tabstyle-3 owl-carousel"
+                                     role="tablist">
                                     <div class="single-small-image img-full">
-                                        <a data-toggle="tab" id="product-tab-0{{$i}}" href="#product-0{{ $i++ }}"
-                                           class="img"><img
-                                                    src="{{$image->ImagePath}}" class="img-fluid" alt=""></a>
+                                        <a data-toggle="tab" id="product-tab-01" href="#product-01"
+                                           class="img active"><img
+                                                src="{{$book->Avatar}}" class="img-fluid" alt=""></a>
                                     </div>
-                                @endforeach
+                                    @php
+                                        $i = 2;
+                                    @endphp
+                                    @foreach($images as $image)
+                                        <div class="single-small-image img-full">
+                                            <a data-toggle="tab" id="product-tab-0{{$i}}" href="#product-0{{ $i++ }}"
+                                               class="img"><img
+                                                    src="{{$image->ImagePath}}" class="img-fluid" alt=""></a>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                     </div>
                     <div class="right-columm col-lg-7 col-md-7">
                         <div class="product-information">
-                            <h4 class="product-title text-capitalize float-left w-100"><a href="product-details.html"
+                            <h4 class="product-title text-capitalize float-left w-100"><a href="#"
                                                                                           class="float-left w-100">{{ $book->BookTitle }}</a>
                             </h4>
                             <div class="rating">
@@ -80,7 +83,7 @@
                                     echo $starRatingHTML;
                                     @endphp
                                 </div>
-                                <a href="#" class="review-down">(customer reviews)</a>
+                                <a href="#" class="review-down">(đánh giá)</a>
 
                             </div>
                             <div class="price float-left w-100 d-flex">
@@ -134,14 +137,11 @@
                                 <h5>qty:</h5>
                                 <input value="1" type="number">
                                 <button type="button" class="btn btn-primary btn-cart m-0" data-target="#cart-pop"
-                                        data-toggle="modal"><i class="material-icons">shopping_cart</i> Add To Cart
+                                        data-toggle="modal" data-bookID="{{ $book->BookID }}" id="addToCart"><i
+                                        class="material-icons">shopping_cart</i>
+                                    Thêm Vào Giỏ
+                                    Hàng
                                 </button>
-                            </div>
-                            <div class="tt-links d-flex align-items-center float-left w-100 mb-15">
-                                <a class="link btn-compare"><i
-                                            class="material-icons">equalizer</i><span>Compare</span></a>
-                                <a href="wishlist.html" class="link btn-wishlist"><i
-                                            class="material-icons">favorite</i><span>wishlist</span></a>
                             </div>
                             <div class="social-sharing float-left w-100">
                                 <ul class="d-flex">
@@ -201,10 +201,10 @@
                 <ul class="nav nav-tabs justify-content-start">
                     <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#product-tab1"
                                             id="tab1">
-                            <div class="tab-title">Description</div>
+                            <div class="tab-title">Mô tả</div>
                         </a></li>
                     <li class="nav-item"><a class="nav-link totalRV" data-toggle="tab" href="#product-tab2" id="tab2">
-                            <div class="tab-title">Reviews (<span id="totalReviewCount">{{$totalRv}}</span>)</div>
+                            <div class="tab-title">Đánh giá (<span id="totalReviewCount">{{$totalRv}}</span>)</div>
                         </a></li>
                 </ul>
             </div>
@@ -219,9 +219,7 @@
                         @if($reviews)
                             @foreach($reviews as $review)
                                 <div class="ttreview-tab float-left w-100 p-30">
-
-
-                                    <h2>Customer Reviews</h2>
+                                    <h2>{{ "$review->FirstName $review->LastName" }}</h2>
                                     <div class="rating float-left w-100">
                                         <div class="product-ratings d-inline-block align-middle">
                                             @php
@@ -240,10 +238,9 @@
                                         </div>
                                     </div>
                                     <div class="review-title float-left w-100"><span
-                                                class="user">{{ $review->LastName }}</span> <span
-                                                class="date">– {{$review->CreatedDate}}</span></div>
+                                            class="date"> {{$review->CreatedDate}}</span></div>
                                     <div class="review-desc  float-left w-100">{{$review->Content}} </div>
-                                    @if(Auth::id())
+                                    @if($review->UserID == Auth::id())
                                         <div class="delete-button float-right">
                                             <button type="button" class="btn btn-danger delete-comment"
                                                     data-review-id="{{ $review->ReviewID }}">Xóa
@@ -257,131 +254,128 @@
                         @endif
 
 
-                                                @if($isPurchased)
-                        <form action="#" id="reviewForm" class="rating-form float-left w-100">
-                            @csrf
-                            <h5>Add your rating</h5>
-                            <div class="rating">
-                                <div class='rating-stars text-left'>
-                                    <ul id='stars'>
-                                        <li class='star' title='Poor' data-value='1'>
-                                            <i class="material-icons">star</i>
-                                        </li>
-                                        <li class='star' title='Fair' data-value='2'>
-                                            <i class="material-icons">star</i>
-                                        </li>
-                                        <li class='star' title='Good' data-value='3'>
-                                            <i class="material-icons">star</i>
-                                        </li>
-                                        <li class='star' title='Excellent' data-value='4'>
-                                            <i class="material-icons">star</i>
-                                        </li>
-                                        <li class='star' title='WOW!!!' data-value='5'>
-                                            <i class="material-icons">star</i>
-                                        </li>
-                                    </ul>
+                        @if($isPurchased)
+                            <form action="#" id="reviewForm" class="rating-form float-left w-100">
+                                @csrf
+                                <h5>Để lại đánh giá</h5>
+                                <div class="rating">
+                                    <div class='rating-stars text-left'>
+                                        <ul id='stars'>
+                                            <li class='star' title='Poor' data-value='1'>
+                                                <i class="material-icons">star</i>
+                                            </li>
+                                            <li class='star' title='Fair' data-value='2'>
+                                                <i class="material-icons">star</i>
+                                            </li>
+                                            <li class='star' title='Good' data-value='3'>
+                                                <i class="material-icons">star</i>
+                                            </li>
+                                            <li class='star' title='Excellent' data-value='4'>
+                                                <i class="material-icons">star</i>
+                                            </li>
+                                            <li class='star' title='WOW!!!' data-value='5'>
+                                                <i class="material-icons">star</i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class='success-box'>
+                                        <div class='clearfix'></div>
+                                        <div class='text-message text-success'></div>
+                                        <div class='clearfix'></div>
+                                    </div>
                                 </div>
-                                <div class='success-box'>
-                                    <div class='clearfix'></div>
-                                    <div class='text-message text-success'></div>
-                                    <div class='clearfix'></div>
-                                </div>
-                            </div>
-                            <div class="row d-block">
-
-                                <div class="col-sm-6 float-left form-group">
+                                <div class="row d-block">
                                     <input type="hidden" name="userId"
                                            value="{{ \Illuminate\Support\Facades\Auth::id() }}">
-                                    <label>Name <span class="required">*</span></label>
-                                    <input type="text" placeholder="" required="" name="name">
+                                    <div class="col-sm-12 float-left form-group">
+                                        <label for="r-textarea">Lời nhắn</label>
+                                        <textarea name="review" id="r-textarea" cols="30" rows="10"
+                                                  class="w-100"></textarea>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6 float-left form-group">
-                                    <label>Email <span class="required">*</span></label>
-                                    <input type="email" placeholder="" id="r-email" required name="email">
-                                </div>
-                                <div class="col-sm-12 float-left form-group">
-                                    <label for="r-textarea">Your Review</label>
-                                    <textarea name="review" id="r-textarea" cols="30" rows="10"
-                                              class="w-100"></textarea>
-                                </div>
+                                <input type="submit" class="btn btn-primary submit" value="Gửi">
+                            </form>
+                        @else
+                            <div>
+                                @if($isLogin == false)
+                                    Đăng nhập đi mới được bình luận
+                                @else
+                                    Mua hàng đi thì mới được bình luận
+                                @endif
                             </div>
-                            <input type="submit" class="btn btn-primary submit" value="Submit Review">
-                        </form>
-                                                @else
-                                                    <div>
-                                                        @if($isLogin == false)
-                                                            Đăng nhập đi mới được bình luận
-                                                        @else
-                                                            Mua hàng đi thì mới được bình luận
-                                                        @endif
-                                                    </div>
-                                                @endif
+                        @endif
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
+
     <div id="product-accessories" class="product-accessories my-40 w-100 float-left">
         <div class="container">
             <div class="row">
                 <div class="tt-title d-inline-block float-none w-100 text-center">Sách cùng tác giả</div>
-                <div class="product-accessories-content products grid owl-carousel">
-
-                    @foreach($sameAuthor as $bookAu)
-                        <div class="product-layouts">
-                            <div class="product-thumb">
-                                <div class="image zoom">
-                                    <a href="{{ route('product-detail', $bookAu->BookID) }}">
-                                        <img src="{{$bookAu->Avatar}}" alt="01"/>
-                                        <img src="{{$bookAu->Avatar}}" alt="02"
-                                             class="second_image img-responsive"/> </a>
-                                </div>
-                                <div class="thumb-description">
-                                    <div class="caption">
-                                        <h4 class="product-title text-capitalize"><a
+                @if($sameAuthor->count() > 0)
+                    <div class="product-accessories-content products grid owl-carousel">
+                        @foreach($sameAuthor as $bookAu)
+                            <div class="product-layouts">
+                                <div class="product-thumb">
+                                    <div class="image zoom">
+                                        <a href="{{ route('product-detail', $bookAu->BookID) }}">
+                                            <img src="{{$bookAu->Avatar}}" alt="01"/>
+                                            <img src="{{$bookAu->Avatar}}" alt="02"
+                                                 class="second_image img-responsive"/> </a>
+                                    </div>
+                                    <div class="thumb-description">
+                                        <div class="caption">
+                                            <h4 class="product-title text-capitalize"><a
                                                     href="{{ route('product-detail', $bookAu->BookID) }}">{{$bookAu->BookTitle}}</a>
-                                        </h4>
-                                    </div>
-                                    <div class="rating">
-                                        <div class="product-ratings d-inline-block align-middle">
-                                            <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                            <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                            <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                            <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                            <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                            </h4>
                                         </div>
-                                    </div>
-                                    <div class="price">
-                                        <div class="regular-price">{{$bookAu->SellingPrice}}</div>
-                                        <div class="old-price">{{$bookAu->CostPrice}}</div>
-                                    </div>
-                                    <div class="button-wrapper">
-                                        <div class="button-group text-center">
-                                            <button type="button" class="btn btn-primary btn-cart"
-                                                    data-target="#cart-pop" data-toggle="modal"><i
+                                        <div class="rating">
+                                            <div class="product-ratings d-inline-block align-middle">
+                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                            </div>
+                                        </div>
+                                        <div class="price">
+                                            <div class="regular-price">{{$bookAu->SellingPrice}}</div>
+                                            <div class="old-price">{{$bookAu->CostPrice}}</div>
+                                        </div>
+                                        <div class="button-wrapper">
+                                            <div class="button-group text-center">
+                                                <button type="button" class="btn btn-primary btn-cart"
+                                                        data-target="#cart-pop" data-toggle="modal"><i
                                                         class="material-icons">shopping_cart</i><span>Add to
                                                     cart</span></button>
-                                            <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
                                                         class="material-icons">favorite</i><span>wishlist</span></a>
-                                            <button type="button" class="btn btn-primary btn-compare"><i
+                                                <button type="button" class="btn btn-primary btn-compare"><i
                                                         class="material-icons">equalizer</i><span>Compare</span>
-                                            </button>
-                                            <button type="button" class="btn btn-primary btn-quickview"
-                                                    data-toggle="modal" data-target="#product_view"><i
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-quickview"
+                                                        data-toggle="modal" data-target="#product_view"><i
                                                         class="material-icons">visibility</i><span>Quick View</span>
-                                            </button>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-
-                </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="position-relative" style="left: 50%;transform: translateX(-50%);">Không có cuốn sách nào
+                        khác của tác giả {{ $book->Author }}</div>
+                @endif
             </div>
         </div>
     </div>
+
+    <div id="toast"></div>
 
 @endsection
 
@@ -390,8 +384,38 @@
     <script>
         $('document').ready(function () {
             events.setOnClickBtnQuickView();
-            addReview();
-            deleteReview();
+            <?php
+            $ok = $isLogin & $isPurchased;
+            ?>
+            if (<?php echo $ok; ?>) {
+                addReview();
+                deleteReview();
+            }
+
+
+            document.querySelector("#addToCart").addEventListener('click', function () {
+                console.log('click');
+                var bookID = this.dataset.bookid;
+                console.log(bookID);
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/cart/add',
+                    data: {
+                        book_id: bookID
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function (response) {
+                        console.log('Product added to cart successfully.');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding product to cart:', error);
+                    }
+                });
+            });
         });
 
         function addReview() {
@@ -414,11 +438,6 @@
             document.getElementById('reviewForm').addEventListener('submit', function (event) {
                 event.preventDefault();
 
-
-                // Lấy giá trị từ các trường input và textarea trong form
-                var name = document.querySelector('#reviewForm input[name="name"]').value;
-                var email = document.querySelector('#reviewForm input[name="email"]').value;
-
                 var review = document.querySelector('#r-textarea').value;
 
                 var bookID = $('#book').data('book-id');
@@ -432,8 +451,6 @@
                 }
 
                 data = {
-                    name: name,
-                    email: email,
                     rating: rating,
                     review: review,
                     bookID: bookID,
@@ -462,7 +479,22 @@
 
                         deleteReview();
 
-                        console.log(data);
+                        // reset form
+                        document.querySelector('#r-textarea').value = "";
+                        document.querySelector(".success-box .text-message.text-success").innerHTML = "";
+                        let liStars = document.querySelectorAll("#stars li");
+                        liStars.forEach(function (item) {
+                            item.className = "star";
+                        });
+                        rating = null;
+
+                        // Hiển thị toast message
+                        showToast({
+                            title: "Thành công!",
+                            message: "Thêm đánh giá thành công!",
+                            type: "success",
+                            duration: 5000
+                        });
                     })
                     .catch(error => {
                         // Xử lý lỗi nếu có
@@ -472,6 +504,7 @@
         }
 
         function newReviewHTMLCode(data) {
+            console.log(data);
             let starRatingHTML = '';
             for (let i = 0; i < data.review.Rating; i++) {
                 starRatingHTML += `<span class="fa fa-stack"><i class="material-icons">star</i></span>`;
@@ -480,15 +513,14 @@
                 starRatingHTML += `<span class="fa fa-stack"><i class="material-icons off">star</i></span>`;
             }
             return `<div class="ttreview-tab float-left w-100 p-30">
-                                <h2>Customer Reviews</h2>
+                                <h2>${data.review.FirstName + ' ' + data.review.LastName}</h2>
                                 <div class="rating float-left w-100">
                                     <div class="product-ratings d-inline-block align-middle">
                                         ${starRatingHTML}
                                     </div>
                                 </div>
                                 <div class="review-title float-left w-100">
-                                    <span class="user">${data.review.LastName}</span>
-                                    <span class="date">${data.review.CreatedDate}</span>
+                                    <span class="date"> ${data.review.CreatedDate}</span>
                                 </div>
                                 <div class="review-desc  float-left w-100">${data.review.Content}</div>
                                    <div class="delete-button float-right">
@@ -499,50 +531,216 @@
 
         function deleteReview() {
             var deleteButtons = document.querySelectorAll('.delete-comment');
-            var message = document.querySelectorAll('.message-error');
             var userID = document.querySelector('#reviewForm input[name="userId"]').value;
             console.log(userID);
             deleteButtons.forEach(function (button) {
                 button.addEventListener('click', function () {
-                    var reviewID = this.getAttribute('data-review-id'); // Using plain JavaScript to get data attribute
+                    if (confirm("Bạn có chắc là muốn xoá đánh giá này không ?")) {
+                        var reviewID = this.getAttribute('data-review-id'); // Using plain JavaScript to get data attribute
 
-                    fetch('/api/delete-review/' + reviewID, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({userID: userID})
+                        fetch('/api/delete-review/' + reviewID, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({userID: userID})
 
 
-                    })
-                        .then(response => response.json())
-                        .then(function (response) {
-                            if (response.status === 200) {
-
-                                var reviewContainer = button.closest('.ttreview-tab');
-                                reviewContainer.remove();
-                                alert(response.message);
-                                let totalRVCount = document.querySelector("#totalReviewCount");
-                                totalRVCount.innerHTML = parseInt(totalRVCount.innerHTML) - 1;
-                            }
-                            else if(response.status === 404) {
-
-                                alert(response.message);
-                            }
-                            else{
-                                alert("Không thành công");
-                            }
                         })
-                        .then(data => {
-                            // console.log(data);
-                        })
+                            .then(response => response.json())
+                            .then(function (response) {
+                                if (response.status === 200) {
 
-                        .catch(function (error) {
+                                    var reviewContainer = button.closest('.ttreview-tab');
+                                    reviewContainer.remove();
+                                    // Hiển thị toast message
+                                    showToast({
+                                        title: "Thành công!",
+                                        message: "Xoá đánh giá thành công!",
+                                        type: "success",
+                                        duration: 5000
+                                    });
+                                    let totalRVCount = document.querySelector("#totalReviewCount");
+                                    totalRVCount.innerHTML = parseInt(totalRVCount.innerHTML) - 1;
+                                } else if (response.status === 404) {
 
-                            console.error('Network error:', error);
-                        });
+                                    alert(response.message);
+                                } else {
+                                    alert("Không thành công");
+                                }
+                            })
+                            .then(data => {
+                                // console.log(data);
+                            })
+
+                            .catch(function (error) {
+
+                                console.error('Network error:', error);
+                            });
+                    }
                 });
             });
         }
+
+        // Toast function
+        function showToast({title = "", message = "", type = "info", duration = 3000}) {
+            const main = document.getElementById("toast");
+            if (main) {
+                const toast = document.createElement("div");
+
+                // Auto remove toast
+                const autoRemoveId = setTimeout(function () {
+                    main.removeChild(toast);
+                }, duration + 1000);
+
+                // Remove toast when clicked
+                toast.onclick = function (e) {
+                    if (e.target.closest(".toast__close")) {
+                        main.removeChild(toast);
+                        clearTimeout(autoRemoveId);
+                    }
+                };
+
+                const icons = {
+                    success: "fas fa-check-circle",
+                    info: "fas fa-info-circle",
+                    warning: "fas fa-exclamation-circle",
+                    error: "fas fa-exclamation-circle"
+                };
+                const icon = icons[type];
+                const delay = (duration / 1000).toFixed(2);
+
+                toast.classList.add("toast", `toast--${type}`);
+                toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
+
+                toast.innerHTML = `
+                    <div class="toast__icon">
+                        <i class="${icon}"></i>
+                    </div>
+                    <div class="toast__body">
+                        <h3 class="toast__title">${title}</h3>
+                        <p class="toast__msg">${message}</p>
+                    </div>
+                    <div class="toast__close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+                main.appendChild(toast);
+            }
+        }
     </script>
+@endsection
+
+
+@section('styleProductDetail')
+    <style>
+
+        /* ======= Toast message ======== */
+
+        #toast {
+            position: fixed;
+            top: 32px;
+            right: 32px;
+            z-index: 999999;
+        }
+
+        .toast {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 2px;
+            padding: 20px 0;
+            min-width: 400px;
+            max-width: 450px;
+            border-left: 4px solid;
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
+            transition: all linear 0.3s;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(calc(100% + 32px));
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+
+        .toast--success {
+            border-color: #47d864;
+        }
+
+        .toast--success .toast__icon {
+            color: #47d864;
+        }
+
+        .toast--info {
+            border-color: #2f86eb;
+        }
+
+        .toast--info .toast__icon {
+            color: #2f86eb;
+        }
+
+        .toast--warning {
+            border-color: #ffc021;
+        }
+
+        .toast--warning .toast__icon {
+            color: #ffc021;
+        }
+
+        .toast--error {
+            border-color: #ff623d;
+        }
+
+        .toast--error .toast__icon {
+            color: #ff623d;
+        }
+
+        .toast + .toast {
+            margin-top: 24px;
+        }
+
+        .toast__icon {
+            font-size: 24px;
+        }
+
+        .toast__icon,
+        .toast__close {
+            padding: 0 16px;
+        }
+
+        .toast__body {
+            flex-grow: 1;
+        }
+
+        .toast__title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .toast__msg {
+            font-size: 14px;
+            color: #888;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .toast__close {
+            font-size: 20px;
+            color: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+    </style>
 @endsection

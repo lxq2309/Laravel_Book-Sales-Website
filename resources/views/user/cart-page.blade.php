@@ -1,7 +1,7 @@
 @extends('user.layout.layout')
 
 @section('content')
-	
+
 <nav aria-label="breadcrumb" class="w-100 float-left">
     <ol class="breadcrumb parallax justify-content-center" data-source-url="/user/assets/img/banner/parallax.jpg" style="background-image: url(&quot;/user/assets/img/banner/parallax.jpg&quot;); background-position: 50% 0.809717%;">
         <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -31,16 +31,16 @@
                                 <tr>
                                     <td class="table-remove">
                                         <button>
-                                            <a class="close-cart" data-bookid="{{ $item->book->BookID }}">
+                                            <a class="close-cart" data-bookid="{{ $item->book?->BookID }}">
                                                 <i class="material-icons">delete</i>
                                             </a>
                                         </button>
                                     </td>
                                     <td class="table-image"><a href="product-details.html"><img src="/user/assets/img/products/02.jpg" alt=""></a></td>
-                                    <td class="table-p-name text-capitalize"><a href="product-details.html">{{ $item->book->BookTitle }}</a></td>
-                                    <td class="table-p-price"><p>{{ $item->book->CostPrice }} đ</p></td>
+                                    <td class="table-p-name text-capitalize"><a href="product-details.html">{{ $item->book?->BookTitle }}</a></td>
+                                    <td class="table-p-price"><p>{{ $item->book?->CostPrice }} đ</p></td>
                                     <td class="table-p-qty"><input value="{{ $item->Quantity }}" name="cart-qty[{{ $item->CartItemID }}]" value="{{ $item->Quantity }}" type="number"></td>
-                                    <td class="table-total"><p>{{ $item->book->CostPrice * $item->Quantity }} đ</p></td>
+                                    <td class="table-total"><p>{{ $item->book?->CostPrice * $item->Quantity }} đ</p></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -81,7 +81,7 @@
                 </div>
             </div>
         </div>
-    </div>     
+    </div>
 </div>
 
 @endsection
@@ -105,7 +105,7 @@
             });
 
             var currentRow = $(this).closest('tr');
-            
+
             $.ajax({
                 url: '/cart/remove',
                 method: 'POST',

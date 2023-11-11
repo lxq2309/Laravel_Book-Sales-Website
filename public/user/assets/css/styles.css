@@ -6648,6 +6648,7 @@ body {
   z-index: 2;
   background: #fff;
   display: none;
+  overflow: auto;
 }
 @media (max-width: 543px) {
   .header-right > div.cart-wrapper #cart-dropdown {

@@ -960,9 +960,9 @@ $(document).ready(function () {
         var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
         var msg = "";
         if (ratingValue > 1) {
-            msg = "Thanks! You rated this " + ratingValue + " stars.";
+            msg = "Cảm ơn bạn đã đánh giá " + ratingValue + " sao.";
         } else {
-            msg = "We will improve ourselves. You rated this " + ratingValue + " stars.";
+            msg = "Chúng tôi sẽ cố gắng cải thiện chất lượng sản phẩm :(. Bạn đã đánh giá " + ratingValue + " sao.";
         }
         responseMessage(msg);
 

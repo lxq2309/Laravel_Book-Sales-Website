@@ -112,43 +112,61 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View()->composer('user.layout.header', function($view) {
-            $userID = Auth::id();
-            if($userID) {
+            if (Auth::check()) {
+                $userID = Auth::id();
                 $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
                 if (!$cart->CartID) {
                     $cart->save();
                 }
                 $cartID = $cart->CartID;
-                $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
-                $totalPrice = 0;
-                $totalBook = $cartItems->unique('BookID')->count();
-                foreach ($cartItems as $cartItem) {
-                    $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
+            } else {
+                $cartID = session()->get('cartID');
+                if (!$cartID) {
+                    $cart = new ShoppingCart();
+                    $cart->save();
+                    session(['cartID' => $cart->CartID]);
+                    $cartID = $cart->CartID;
                 }
-                $view->with('cartItems', $cartItems);
-                $view->with('totalPrice', $totalPrice + 5);
-                $view->with('totalBook', $totalBook);
             }
+
+            $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
+            $totalPrice = 0;
+            $totalBook = $cartItems->unique('BookID')->count();
+            foreach ($cartItems as $cartItem) {
+                $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
+            }
+
+            $view->with('cartItems', $cartItems);
+            $view->with('totalPrice', $totalPrice + 5);
+            $view->with('totalBook', $totalBook);
         });
 
         View()->composer('user.cart-page', function($view) {
-            $userID = Auth::id();
-            if($userID) {
+            if (Auth::check()) {
+                $userID = Auth::id();
                 $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
                 if (!$cart->CartID) {
                     $cart->save();
                 }
                 $cartID = $cart->CartID;
-                $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
-                $totalPrice = 0;
-                foreach ($cartItems as $cartItem) {
-                    $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
+            } else {
+                $cartID = session()->get('cartID');
+                if (!$cartID) {
+                    $cart = new ShoppingCart();
+                    $cart->save();
+                    session(['cartID' => $cart->CartID]);
+                    $cartID = $cart->CartID;
                 }
-                $view->with('cartItems', $cartItems);
-                $view->with('bookPrice', $totalPrice);
-                $view->with('shipPrice', 5);
-                $view->with('totalPrice', $totalPrice + 5);
             }
+            $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
+            $totalPrice = 0;
+            foreach ($cartItems as $cartItem) {
+                $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
+            }
+            $view->with('cartItems', $cartItems);
+            $view->with('bookPrice', $totalPrice);
+            $view->with('shipPrice', 5);
+            $view->with('totalPrice', $totalPrice + 5);
         });
 
         View()->composer('user.checkout-page', function($view) {

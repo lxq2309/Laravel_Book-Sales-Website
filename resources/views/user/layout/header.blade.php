@@ -80,7 +80,6 @@
                                 </ul>
                             </div>
                         </div>
-                        @if (Auth::check())
                         <div class="cart-wrapper">
                             <button type="button" class="btn">
                                 <i class="material-icons">shopping_cart</i>
@@ -137,7 +136,6 @@
                                 </ul>
                             </div>
                         </div>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -179,7 +177,6 @@
                 data: { book_id: bookID },
                 success: function (response) {
                     // Handle success, such as updating the cart display or removing the row from the table.
-                    console.log(response.message);
                     currentRow.remove();
                     updateTotalBookCount(response.totalBookCount);
                 },

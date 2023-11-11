@@ -288,9 +288,8 @@
                             <!-- Add more image tabs (product-2, product-3, etc.) similarly -->
                         </div>
                         <div class="small-image-list float-left w-100">
-                            <div class="nav-add small-image-slider-single-product-tabstyle-3 owl-carousel"
-                                 role="tablist" data-small-images>
-                                <!-- Small images will be populated here using JavaScript -->
+                            <div class="nav-add small-image-slider-single-product-tabstyle-3 owl-carousel" role="tablist" data-small-image>
+
                             </div>
                         </div>
                     </div>
@@ -433,92 +432,25 @@
         },
 
         /**
-         * Bắt sự kiện cho các nút chọn Thể loại (bên dưới Xu hướng mua sắm)
+         * Bắt sự kiện cho các nút bên dưới danh mục sản phẩm (HOME)
          */
-        setOnClickBtnChangeGenre() {
-            var btnChangeGenre = document.querySelectorAll('.nav-link.genre-link#featured-tab');
-            console.log(btnChangeGenre);
+        setOnClickBtnChangeGetAllCondition() {
+            let btnChange = document.querySelectorAll('.nav-link.genre-link#featured-tab');
 
-            btnChangeGenre.forEach(function (button) {
-                button.addEventListener('click', events.btnChangeGenreOnClick);
+            btnChange.forEach(function (button) {
+                button.addEventListener('click', events.btnChangeGetAllConditionOnClick);
             });
         },
         /**
-         * Xử lí sự kiện chọn thể loại
+         * Xử lí sự kiện chọn điều kiện cho việc lấy tất cả sách
          */
-        btnChangeGenreOnClick() {
-            // Kiểm tra xem sự kiện click có xuất phát từ một liên kết thể loại không
-            console.log(this);
+        btnChangeGetAllConditionOnClick() {
             if (this.classList.contains('genre-link')) {
-                var genreID = this.getAttribute('data-genre-id'); // Lấy ID của thể loại từ thuộc tính data
+                let conditional = this.getAttribute('data-conditional-id');
 
-                // Gửi yêu cầu AJAX sử dụng Fetch API
-                fetch(`/api/category/${genreID}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        // Bạn cũng có thể thêm các headers khác nếu cần thiết
-                    },
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        var products = data.products;
-                        var productsHTML = products.map(product => `
-                <div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
-												<div class="product-thumb">
-													<div class="image zoom">
-														<a href="/product-detail/${product.BookID}">
-														<img src="/user/assets/img/products/01.jpg" alt="01" height="501" width="385"/>
-														<img src="/user/assets/img/products/02.jpg" alt="02" class="second_image img-responsive" height="501" width="385"/>										</a>
-														<ul class="countdown1 countdown">
-															<li><span class="days">00</span><p class="days_text">Days</p></li>
-															<li><span class="hours">00</span><p class="hours_text">Hours</p></li>
-															<li><span class="minutes">00</span><p class="minutes_text">Minutes</p></li>
-															<li><span class="seconds">00</span><p class="seconds_text">Seconds</p></li>
-														</ul>
-													</div>
-													<div class="thumb-description">
-														<div class="caption">
-															<h4 class="product-title text-capitalize"><a href="/product-detail/${product.BookID}">${product.BookTitle}</a></h4>
-														</div>
-														<div class="rating">
-														<div class="product-ratings d-inline-block align-middle">
-															<span class="fa fa-stack"><i class="material-icons">star</i></span>
-														<span class="fa fa-stack"><i class="material-icons">star</i></span>
-														<span class="fa fa-stack"><i class="material-icons">star</i></span>
-														<span class="fa fa-stack"><i class="material-icons off">star</i></span>
-														<span class="fa fa-stack"><i class="material-icons off">star</i></span>										</div>
-														</div>
-														<div class="price">
-															<div class="regular-price">${product.SellingPrice}</div>
-															<div class="old-price">${product.CostPrice}</div>
-														</div>
-														<div class="button-wrapper">
-														<div class="button-group text-center">
-															<button type="button" class="btn btn-primary btn-cart" data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i class="material-icons">shopping_cart</i><span>Add to cart</span></button>
-															<a href="wishlist.html" class="btn btn-primary btn-wishlist"><i class="material-icons">favorite</i><span>wishlist</span></a>
-															<button type="button" class="btn btn-primary btn-compare"><i class="material-icons">equalizer</i><span>Compare</span></button>
-															<button type="button" class="btn btn-primary btn-quickview"  data-toggle="modal" data-target="#product_view"><i class="material-icons">visibility</i><span>Quick View</span></button>
-														</div>
-														</div>
-													</div>
-												</div>
-                                             </div>
-            `).join('');
-
-                        // Xóa tất cả các sản phẩm cũ và thêm sản phẩm mới vào container
-                        document.querySelector(".displayProducts").innerHTML = productsHTML;
-                        
-                        events.setOnClickBtnQuickView();
-                    })
-                    .catch(error => {
-                        console.error('There has been a problem with your fetch operation:', error);
-                    });
+                Paginate.currentPage = 1;
+                Paginate.conditional = conditional;
+                getAllProductWith(conditional, Paginate.currentPage);
             }
         },
 
@@ -529,16 +461,14 @@
             var productID = this.closest('.product-layouts').querySelector('a').getAttribute('href').split('/')
                 .pop();
 
-            console.log(productID);
-
             fetch('/api/product/' + productID)
                 .then(function (response) {
                     return response.json();
                 })
                 .then(function (data) {
-                    var book = data.products[0];
-                    console.log(book);
-                    events.showModalProductDetail(book);
+                    let book = data.products;
+                    let images = data.images;
+                    events.showModalProductDetail(book, images);
                 })
                 .catch(function (error) {
                     console.log('Error loading product data:', error);
@@ -549,7 +479,16 @@
         /**
          * Hiển thị modal chi tiết sản phẩm
          */
-        showModalProductDetail(product) {
+        showModalProductDetail(product, images) {
+            console.log(product);
+
+            strImg = `<div class="single-img img-full">
+                                    <a href="${product.Avatar}" data-image-large data-image-small><img
+                                            src="${product.Avatar}" class="img-fluid" alt=""
+                                            width="368" height="478"></a>
+                                </div>`;
+            document.getElementById('product-1').innerHTML = strImg;
+
             // Populate the modal with the product data using data attributes
             document.querySelector("[data-product-title]").textContent = product.BookTitle;
 
@@ -579,25 +518,26 @@
             document.querySelector("[data-product-cover-style]").textContent = 'Loại bìa: ' + coverstyle;
 
             // Update small product images
-            var smallImagesContainer = document.querySelector("[data-small-images]");
+            var smallImagesContainer = document.querySelector("[data-small-image]");
             smallImagesContainer.innerHTML = '';
-            product.SmallImages = ['https://vcdn1-giaitri.vnecdn.net/2023/07/31/Rose-Blackpink-phong-cach.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=sAZoeOeCovvL02RjG8K52Q',
-                'https://cdn.tuoitre.vn/thumb_w/640/471584752817336320/2023/2/13/tieu-su-ca-si-rose-blackpink-12-167628252304049682913.jpg'];
-            if(product.SmallImages) {
-                product.SmallImages.forEach(function (image, index) {
-                    var smallImage = document.createElement('div');
-                    smallImage.classList.add('single-small-image', 'img-full');
-                    var smallImageLink = document.createElement('a');
-                    smallImageLink.setAttribute('data-toggle', 'tab');
-                    smallImageLink.href = '#product-' + (index + 1);
-                    smallImageLink.classList.add('img-fluid');
-                    var smallImageElement = document.createElement('img');
-                    smallImageElement.setAttribute('src', image);
-                    smallImageLink.appendChild(smallImageElement);
-                    smallImage.appendChild(smallImageLink);
-                    smallImagesContainer.appendChild(smallImage);
+            let str = ``;
+            if(images) {
+                images.forEach(function (image, index) {
+                    str += `<div class="single-small-image img-full">
+                                    <a data-toggle="tab" id="product-tab-${index+1}" href="#product-${index+1}" class="img"><img src="${image.ImagePath}" class="img-fluid" alt=""></a>
+                                </div>`
+
                 });
             }
+            smallImagesContainer.innerHTML = str;
+
+            // Kích hoạt carousel cho smallImagesContainer
+            $('.small-image-list.float-left.w-100').owlCarousel({
+                items: 3, // Số lượng hình ảnh hiển thị trên carousel
+                loop: true, // Lặp lại carousel
+                nav: true, // Hiển thị nút điều hướng trước và sau
+                dots: true // Hiển thị các chấm điều hướng
+            });
 
             // Handle the Add to Cart button click event
             var addToCartButton = document.querySelector("[data-add-to-cart]");
@@ -608,8 +548,6 @@
                 alert(quantity);
 
             });
-
-            console.log(1);
         },
 
 
@@ -619,6 +557,7 @@
         currentPage: 1, // Trang hiện tại
         totalPages: 1, // Tổng số trang
         totalItems: 0, // Tổng số sản phẩm
+        textSearch: '',
         /**
          * Handle checkbox (trang tìm kiếm)
          */
@@ -638,6 +577,7 @@
 
             prePage.addEventListener('click', this.handlePreviousPageClick.bind(this));
             nextPage.addEventListener('click', this.handleNextPageClick.bind(this));
+
         },
         applyFilters() {
             this.selectedCheckboxes = Array.from(document.querySelectorAll('input[type="checkbox"]'))
@@ -646,7 +586,12 @@
 
             this.selectedSortValue = document.getElementById('sort').value;
             this.selectedPerPageValue = document.getElementById('number').value;
-
+            var elementExists = $('h5').length > 0;
+            if (elementExists) {
+                textSearch = $('h5').data('textsearch');
+            } else {
+                textSearch = '';
+            }
             // Gọi hàm fetchApiData với trang hiện tại
             this.fetchApiData(this.currentPage);
 
@@ -658,16 +603,17 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({checkboxes: this.selectedCheckboxes, sort: this.selectedSortValue, perPage: this.selectedPerPageValue, page: page})
+                body: JSON.stringify({checkboxes: this.selectedCheckboxes, sort: this.selectedSortValue, perPage: this.selectedPerPageValue, page: page, textSearch: this.textSearch})
 
             })
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data);
                     this.totalItems = data.totalItems;
                     this.totalPages = data.totalPages;
-                    console.log(this.totalPages);
-                    events.updateUIWithData(data.results.data);
+                    events.updateUIWithData(data.results);
                     events.setOnClickBtnQuickView();
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -675,217 +621,17 @@
         },
 
         updateUIWithData(books){
-            console.log(books);
-            var proFilHTML1 = books.map(book => `<div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                                    <div class="product-thumb">
-                                        <div class="image zoom">
-                                            <a href="/product-detail/${book.BookID}">
-                                                <img src="/user/assets/img/products/01.jpg" alt="01" />
-                                                <img src="/user/assets/img/products/02.jpg" alt="02"
-                                                    class="second_image img-responsive" /> </a>
-                                            <ul class="countdown countdown1">
-                                                <li><span class="days">00</span>
-                                                    <p class="days_text">Days</p>
-                                                </li>
-                                                <li><span class="hours">00</span>
-                                                    <p class="hours_text">Hours</p>
-                                                </li>
-                                                <li><span class="minutes">00</span>
-                                                    <p class="minutes_text">Minutes</p>
-                                                </li>
-                                                <li><span class="seconds">00</span>
-                                                    <p class="seconds_text">Seconds</p>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="thumb-description">
-                                            <div class="caption">
-                                                <h4 class="product-title text-capitalize"><a
-                                                        href="/product-detail/${book.BookID}">${book.BookTitle}</a></h4>
-                                            </div>
-                                            <div class="rating">
-                                                <div class="product-ratings d-inline-block align-middle">
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                                </div>
-                                            </div>
 
-                                            <div class="price">
-                                                <div class="regular-price">${book.SellingPrice}</div>
-                                                <div class="old-price">${book.CostPrice}</div>
-                                            </div>
-                                            <div class="button-wrapper">
-                                                <div class="button-group text-center">
-                                                    <button type="button" class="btn btn-primary btn-cart"
-                                                        data-target="#cart-pop" data-toggle="modal" disabled><i
-                                                            class="material-icons">shopping_cart</i><span>Out of
-                                                            stock</span></button>
-                                                    <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
-                                                            class="material-icons">favorite</i><span>wishlist</span></a>
-                                                    <button type="button" class="btn btn-primary btn-compare"><i
-                                                            class="material-icons">equalizer</i><span>Compare</span></button>
-                                                    <button type="button" class="btn btn-primary btn-quickview"
-                                                        data-toggle="modal" data-target="#product_view"><i
-                                                            class="material-icons">visibility</i><span>Quick
-                                                            View</span></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`).join('');
-            var proFilHTML2 = books.map(book => `<div class="product-layouts">
-                                <div class="product-thumb row">
-                                    <div class="image zoom col-xs-12 col-sm-5 col-md-4">
-                                        <a href="/product-detail/${book.BookID}" class="d-block position-relative">
-                                            <img src="/user/assets/img/products/01.jpg" alt="01" />
-                                            <img src="/user/assets/img/products/02.jpg" alt="02"
-                                                 class="second_image img-responsive" />
-                                        </a>
-                                        <ul class="countdown countdown4 text-center">
-                                            <li><span class="days">00</span>
-                                                <p class="days_text">Days</p>
-                                            </li>
-                                            <li><span class="hours">00</span>
-                                                <p class="hours_text">Hours</p>
-                                            </li>
-                                            <li><span class="minutes">00</span>
-                                                <p class="minutes_text">Minutes</p>
-                                            </li>
-                                            <li><span class="seconds">00</span>
-                                                <p class="seconds_text">Seconds</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="thumb-description col-xs-12 col-sm-7 col-md-8 position-static text-left">
-                                        <div class="caption">
-                                            <h4 class="product-title text-capitalize"><a
-                                                    href="/product-detail/${book.BookID}">${book.BookTitle}</a></h4>
-                                        </div>
-                                        <div class="rating mb-10">
-                                            <div class="product-ratings d-inline-block align-middle">
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="description">
-                                            ${book.Description} </div>
-
-                                        <div class="price">
-                                            <div class="regular-price">${book.SellingPrice}</div>
-                                            <div class="old-price">${book.CostPrice}</div>
-                                        </div>
-                                        <div class="color-option d-flex align-items-center float-left w-100">
-                                            <ul class="color-categories">
-                                                <li>
-                                                    <a class="tt-pink" href="#" title="Pink"></a>
-                                                </li>
-                                                <li>
-                                                    <a class="tt-blue" href="#" title="Blue"></a>
-                                                </li>
-                                                <li>
-                                                    <a class="tt-yellow" href="#" title="Yellow"></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="button-wrapper">
-                                            <div class="button-group text-center">
-                                                <button type="button" class="btn btn-primary btn-cart"
-                                                        data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i
-                                                        class="material-icons">shopping_cart</i><span>out of
-                                                        stock</span></button>
-                                                <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
-                                                        class="material-icons">favorite</i><span>wishlist</span></a>
-                                                <button type="button" class="btn btn-primary btn-compare"><i
-                                                        class="material-icons">equalizer</i><span>Compare</span></button>
-                                                <button type="button" class="btn btn-primary btn-quickview"
-                                                        data-toggle="modal" data-target="#product_view"><i
-                                                        class="material-icons">visibility</i><span>Quick
-                                                        View</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`).join('');
-            var proFilHTML3 = books.map(book => `<div class="product-layouts">
-                                <div class="product-thumb row">
-                                    <div class="image zoom col-xs-12 col-sm-3 col-md-2">
-                                        <a href="/product-detail/${book.BookID}" class="d-block position-relative">
-                                            <img src="/user/assets/img/products/01.jpg" alt="01" />
-                                            <img src="/user/assets/img/products/02.jpg" alt="02"
-                                                 class="second_image img-responsive" /> </a>
-                                    </div>
-                                    <div class="thumb-description col-xs-12 col-sm-9 col-md-10 position-static text-left">
-                                        <div class="sort-title col-md-5 col-sm-7 float-left">
-                                            <div class="caption">
-                                                <h4 class="product-title text-capitalize"><a
-                                                        href="/product-detail/${book.BookID}">${book.BookTitle}</a></h4>
-                                            </div>
-
-                                            <div class="rating mb-10">
-                                                <div class="product-ratings d-inline-block align-middle">
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i
-                                                            class="material-icons off">star</i></span>
-                                                    <span class="fa fa-stack"><i
-                                                            class="material-icons off">star</i></span>
-                                                </div>
-                                            </div>
-                                            <div class="description mb-10">
-                                                ${book.Description} </div>
-                                            <div class="color-option d-flex align-items-center float-left w-100">
-                                                <ul class="color-categories">
-                                                    <li>
-                                                        <a class="tt-pink" href="#" title="Pink"></a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="tt-blue" href="#" title="Blue"></a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="tt-yellow" href="#" title="Yellow"></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="price-main col-md-3 col-sm-5 float-left text-center text-sm-center text-xs-left">
-                                            <div class="price">
-                                                <div class="regular-price">${book.SellingPrice}</div>
-                                                <div class="old-price">${book.CostPrice}</div>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="button-wrapper col-md-4 col-sm-5 float-left text-center text-md-center text-sm-center text-xs-left">
-                                            <div class="button-group text-center">
-                                                <button type="button" class="btn btn-primary btn-cart"
-                                                        data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i
-                                                        class="material-icons">shopping_cart</i><span>out of
-                                                        stock</span></button>
-                                                <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
-                                                        class="material-icons">favorite</i><span>wishlist</span></a>
-                                                <button type="button" class="btn btn-primary btn-compare"><i
-                                                        class="material-icons">equalizer</i><span>Compare</span></button>
-                                                <button type="button" class="btn btn-primary btn-quickview"
-                                                        data-toggle="modal" data-target="#product_view"><i
-                                                        class="material-icons">visibility</i><span>Quick
-                                                        View</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`).join('');
+            var proFilHTML1 = books.data.map(book => renderProductSight1(book)).join('');
+            var proFilHTML2 = books.data.map(book => renderProductSight2(book)).join('');
+            var proFilHTML3 = books.data.map(book => renderProductSight3(book)).join('');
             document.querySelector('.showProFilter1').innerHTML = proFilHTML1;
             document.querySelector('.showProFilter2').innerHTML = proFilHTML2;
             document.querySelector('.showProFilter3').innerHTML = proFilHTML3;
+            document.querySelector("#pagination-left-text").innerHTML = `Hiển thị ${books.from} đến ${books.to} trong tổng số ${books.total} bản ghi (Trang ${books.current_page})`;
         },
+
+
         // Bắt sự kiện click cho nút "Previous Page"
         handlePreviousPageClick() {
 
@@ -939,7 +685,279 @@
 
     document.getElementById('reloadForm').addEventListener('submit', function(event) {
         event.preventDefault();
-        location.reload(); 
+        location.reload();
     });
+
+    function renderProductSight3(product){
+        let starRatingHTML = '';
+        let star = product.AVGRating >= 5 ? 5 : product.AVGRating;
+        for (let i = 0; i < star; i++) {
+            starRatingHTML += `<span class="fa fa-stack"><i class="material-icons">star</i></span>`;
+        }
+        for (let i = star; i < 5; i++) {
+            starRatingHTML += `<span class="fa fa-stack"><i class="material-icons off">star</i></span>`;
+        }
+        return `<div class="product-layouts">
+                                <div class="product-thumb row">
+                                    <div class="image zoom col-xs-12 col-sm-3 col-md-2">
+                                        <a href="/product-detail/${product.BookID}" class="d-block position-relative">
+                                            <img src="${product.Avatar}" alt="01" />
+                                            <img src="${product.Avatar}" alt="02"
+                                                 class="second_image img-responsive" /> </a>
+                                    </div>
+                                    <div class="thumb-description col-xs-12 col-sm-9 col-md-10 position-static text-left">
+                                        <div class="sort-title col-md-5 col-sm-7 float-left">
+                                            <div class="caption">
+                                                <h4 class="product-title text-capitalize"><a
+                                                        href="/product-detail/${product.BookID}">${product.BookTitle}</a></h4>
+                                            </div>
+
+                                            <div class="rating mb-10">
+                                                <div class="product-ratings d-inline-block align-middle">
+                                                    ${starRatingHTML}
+                                                </div>
+                                            </div>
+                                            <div class="description mb-10">
+                                                ${product.Description} </div>
+                                            <div class="color-option d-flex align-items-center float-left w-100">
+                                                <ul class="color-categories">
+                                                    <li>
+                                                        <a class="tt-pink" href="#" title="Pink"></a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="tt-blue" href="#" title="Blue"></a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="tt-yellow" href="#" title="Yellow"></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="price-main col-md-3 col-sm-5 float-left text-center text-sm-center text-xs-left">
+                                            <div class="price">
+                                                <div class="regular-price">${product.SellingPrice}</div>
+                                                <div class="old-price">${product.CostPrice}</div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="button-wrapper col-md-4 col-sm-5 float-left text-center text-md-center text-sm-center text-xs-left">
+                                            <div class="button-group text-center">
+                                                <button type="button" class="btn btn-primary btn-cart"
+                                                        data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i
+                                                        class="material-icons">shopping_cart</i><span>out of
+                                                        stock</span></button>
+                                                <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                        class="material-icons">favorite</i><span>wishlist</span></a>
+                                                <button type="button" class="btn btn-primary btn-compare"><i
+                                                        class="material-icons">equalizer</i><span>Compare</span></button>
+                                                <button type="button" class="btn btn-primary btn-quickview"
+                                                        data-toggle="modal" data-target="#product_view"><i
+                                                        class="material-icons">visibility</i><span>Quick
+                                                        View</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+    }
+
+    function renderProductSight2(product){
+        let starRatingHTML = '';
+        let star = product.AVGRating >= 5 ? 5 : product.AVGRating;
+        for (let i = 0; i < star; i++) {
+            starRatingHTML += `<span class="fa fa-stack"><i class="material-icons">star</i></span>`;
+        }
+        for (let i = star; i < 5; i++) {
+            starRatingHTML += `<span class="fa fa-stack"><i class="material-icons off">star</i></span>`;
+        }
+        return `<div class="product-layouts">
+                                <div class="product-thumb row">
+                                    <div class="image zoom col-xs-12 col-sm-5 col-md-4">
+                                        <a href="/product-detail/${product.BookID}" class="d-block position-relative">
+                                            <img src="${product.Avatar}" alt="01" />
+                                            <img src="${product.Avatar}" alt="02"
+                                                 class="second_image img-responsive" />
+                                        </a>
+
+                                    </div>
+                                    <div class="thumb-description col-xs-12 col-sm-7 col-md-8 position-static text-left">
+                                        <div class="caption">
+                                            <h4 class="product-title text-capitalize"><a
+                                                    href="/product-detail/${product.BookID}">${product.BookTitle}</a></h4>
+                                        </div>
+                                        <div class="rating mb-10">
+                                            <div class="product-ratings d-inline-block align-middle">
+                                                ${starRatingHTML}
+                                            </div>
+                                        </div>
+
+                                        <div class="description">
+                                            ${product.Description} </div>
+
+                                        <div class="price">
+                                            <div class="regular-price">${product.SellingPrice}</div>
+                                            <div class="old-price">${product.CostPrice}</div>
+                                        </div>
+                                        <div class="color-option d-flex align-items-center float-left w-100">
+                                            <ul class="color-categories">
+                                                <li>
+                                                    <a class="tt-pink" href="#" title="Pink"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="tt-blue" href="#" title="Blue"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="tt-yellow" href="#" title="Yellow"></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="button-wrapper">
+                                            <div class="button-group text-center">
+                                                <button type="button" class="btn btn-primary btn-cart"
+                                                        data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i
+                                                        class="material-icons">shopping_cart</i><span>out of
+                                                        stock</span></button>
+                                                <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                        class="material-icons">favorite</i><span>wishlist</span></a>
+                                                <button type="button" class="btn btn-primary btn-compare"><i
+                                                        class="material-icons">equalizer</i><span>Compare</span></button>
+                                                <button type="button" class="btn btn-primary btn-quickview"
+                                                        data-toggle="modal" data-target="#product_view"><i
+                                                        class="material-icons">visibility</i><span>Quick
+                                                        View</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+    }
+
+    function renderProductSight1(product){
+        let starRatingHTML = '';
+        let star = product.AVGRating >= 5 ? 5 : product.AVGRating;
+        for (let i = 0; i < star; i++) {
+            starRatingHTML += `<span class="fa fa-stack"><i class="material-icons">star</i></span>`;
+        }
+        for (let i = star; i < 5; i++) {
+            starRatingHTML += `<span class="fa fa-stack"><i class="material-icons off">star</i></span>`;
+        }
+        return `<div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <div class="product-thumb">
+                                        <div class="image zoom">
+                                            <a href="/product-detail/${product.BookID}">
+                                                <img src="${product.Avatar}" alt="01" />
+                                                <img src="${product.Avatar}" alt="02"
+                                                    class="second_image img-responsive" /> </a>
+                                        </div>
+                                        <div class="thumb-description">
+                                            <div class="caption">
+                                                <h4 class="product-title text-capitalize"><a
+                                                        href="/product-detail/${product.BookID}">${product.BookTitle}</a></h4>
+                                            </div>
+                                            <div class="rating">
+                                                <div class="product-ratings d-inline-block align-middle">
+                                                    ${starRatingHTML}
+                                                </div>
+                                            </div>
+
+                                            <div class="price">
+                                                <div class="regular-price">${product.SellingPrice}</div>
+                                                <div class="old-price">${product.CostPrice}</div>
+                                            </div>
+                                            <div class="button-wrapper">
+                                                <div class="button-group text-center">
+                                                    <button type="button" class="btn btn-primary btn-cart"
+                                                        data-target="#cart-pop" data-toggle="modal" disabled><i
+                                                            class="material-icons">shopping_cart</i><span>Out of
+                                                            stock</span></button>
+                                                    <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
+                                                            class="material-icons">favorite</i><span>wishlist</span></a>
+                                                    <button type="button" class="btn btn-primary btn-compare"><i
+                                                            class="material-icons">equalizer</i><span>Compare</span></button>
+                                                    <button type="button" class="btn btn-primary btn-quickview"
+                                                        data-toggle="modal" data-target="#product_view"><i
+                                                            class="material-icons">visibility</i><span>Quick
+                                                            View</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+    }
+
+    function renderProduct(product){
+        let starRatingHTML = '';
+        let star = product.AVGRating >= 5 ? 5 : product.AVGRating;
+        for (let i = 0; i < star; i++) {
+            starRatingHTML += `<span class="fa fa-stack"><i class="material-icons">star</i></span>`;
+        }
+        for (let i = star; i < 5; i++) {
+            starRatingHTML += `<span class="fa fa-stack"><i class="material-icons off">star</i></span>`;
+        }
+        return `
+                <div class="product-layouts col-lg-3 col-md-3 col-sm-6 col-xs-6">
+												<div class="product-thumb">
+													<div class="image zoom">
+														<a href="/product-detail/${product.BookID}">
+														<img src="${product.Avatar}" alt="01" height="501" width="385"/>
+														<img src="${product.Avatar}" alt="02" class="second_image img-responsive" height="501" width="385"/>										</a>
+													</div>
+													<div class="thumb-description">
+														<div class="caption">
+															<h4 class="product-title text-capitalize"><a href="/product-detail/${product.BookID}">${product.BookTitle}</a></h4>
+														</div>
+														<div class="rating">
+														<div class="product-ratings d-inline-block align-middle">
+															${starRatingHTML}										</div>
+														</div>
+														<div class="price">
+															<div class="regular-price">${product.SellingPrice}</div>
+															<div class="old-price">${product.CostPrice}</div>
+														</div>
+														<div class="button-wrapper">
+														<div class="button-group text-center">
+															<button type="button" class="btn btn-primary btn-cart" data-target="#cart-pop" data-toggle="modal" disabled="disabled"><i class="material-icons">shopping_cart</i><span>Add to cart</span></button>
+															<a href="wishlist.html" class="btn btn-primary btn-wishlist"><i class="material-icons">favorite</i><span>wishlist</span></a>
+															<button type="button" class="btn btn-primary btn-compare"><i class="material-icons">equalizer</i><span>Compare</span></button>
+															<button type="button" class="btn btn-primary btn-quickview"  data-toggle="modal" data-target="#product_view"><i class="material-icons">visibility</i><span>Quick View</span></button>
+														</div>
+														</div>
+													</div>
+												</div>
+                                             </div>
+            `;
+    }
+
+    function getAllProductWith(conditional, page) {
+        console.log(conditional);
+        fetch(`/api/product/all/${conditional}?page=${page}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                let paginate = data.products;
+                Paginate.lastPage = paginate.last_page;
+                var products = paginate.data;
+                var productsHTML = products.map(product => renderProduct(product)).join('');
+
+                document.querySelector(".displayProducts").innerHTML = productsHTML;
+
+                events.setOnClickBtnQuickView();
+
+                document.querySelector("#pagination-left-text").innerHTML = `Hiển thị ${paginate.from} đến ${paginate.to} trong tổng số ${paginate.total} bản ghi (Trang ${paginate.current_page})`;
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+    }
 
 </script>

@@ -18,63 +18,42 @@
                             <div class="tab-pane active" id="product-01" role="tabpanel"
                                  aria-labelledby="product-tab-01">
                                 <div class="single-img img-full">
-                                    <a href="/user/assets/img/products/01.jpg"><img
-                                            src="/user/assets/img/products/01.jpg"
-                                            class="img-fluid zoomImg" alt=""></a>
+                                    <a href="{{$book->Avatar}}"><img
+                                                src="{{$book->Avatar}}"
+                                                class="img-fluid zoomImg" alt=""></a>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="product-02" role="tabpanel" aria-labelledby="product-tab-02">
-                                <div class="single-img">
-                                    <a href="/user/assets/img/products/02.jpg"><img
-                                            src="/user/assets/img/products/02.jpg"
-                                            class="img-fluid" alt=""></a>
+                            @php
+                            $i = 2;
+                            @endphp
+                            @foreach($images as $image)
+                                <div class="tab-pane" id="product-0{{ $i }}" role="tabpanel"
+                                     aria-labelledby="product-tab-0{{ $i++ }}">
+                                    <div class="single-img img-full">
+                                        <a href="{{$image->ImagePath}}"><img
+                                                    src="{{$image->ImagePath}}"
+                                                    class="img-fluid" alt=""></a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane" id="product-03" role="tabpanel" aria-labelledby="product-tab-03">
-                                <div class="single-img">
-                                    <a href="/user/assets/img/products/03.jpg"><img
-                                            src="/user/assets/img/products/03.jpg"
-                                            class="img-fluid" alt=""></a>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="product-04" role="tabpanel" aria-labelledby="product-tab-04">
-                                <div class="single-img">
-                                    <a href="/user/assets/img/products/04.jpg"><img
-                                            src="/user/assets/img/products/04.jpg"
-                                            class="img-fluid" alt=""></a>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="product-05" role="tabpanel" aria-labelledby="product-tab-05">
-                                <div class="single-img">
-                                    <a href="/user/assets/img/products/05.jpg"><img
-                                            src="/user/assets/img/products/05.jpg"
-                                            class="img-fluid" alt=""></a>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                         <div class="default small-image-list float-left w-100">
                             <div class="nav-add small-image-slider-single-product-tabstyle-3 owl-carousel"
                                  role="tablist">
                                 <div class="single-small-image img-full">
                                     <a data-toggle="tab" id="product-tab-01" href="#product-01" class="img active"><img
-                                            src="/user/assets/img/products/01.jpg" class="img-fluid" alt=""></a>
+                                                src="{{$book->Avatar}}" class="img-fluid" alt=""></a>
                                 </div>
-                                <div class="single-small-image img-full">
-                                    <a data-toggle="tab" id="product-tab-02" href="#product-02" class="img"><img
-                                            src="/user/assets/img/products/02.jpg" class="img-fluid" alt=""></a>
-                                </div>
-                                <div class="single-small-image img-full">
-                                    <a data-toggle="tab" id="product-tab-03" href="#product-03" class="img"><img
-                                            src="/user/assets/img/products/03.jpg" class="img-fluid" alt=""></a>
-                                </div>
-                                <div class="single-small-image img-full">
-                                    <a data-toggle="tab" id="product-tab-04" href="#product-04" class="img"><img
-                                            src="/user/assets/img/products/04.jpg" class="img-fluid" alt=""></a>
-                                </div>
-                                <div class="single-small-image img-full">
-                                    <a data-toggle="tab" id="product-tab-05" href="#product-05" class="img"><img
-                                            src="/user/assets/img/products/05.jpg" class="img-fluid" alt=""></a>
-                                </div>
+                                @php
+                                    $i = 2;
+                                @endphp
+                                @foreach($images as $image)
+                                    <div class="single-small-image img-full">
+                                        <a data-toggle="tab" id="product-tab-0{{$i}}" href="#product-0{{ $i++ }}"
+                                           class="img"><img
+                                                    src="{{$image->ImagePath}}" class="img-fluid" alt=""></a>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
 
@@ -86,11 +65,20 @@
                             </h4>
                             <div class="rating">
                                 <div class="product-ratings d-inline-block align-middle">
-                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                    @php
+                                        $starRatingHTML = '';
+
+                                        $star = $rounderIntRating >= 5 ? 5 : $rounderIntRating;
+
+                                    for($i = 0; $i < $star; $i++){
+                                        $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons'>star</i></span>";
+                                    }
+                                    for( $i = $star; $i < 5; $i++){
+                                        $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons off'>star</i></span>";
+                                    }
+
+                                    echo $starRatingHTML;
+                                    @endphp
                                 </div>
                                 <a href="#" class="review-down">(customer reviews)</a>
 
@@ -151,9 +139,9 @@
                             </div>
                             <div class="tt-links d-flex align-items-center float-left w-100 mb-15">
                                 <a class="link btn-compare"><i
-                                        class="material-icons">equalizer</i><span>Compare</span></a>
+                                            class="material-icons">equalizer</i><span>Compare</span></a>
                                 <a href="wishlist.html" class="link btn-wishlist"><i
-                                        class="material-icons">favorite</i><span>wishlist</span></a>
+                                            class="material-icons">favorite</i><span>wishlist</span></a>
                             </div>
                             <div class="social-sharing float-left w-100">
                                 <ul class="d-flex">
@@ -239,11 +227,11 @@
                                             @php
                                                 $starRatingHTML = '';
 
-
-                                            for($i = 0; $i < $review->Rating; $i++){
+                                                $star = $review->Rating >=5 ? 5 : $review->Rating;
+                                            for($i = 0; $i < $star; $i++){
                                                 $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons'>star</i></span>";
                                             }
-                                            for( $i = $review->Rating; $i < 5; $i++){
+                                            for( $i = $star; $i < 5; $i++){
                                                 $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons off'>star</i></span>";
                                             }
 
@@ -252,18 +240,24 @@
                                         </div>
                                     </div>
                                     <div class="review-title float-left w-100"><span
-                                            class="user">{{ $review->LastName }}</span> <span
-                                            class="date">– {{$review->CreatedDate}}</span></div>
+                                                class="user">{{ $review->LastName }}</span> <span
+                                                class="date">– {{$review->CreatedDate}}</span></div>
                                     <div class="review-desc  float-left w-100">{{$review->Content}} </div>
-                                    <div class="delete-button float-right">
-                                        <button type="button" class="btn btn-danger delete-comment"
-                                                data-review-id="{{ $review->ReviewID }}">Xóa
-                                        </button>
-                                    </div>
+                                    @if(Auth::id())
+                                        <div class="delete-button float-right">
+                                            <button type="button" class="btn btn-danger delete-comment"
+                                                    data-review-id="{{ $review->ReviewID }}">Xóa
+                                            </button>
+                                        </div>
+                                    @endif
+                                    <div class="message-error"></div>
                                 </div>
 
                             @endforeach
                         @endif
+
+
+                                                @if($isPurchased)
                         <form action="#" id="reviewForm" class="rating-form float-left w-100">
                             @csrf
                             <h5>Add your rating</h5>
@@ -313,6 +307,15 @@
                             </div>
                             <input type="submit" class="btn btn-primary submit" value="Submit Review">
                         </form>
+                                                @else
+                                                    <div>
+                                                        @if($isLogin == false)
+                                                            Đăng nhập đi mới được bình luận
+                                                        @else
+                                                            Mua hàng đi thì mới được bình luận
+                                                        @endif
+                                                    </div>
+                                                @endif
                     </div>
 
                 </div>
@@ -330,14 +333,14 @@
                             <div class="product-thumb">
                                 <div class="image zoom">
                                     <a href="{{ route('product-detail', $bookAu->BookID) }}">
-                                        <img src="/user/assets/img/products/01.jpg" alt="01"/>
-                                        <img src="/user/assets/img/products/02.jpg" alt="02"
+                                        <img src="{{$bookAu->Avatar}}" alt="01"/>
+                                        <img src="{{$bookAu->Avatar}}" alt="02"
                                              class="second_image img-responsive"/> </a>
                                 </div>
                                 <div class="thumb-description">
                                     <div class="caption">
                                         <h4 class="product-title text-capitalize"><a
-                                                href="{{ route('product-detail', $bookAu->BookID) }}">{{$bookAu->BookTitle}}</a>
+                                                    href="{{ route('product-detail', $bookAu->BookID) }}">{{$bookAu->BookTitle}}</a>
                                         </h4>
                                     </div>
                                     <div class="rating">
@@ -357,16 +360,16 @@
                                         <div class="button-group text-center">
                                             <button type="button" class="btn btn-primary btn-cart"
                                                     data-target="#cart-pop" data-toggle="modal"><i
-                                                    class="material-icons">shopping_cart</i><span>Add to
+                                                        class="material-icons">shopping_cart</i><span>Add to
                                                     cart</span></button>
                                             <a href="wishlist.html" class="btn btn-primary btn-wishlist"><i
-                                                    class="material-icons">favorite</i><span>wishlist</span></a>
+                                                        class="material-icons">favorite</i><span>wishlist</span></a>
                                             <button type="button" class="btn btn-primary btn-compare"><i
-                                                    class="material-icons">equalizer</i><span>Compare</span>
+                                                        class="material-icons">equalizer</i><span>Compare</span>
                                             </button>
                                             <button type="button" class="btn btn-primary btn-quickview"
                                                     data-toggle="modal" data-target="#product_view"><i
-                                                    class="material-icons">visibility</i><span>Quick View</span>
+                                                        class="material-icons">visibility</i><span>Quick View</span>
                                             </button>
                                         </div>
                                     </div>
@@ -399,10 +402,6 @@
             // Lặp qua từng phần tử và thêm sự kiện click
             stars.forEach(function (star) {
                 star.addEventListener('click', function () {
-                    // Loại bỏ class 'selected' từ tất cả các sao trước đó
-                    // stars.forEach(function (s) {
-                    //     s.classList.remove('selected');
-                    // });
 
                     // Thêm class 'selected' cho sao được chọn
                     this.classList.add('selected');
@@ -429,7 +428,7 @@
                 // Kiểm tra xem đã chọn sao chưa
                 if (rating === null) {
                     alert('Vui lòng chọn sao trước khi gửi đánh giá.');
-                    return; // Ngăn chặn việc gửi đánh giá nếu không có sao nào được chọn
+                    return;
                 }
 
                 data = {
@@ -451,12 +450,8 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        // Hiển thị phản hồi từ API
-                        // Giả sử điểm đánh giá được trả về từ server
-                        const rating = data.review.Rating;
 
-                        // Chuyển đổi điểm thành số lượng sao (ví dụ: 3.5 điểm sẽ hiển thị 3.5 sao)
-                        const starRating = Math.round(rating * 2) / 2; // Làm tròn điểm đánh giá đến 0.5 (ví dụ: 3.5)
+
                         const newReviewHTML = newReviewHTMLCode(data);
 
                         // Chọn phần tử chứa đánh giá và thêm đánh giá mới vào đó
@@ -504,7 +499,9 @@
 
         function deleteReview() {
             var deleteButtons = document.querySelectorAll('.delete-comment');
-
+            var message = document.querySelectorAll('.message-error');
+            var userID = document.querySelector('#reviewForm input[name="userId"]').value;
+            console.log(userID);
             deleteButtons.forEach(function (button) {
                 button.addEventListener('click', function () {
                     var reviewID = this.getAttribute('data-review-id'); // Using plain JavaScript to get data attribute
@@ -513,21 +510,33 @@
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
-                        }
+                        },
+                        body: JSON.stringify({userID: userID})
+
+
                     })
+                        .then(response => response.json())
                         .then(function (response) {
                             if (response.status === 200) {
 
                                 var reviewContainer = button.closest('.ttreview-tab');
                                 reviewContainer.remove();
-                                alert("Xóa review thành công");
+                                alert(response.message);
                                 let totalRVCount = document.querySelector("#totalReviewCount");
                                 totalRVCount.innerHTML = parseInt(totalRVCount.innerHTML) - 1;
-                            } else {
+                            }
+                            else if(response.status === 404) {
 
-                                console.error('Review deletion failed.');
+                                alert(response.message);
+                            }
+                            else{
+                                alert("Không thành công");
                             }
                         })
+                        .then(data => {
+                            // console.log(data);
+                        })
+
                         .catch(function (error) {
 
                             console.error('Network error:', error);

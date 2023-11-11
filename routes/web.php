@@ -30,6 +30,8 @@ Route::post('/searchBook', [ProductController::class, 'searchProduct'])->name('s
 
 Route::get("/category/{genreID}", [ProductController::class, "productsByCategory"])->name("proByCate");
 
+Route::get('/category', [CategoryController::class, 'ProductCategory'])->name('categoryhome');
+
 
 
 Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);

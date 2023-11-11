@@ -30,5 +30,4 @@ Route::post('/review', [\App\Http\Controllers\user\ProductController::class, 're
 
 Route::delete('/delete-review/{reviewID}', [\App\Http\Controllers\user\ProductController::class, 'deleteReview']);
 
-
-
+Route::get('/product/all/{condition}', [\App\Http\Controllers\user\ProductController::class, 'getAllProduct']);

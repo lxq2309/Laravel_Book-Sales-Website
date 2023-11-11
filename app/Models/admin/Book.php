@@ -126,5 +126,10 @@ class Book extends Model
         return $this->hasMany('App\Models\Shoppingcartdetail', 'BookID', 'BookID');
     }
 
+    public function genres()
+    {
+        return $this->belongsToMany(Genre::class, 'BookGenre', 'BookID', 'GenreID');
+    }
+
 
 }

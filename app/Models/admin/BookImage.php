@@ -18,10 +18,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BookImage extends Model
 {
-  protected $table = "BookImage";
-  protected $primaryKey = "ImageID";
+    protected $table = "BookImage";
+    protected $primaryKey = "ImageID";
     static $rules = [
-		'ImageID' => 'required',
+        'ImageID' => 'required',
     ];
 
     protected $perPage = 20;
@@ -31,7 +31,9 @@ class BookImage extends Model
      *
      * @var array
      */
-    protected $fillable = ['ImageID','BookID','ImagePath','Description'];
+    protected $fillable = ['ImageID', 'BookID', 'ImagePath', 'Description'];
+
+    public $timestamps = false;
 
 
     /**

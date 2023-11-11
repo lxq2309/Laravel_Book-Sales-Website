@@ -64,7 +64,7 @@ Route::post('/account/identify/email', [AuthManager::class, 'confirmEmail'])->na
 Route::put('/account/change/password', [AuthManager::class, 'changePassword'])->name('change.password');
 Route::get('/cart/detail', [CartController::class, 'cartPage'])->name('cart.page');
 
-Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
+Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin-dashboard');
 
 Route::resource('/admin/user', \App\Http\Controllers\admin\UserController::class);
 Route::resource('/admin/book', \App\Http\Controllers\admin\BookController::class);

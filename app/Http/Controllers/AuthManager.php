@@ -103,9 +103,9 @@ class AuthManager extends Controller
                 if ($user) {
                     $cartData['UserID'] = $user->UserID;
                     ShoppingCart::create($cartData);
-                    Auth::login($user);  
+                    Auth::login($user);
                     $user = Auth::user();
-                    Session::put('user', $user);   
+                    Session::put('user', $user);
                     return redirect(route('index'));
                 } else {
                     return response()->json(['success' => false, 'error' => 'Registration failed']);
@@ -148,15 +148,15 @@ class AuthManager extends Controller
     function changePassword(Request $request){
         $user = User::where('email', $request->email)->first();
 
-        if($user->ConfirmCode == $request->confirmCode) { 
+        if($user->ConfirmCode == $request->confirmCode) {
             if($request->password == $request->cfpassword) {
                 $user->password = Hash::make($request->password);
                 $user->save();
                 return redirect(route('index'));
-            }  
-            return back()->withInput()->with('errorPass', 'Vui lòng nhập 2 mật khẩu giống nhau'); 
+            }
+            return back()->withInput()->with('errorPass', 'Vui lòng nhập 2 mật khẩu giống nhau');
         }
-        return back()->withInput()->with('errorCode', 'Sai mã xác nhận'); 
+        return back()->withInput()->with('errorCode', 'Sai mã xác nhận');
     }
 
     function logout(){

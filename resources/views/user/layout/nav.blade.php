@@ -48,7 +48,7 @@
                 </li>
                 <li class="nav-item dropdown mega-dropdown">
                     <a class="nav-link dropdown-toggle text-uppercase"
-                        href="{{ route('proByCate', 1) }}">Category</a>
+                        href="{{ route('categoryhome') }}">Category</a>
                     <div class="dropdown-menu mega-menu v-2 z-depth-1 special-color py-3 px-3">
                         <div class="row">
                             @foreach ($formattedCategories as $category)

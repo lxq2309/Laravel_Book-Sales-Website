@@ -17,8 +17,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $genres = DB::table("Genre")->take(3)->get();
-        $books = DB::table("Book")->take(10)->get();
-        return view("user.index", compact('books', 'genres'));
+        $randomBooks = DB::table('Book')->join('avgRatingBook', 'Book.BookID', '=', 'avgRatingBook.BookID')
+            ->take(10)->inRandomOrder()->get();
+//dd($randomBooks);
+
+        return view("user.index", compact('randomBooks'));
     }
 }

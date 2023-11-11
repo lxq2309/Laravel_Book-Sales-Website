@@ -44,8 +44,8 @@
                             </div>
                         </div>
                     </header>
-                    @if(isset($textSearch) && !empty($textSearch))
-                        <h5>Kết quả tìm kiếm cho: "{{ $textSearch }}"</h5>
+                    @if(!empty($textSearch))
+                        <h5 data-textsearch="{{$textSearch}}">Kết quả tìm kiếm cho: "{{ $textSearch }}"</h5>
                     @endif
                     <div class="tab-content text-center products w-100 float-left">
                         <div class="tab-pane grid fade active" id="grid" role="tabpanel">
@@ -58,20 +58,6 @@
                                                 <img src="/user/assets/img/products/01.jpg" alt="01" />
                                                 <img src="/user/assets/img/products/02.jpg" alt="02"
                                                     class="second_image img-responsive" /> </a>
-                                            <ul class="countdown countdown1">
-                                                <li><span class="days">00</span>
-                                                    <p class="days_text">Days</p>
-                                                </li>
-                                                <li><span class="hours">00</span>
-                                                    <p class="hours_text">Hours</p>
-                                                </li>
-                                                <li><span class="minutes">00</span>
-                                                    <p class="minutes_text">Minutes</p>
-                                                </li>
-                                                <li><span class="seconds">00</span>
-                                                    <p class="seconds_text">Seconds</p>
-                                                </li>
-                                            </ul>
                                         </div>
                                         <div class="thumb-description">
                                             <div class="caption">
@@ -275,7 +261,7 @@
                         </div>
                     </div>
                     <div class="pagination-wrapper float-left w-100">
-{{--                        <p>Showing 1 to 9 of 11 (2 Pages)</p>--}}
+                        <p id="pagination-left-text"></p>
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item" >
@@ -284,9 +270,6 @@
                                         <span class="sr-only" >Previous</span>
                                     </a>
                                 </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
                                 <li class="page-item" >
                                     <a class="page-link" href="#" aria-label="Next" id="next-page-button">
                                         <span aria-hidden="true">&raquo;</span>

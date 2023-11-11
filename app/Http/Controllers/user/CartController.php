@@ -49,7 +49,7 @@ class CartController extends Controller
                 'Quantity' => $bookQnt ? $bookQnt : 1,
             ]);
             $cartItem->save();
-        }   
+        }
     }
 
     public function removeFromCart(Request $request)

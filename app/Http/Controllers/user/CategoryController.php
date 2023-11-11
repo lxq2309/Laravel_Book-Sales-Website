@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function ProductCategory(){
-        return view("user.product-category");
+        $products = DB::table('Book')->paginate(9);
+        return view("user.product-category", compact('products'));
     }
 
 

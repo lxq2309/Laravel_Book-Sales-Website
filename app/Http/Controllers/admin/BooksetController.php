@@ -16,12 +16,24 @@ class BooksetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $booksets = Bookset::paginate();
-
+        $booksets = Bookset::query();
+        if ($request->has('search'))
+        {
+            $searchText = $request->input('search');
+            $booksets->where('SetTitle', 'LIKE', "%$searchText%");
+        }
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        if (empty($request->input('order')))
+        {
+            $orderBy = 'desc';
+        }
+        $booksets->orderBy('SetID', $orderBy);
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        $booksets = $booksets->paginate()->appends(['order' => $orderBy]);
         return view('admin.bookset.index', compact('booksets'))
-            ->with('i', (request()->input('page', 1) - 1) * $booksets->perPage());
+            ->with('i', ($booksets->currentPage() - 1) * $booksets->perPage());
     }
 
     /**
@@ -138,5 +150,9 @@ class BooksetController extends Controller
 
         return redirect()->route('bookset.index')
             ->with('success', 'Bookset deleted successfully');
+    }
+
+    function getAll(){
+        return response()->json(Bookset::all());
     }
 }

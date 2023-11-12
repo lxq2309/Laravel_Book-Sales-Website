@@ -95,3 +95,5 @@ Route::resource('/admin/bookset', \App\Http\Controllers\admin\BooksetController:
 Route::resource('/admin/admin', \App\Http\Controllers\admin\AdminController::class);
 Route::resource('/admin/purchase-order', \App\Http\Controllers\admin\PurchaseOrderController::class);
 Route::resource('/admin/sales-order', \App\Http\Controllers\admin\SalesOrderController::class);
+Route::get('/admin/sales-order/shipping/{id}/{page?}', [\App\Http\Controllers\admin\SalesOrderController::class, 'shipping'])->name('sales-order.shipping');
+Route::get('/admin/sales-order/completed/{id}/{page?}', [\App\Http\Controllers\admin\SalesOrderController::class, 'completed'])->name('sales-order.completed');

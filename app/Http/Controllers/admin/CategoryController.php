@@ -16,12 +16,24 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::paginate();
-
+        $categories = Category::query();
+        if ($request->has('search'))
+        {
+            $searchText = $request->input('search');
+            $categories->where('CategoryName', 'LIKE', "%$searchText%");
+        }
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        if (empty($request->input('order')))
+        {
+            $orderBy = 'desc';
+        }
+        $categories->orderBy('CategoryID', $orderBy);
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        $categories = $categories->paginate()->appends(['order' => $orderBy]);
         return view('admin.category.index', compact('categories'))
-            ->with('i', (request()->input('page', 1) - 1) * $categories->perPage());
+            ->with('i', ($categories->currentPage() - 1) * $categories->perPage());
     }
 
     /**
@@ -106,5 +118,9 @@ class CategoryController extends Controller
 
         return redirect()->route('category.index')
             ->with('success', 'Category deleted successfully');
+    }
+
+    function getAll(){
+        return response()->json(Category::all());
     }
 }

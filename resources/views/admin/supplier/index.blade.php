@@ -10,10 +10,16 @@
             <div class="card">
                 <div class="card-header">
                     <div class="dt-buttons btn-group flex-wrap">
-                        <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0"
-                                aria-controls="example1" type="button"><span>Excel</span></button>
-                        <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0"
-                                aria-controls="example1" type="button"><span>PDF</span></button>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="exportData"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Xuất dữ liệu
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="exportData">
+                                <a class="dropdown-item" href="#" id="buttons-excel">Excel</a>
+                                <a class="dropdown-item" href="#" id="buttons-pdf">PDF</a>
+                            </div>
+                        </div>
                     </div>
                     <a href="{{ route('supplier.create') }}" class="btn btn-primary float-right"
                        data-placement="left">
@@ -67,14 +73,14 @@
                                                           method="POST">
                                                         <a class="btn btn-sm btn-primary "
                                                            href="{{ route('supplier.show',$supplier->SupplierID) }}"><i
-                                                                class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                                class="fa fa-fw fa-eye"></i> {{ __('Xem chi tiết') }}</a>
                                                         <a class="btn btn-sm btn-success"
                                                            href="{{ route('supplier.edit',$supplier->SupplierID) }}"><i
-                                                                class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                                class="fa fa-fw fa-edit"></i> {{ __('Sửa') }}</a>
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"><i
-                                                                class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
+                                                                class="fa fa-fw fa-trash"></i> {{ __('Xoá') }}
                                                         </button>
                                                     </form>
                                                 </div>
@@ -105,3 +111,27 @@
     </div>
 @endsection
 
+@section('exportToExcelScripts')
+    <script>
+        function exportToExcel() {
+            let tableName = 'supplier';
+            let apiUrl = `/api/${tableName}/all`;
+            alert('Đang xuất thành file ' + tableName + '.xlsx');
+            // Lấy dữ liệu từ API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Chuyển đổi dữ liệu thành định dạng Excel
+                    const workbook = XLSX.utils.book_new();
+                    const worksheet = XLSX.utils.json_to_sheet(data);
+                    XLSX.utils.book_append_sheet(workbook, worksheet, tableName);
+
+                    // Xuất Excel
+                    XLSX.writeFile(workbook, tableName + '.xlsx');
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+    </script>
+@endsection

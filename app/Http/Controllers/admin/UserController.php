@@ -16,11 +16,24 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate();
+        $users = User::query();
+        if ($request->has('search'))
+        {
+            $searchText = $request->input('search');
+            $users->where('Email', 'LIKE', "%$searchText%");
+        }
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        if (empty($request->input('order')))
+        {
+            $orderBy = 'desc';
+        }
+        $users->orderBy('UserID', $orderBy);
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        $users = $users->paginate()->appends(['order' => $orderBy]);
         return view('admin.user.index', compact('users'))
-            ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
+            ->with('i', ($users->currentPage() - 1) * $users->perPage());
     }
 
     /**
@@ -104,5 +117,9 @@ class UserController extends Controller
 
         return redirect()->route('user.index')
             ->with('success', 'User deleted successfully');
+    }
+
+    function getAll(){
+        return response()->json(User::all());
     }
 }

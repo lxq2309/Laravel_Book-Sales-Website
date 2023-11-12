@@ -76,4 +76,8 @@ class CouponController extends Controller
         return redirect()->route('coupon.index')
             ->with('success', 'Coupon deleted successfully');
     }
+
+    function getAll(){
+        return response()->json(Coupon::all());
+    }
 }

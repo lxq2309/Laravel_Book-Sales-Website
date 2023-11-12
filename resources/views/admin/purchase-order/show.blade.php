@@ -14,9 +14,15 @@
                             <span class="card-title">{{ __('Thông tin') }} hoá đơn nhập</span>
                         </div>
                         <div class="float-right">
+                            <a href="{{ route('purchase-order.edit', $purchaseOrder->OrderID) }}" class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i> Sửa thông tin</a>
                             <a class="btn btn-primary" href="{{ route('purchase-order.index') }}"> {{ __('Quay lại') }}</a>
                         </div>
                     </div>
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
 
                     <div class="card-body">
 

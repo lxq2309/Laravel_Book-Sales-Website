@@ -35,6 +35,7 @@
             <label for="">Chi tiết hoá đơn</label>
             <div class="card">
                 <div class="card-body" id="additionalBooks">
+                    @if($method != 'PATCH')
                     <div class="card card-info">
                         <div class="card-header">
                             <div class="float-left">
@@ -59,6 +60,34 @@
                             </div>
                         </div>
                     </div>
+                    @else
+                        @foreach($purchaseOrder->purchaseorderdetail as $orderdetail)
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <div class="float-left">
+                                        <span class="card-title">{{ $orderdetail->book?->BookTitle }}</span>
+                                        <button type="button" class="btn btn-xs btn-danger ml-1" onclick="deleteBookField()">Xoá
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="">Mã sách:</label>
+                                        <input type="text" class="form-control" name="BookID[]" onchange="setTitle()" value="{{ $orderdetail->BookID }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Số lượng:</label>
+                                        <input type="number" class="form-control" name="QuantityReceived[]" value="{{ $orderdetail->QuantityReceived }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Giá tiền:</label>
+                                        <input type="number" class="form-control" name="Price[]" value="{{ $orderdetail->Price }}">
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
             <button type="button" class="btn btn-outline-primary btn-sm mb-5" onclick="addBookField()">Thêm</button>
@@ -175,20 +204,10 @@
             card.remove();
         }
 
-        let bookIds = [];
 
         function setTitle() {
             let cardTitle = event.currentTarget.parentNode.parentNode.parentNode.querySelector('.card-title');
             let bookID = event.currentTarget.value;
-            let input = event.currentTarget;
-            // Kiểm tra xem bookID đã tồn tại trong bookIds chưa
-            if (!bookIds.includes(bookID)) {
-                bookIds.push(bookID);
-            } else {
-                alert(`Mã sách "${bookID}" đã tồn tại trong hoá đơn nhập!`);
-                input.value = null;
-                return;
-            }
             if (bookID !== '') {
                 fetch('/api/book/' + bookID)
                     .then(response => response.json())
@@ -207,9 +226,19 @@
             }
         });
 
+        function hasDuplicates(array) {
+            return new Set(array).size !== array.length;
+        }
+
         function validateForm() {
             var orderDate = document.getElementsByName('OrderDate')[0];
             var supplierID = document.getElementsByName('SupplierID')[0];
+            var bookIds = document.getElementsByName('BookID[]');
+            let listId = [];
+            bookIds.forEach(function (id){
+                listId.push(id.value);
+            })
+            console.log(listId);
             var quantityReceived = document.getElementsByName('QuantityReceived[]');
             var price = document.getElementsByName('Price[]');
 
@@ -222,6 +251,12 @@
             if (supplierID.value === '') {
                 alert('Vui lòng chọn Nhà cung cấp.');
                 supplierID.focus();
+                return false;
+            }
+
+            if (hasDuplicates(listId))
+            {
+                alert("Mã sách không được trùng nhau!");
                 return false;
             }
 

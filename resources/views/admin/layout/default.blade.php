@@ -249,7 +249,8 @@
                         </a>
                         <ul class="nav nav-treeview" style="display: block;">
                             <li class="nav-item">
-                                <a href="{{ route("purchase-order.index") }}" class="nav-link {{ set_active('purchase-order.*') }}">
+                                <a href="{{ route("purchase-order.index") }}"
+                                   class="nav-link {{ set_active('purchase-order.*') }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>
                                         Hoá đơn nhập
@@ -257,7 +258,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route("sales-order.index") }}" class="nav-link {{ set_active('sales-order.*') }}">
+                                <a href="{{ route("sales-order.index") }}"
+                                   class="nav-link {{ set_active('sales-order.*') }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>
                                         Hoá đơn bán
@@ -355,8 +357,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/dist/js/pages/dashboard.js"></script>
 <script src="/dist/js/custom.js"></script>
-<!-- Clipboard.js -->
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
 <script>
     const readListScripts = {
         showTableActions() {
@@ -367,7 +368,29 @@
             event.currentTarget.querySelector('td:last-child').style.display = "none";
         }
     }
+
+    function printPDF() {
+        window.print();
+    }
+
+    document.querySelector('.col-sm-12 .card .card-header #buttons-pdf').addEventListener('click', printPDF);
+
+    document.querySelector('.col-sm-12 .card .card-header #buttons-excel').addEventListener('click', function () {
+        exportToExcel();
+    });
+
+    $(document).ready(function () {
+        $('#statusFilter')?.change(function () {
+            $('#filterForm').submit();
+        });
+        $('#searchInput')?.keypress(function (e) {
+            if (e.which === 13) {
+                $('#searchForm').submit();
+            }
+        });
+    });
 </script>
+@yield('exportToExcelScripts');
 @yield('formBookScripts');
 @yield('formPurchaseOrderScripts');
 </body>

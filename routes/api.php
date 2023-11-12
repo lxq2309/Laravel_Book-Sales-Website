@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\user\AccountController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,9 @@ Route::post('/review', [\App\Http\Controllers\user\ProductController::class, 're
 Route::delete('/delete-review/{reviewID}', [\App\Http\Controllers\user\ProductController::class, 'deleteReview']);
 
 Route::get('/product/all/{condition}', [\App\Http\Controllers\user\ProductController::class, 'getAllProduct']);
+
+Route::post('/account/addressnew', [AccountController::class, 'AddNewAddress']);
+
+Route::get('/account/address/{addressID}', [AccountController::class, 'getAddressByID']);
+
+Route::post('/account/update-address', [AccountController::class, 'updateAddress']);

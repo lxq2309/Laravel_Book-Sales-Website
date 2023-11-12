@@ -36,6 +36,7 @@ Route::get('/category', [CategoryController::class, 'ProductCategory'])->name('c
 
 
 
+
 Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
 
 Route::resource('/admin/user', \App\Http\Controllers\admin\UserController::class);
@@ -54,6 +55,13 @@ Route::post('cart/update', [CartController::class, 'updateCart'])->name('cart.up
 Route::get('/account/detail', [AccountController::class, 'accountDetail'])->name('account.detail');
 
 Route::put('/account/update', [AccountController::class, 'updateAccount'])->name('account.update');
+
+Route::get('/account/address', [AccountController::class, 'AddAddress'])->name('account.addressadd');
+
+
+Route::get('/account/addresslist', [AccountController::class, 'AddressList'])->name('account.addressList');
+
+
 
 // -------------Login, logout and register------------------------- //
 Route::post('/login', [AuthManager::class, 'login'])->name('login.post');

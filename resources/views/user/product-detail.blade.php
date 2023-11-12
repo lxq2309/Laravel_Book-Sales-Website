@@ -334,11 +334,19 @@
                                         </div>
                                         <div class="rating">
                                             <div class="product-ratings d-inline-block align-middle">
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                @php
+                                                    $starRatingHTML = '';
+
+                                                    $star = $bookAu->AVGRating >= 5 ? 5 : $bookAu->AVGRating;
+                                                for($i = 0; $i < $star; $i++){
+                                                    $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons'>star</i></span>";
+                                                }
+                                                for( $i = $star; $i < 5; $i++){
+                                                    $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons off'>star</i></span>";
+                                                }
+
+                                                echo $starRatingHTML;
+                                                @endphp
                                             </div>
                                         </div>
                                         <div class="price">

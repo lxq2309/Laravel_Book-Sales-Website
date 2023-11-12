@@ -19,7 +19,8 @@ class CheckoutController extends Controller
 {
     function checkoutPage(){
         $userId = Session::get('user')->UserID;
-        $shippingAddress = ShippingAddress::where('UserID', $userId)->first();
+        $shippingAddressDefault = ShippingAddress::where('UserID', $userId)->where('IsDefault', 1)->first();
+        $shippingAddressList = ShippingAddress::where('UserID', $userId)->get();
         $userID = Auth::id();
         if($userID) {
             $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
@@ -33,18 +34,14 @@ class CheckoutController extends Controller
                 $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
             }
         }
-        if($shippingAddress) {
+        $bookPrice = $totalPrice;
+        if($shippingAddressDefault) {
+            $totalPrice += 5;
             return view(
-                "user.checkout-page", 
-                ['shippingAddress' => $shippingAddress->Address], 
-                ['totalPrice' => $totalPrice + 5],
-                ['bookPrice' => $totalPrice],
-            );
+                "user.checkout-page", compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList'));
         }
         return view(
-            "user.checkout-page", 
-            ['totalPrice' => $totalPrice + 5],
-            ['bookPrice' => $totalPrice],
+            "user.checkout-page", compact('totalPrice', 'bookPrice')
         );
     }
 

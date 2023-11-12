@@ -84,11 +84,28 @@ class SalesOrderController extends Controller
     {
         $salesOrder = SalesOrder::find($id)->delete();
 
-        return redirect()->route('sales-orders.index')
+        return redirect()->route('sales-order.index')
             ->with('success', 'SalesOrder deleted successfully');
     }
 
     function getAll(){
         return response()->json(SalesOrder::all());
+    }
+
+    function shipping($id, $page = 1)
+    {
+        $salesOrder = SalesOrder::find($id);
+        $salesOrder->OrderStatus = 'SHIPPING';
+        $salesOrder->save();
+        return redirect()->route('sales-order.index', ['status' => 4, 'page' => $page])
+            ->with('success', "Đơn hàng số $id đã được duyệt thành công và đang trong quá trình vận chuyển!");
+    }
+    function completed($id, $page = 1)
+    {
+        $salesOrder = SalesOrder::find($id);
+        $salesOrder->OrderStatus = 'COMPLETED';
+        $salesOrder->save();
+        return redirect()->route('sales-order.index', ['status' => 3, 'page' => $page])
+            ->with('success', "Đơn hàng số $id đã hoàn thành!");
     }
 }

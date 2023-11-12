@@ -73,14 +73,14 @@
                                                           method="POST">
                                                         <a class="btn btn-sm btn-primary "
                                                            href="{{ route('supplier.show',$supplier->SupplierID) }}"><i
-                                                                class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                                class="fa fa-fw fa-eye"></i> {{ __('Xem chi tiết') }}</a>
                                                         <a class="btn btn-sm btn-success"
                                                            href="{{ route('supplier.edit',$supplier->SupplierID) }}"><i
-                                                                class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                                class="fa fa-fw fa-edit"></i> {{ __('Sửa') }}</a>
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"><i
-                                                                class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
+                                                                class="fa fa-fw fa-trash"></i> {{ __('Xoá') }}
                                                         </button>
                                                     </form>
                                                 </div>

@@ -133,6 +133,17 @@
                                                            href="{{ route('sales-order.show',$salesOrder->OrderID) }}"><i
                                                                 class="fa fa-fw fa-eye"></i> {{ __('Xem chi tiết') }}
                                                         </a>
+                                                        @if($salesOrder->OrderStatus == 'Đang chờ duyệt')
+                                                            <a class="btn btn-sm btn-success"
+                                                               href="{{ route('sales-order.shipping',[ 'id' => $salesOrder->OrderID, 'page' => request('page')]) }}"><i
+                                                                    class="fa fa-fw fa-edit"></i> {{ __('Duyệt đơn') }}
+                                                            </a>
+                                                        @elseif($salesOrder->OrderStatus == 'Đang vận chuyển')
+                                                            <a class="btn btn-sm btn-success"
+                                                               href="{{ route('sales-order.completed', ['id' => $salesOrder->OrderID, 'page' => request('page')]) }}"><i
+                                                                    class="fa fa-fw fa-edit"></i> {{ __('Đánh dấu đã hoàn thành') }}
+                                                            </a>
+                                                        @endif
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"><i

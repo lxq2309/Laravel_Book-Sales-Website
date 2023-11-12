@@ -99,4 +99,21 @@ class CheckoutController extends Controller
             'orderID' => $Order->OrderID],
         );
     }
+
+    
+    public function confirmOrder(Request $request){
+        $order = SalesOrder::where(['OrderID' => $request->orderID])->first();
+        $order->OrderStatus = 'SHIPPING';
+        $order->save();
+        $userId = Session::get('user')->UserID;
+        $addresses = ShippingAddress::where('UserID', $userId)->count();
+        $shippingAddressList = ShippingAddress::where('UserID', $userId)->get();
+        $order = SalesOrder::where('UserID', $userId)
+            ->Where('OrderStatus', '!=', 'COMPLETED')
+            ->get();
+        if($shippingAddressList) {
+            return view("user.account-detail", ['numberAdd' => $addresses, 'shippingAddressList' => $shippingAddressList, 'orders' => $order]);
+        }
+        return view("user.account-detail", ['numberAdd' => $addresses, 'orders' => $order]);
+    }
 }

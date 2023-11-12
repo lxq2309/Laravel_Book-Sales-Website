@@ -77,6 +77,7 @@ Route::put('/account/change/password', [AuthManager::class, 'changePassword'])->
 // -------------Checkout------------------------- //
 Route::get('/checkout', [CheckoutController::class, 'checkoutPage'])->name('checkout.page');
 Route::get('/checkout/confirm', [CheckoutController::class, 'checkoutConfirm'])->name('checkout.confirm');
+Route::put('/confirm/order', [CheckoutController::class, 'confirmOrder'])->name('confirm.order');
 
 // -------------Coupon------------------------- //
 Route::post('/coupon', [CouponController::class, 'applyCoupon'])->name('coupon.apply');

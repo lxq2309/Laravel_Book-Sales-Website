@@ -320,5 +320,4 @@ class ProductController extends Controller
         return response()->json(['message' => 'Đã xóa', 'status' => 200]);
     }
 
-
 }

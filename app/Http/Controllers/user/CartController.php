@@ -79,9 +79,14 @@ class CartController extends Controller
             ->where('BookID', $bookID)
             ->delete();
 
-        $totalBookCount = ShoppingCartDetail::where('CartID', $cartID)->distinct()->count('BookID');
+        $cartItems = ShoppingCartDetail::with('book')->where('CartID', $cartID)->get();
+        $totalPrice = 0;
+        $totalBook = $cartItems->unique('BookID')->count();
+        foreach ($cartItems as $cartItem) {
+            $totalPrice += $cartItem->Quantity * $cartItem->book?->CostPrice;
+        }
 
-        return response()->json(['message' => 'Item removed from the cart', 'totalBookCount' => $totalBookCount]);
+        return response()->json(['message' => 'Item removed from the cart', 'totalBookCount' => $totalBook, 'totalPrice' => $totalPrice]);
     }
 
     public function updateCart(Request $request)

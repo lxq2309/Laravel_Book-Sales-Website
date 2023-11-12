@@ -233,9 +233,10 @@
                                         <span class="fa fa-stack"><i class="material-icons off">star</i></span>
                                     </div>
                                 </div>
-                                <h3 class="price float-left w-100"><span
-                                        class="regular-price align-middle">$75.00</span> đ<span
-                                        class="old-price align-middle">$60.00</span> đ</h3>
+                                <h3 class="price float-left w-100">
+                                    <span class="regular-price align-middle">$75.00</span> đ
+                                    <span class="old-price align-middle">$60.00</span> đ
+                                </h3>
                             </div>
                         </div>
                     </div>
@@ -677,8 +678,10 @@
         $('.btn-cart').on('click', function () {
             var bookName = $(this).data('book-name');
             var bookPrice = $(this).data('book-price');
+            var bookOldPrice = $(this).data('book-oldPrice');
             $('#cart-pop .product-title').text(bookName);
             $('#cart-pop .regular-price').text(bookPrice);
+            $('#cart-pop .old-price').text(bookOldPrice);
         });
     });
 

@@ -92,9 +92,12 @@
                                             <tbody>
                                                 @foreach ($cartItems as $item)
                                                 <tr>
-                                                    <td class="text-center"><a href="#"><img
-                                                                src="/user/assets/img/products/01.jpg" alt="01"
-                                                                title="01" height="104" width="80"></a></td>
+                                                    <td class="text-center">
+                                                        <a href="{{ $item->book->Avatar }}">
+                                                            <img src="{{ $item->book->Avatar }}" alt="{{ $item->book?->BookTitle }}"
+                                                                title="01" height="104" width="80">
+                                                        </a>
+                                                    </td>
                                                     <td class="text-left product-name">
                                                         <a href="#">{{ $item->book?->BookTitle }}</a>
                                                         <div class="quantity float-left w-100">
@@ -117,7 +120,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="text-left"><strong>Tổng chi phí</strong></td>
-                                                    <td class="text-right"><strong>{{$totalPrice}} đ</strong></td>
+                                                    <td class="text-right"><strong class="ttprice">{{$totalPrice}} đ</strong></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -156,6 +159,10 @@
     function updateTotalBookCount(count) {
         $('.ttcount').text(count);
     }
+    
+    function updateTotalPrice(price) {
+        $('.ttprice').text(price + 5);
+    }
 
     $(document).ready(function () {
         $(".close-cart").click(function () {
@@ -179,6 +186,7 @@
                     // Handle success, such as updating the cart display or removing the row from the table.
                     currentRow.remove();
                     updateTotalBookCount(response.totalBookCount);
+                    updateTotalPrice(response.totalPrice);
                 },
                 error: function (error) {
                     // Handle errors, if any.

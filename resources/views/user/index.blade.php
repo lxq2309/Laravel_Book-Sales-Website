@@ -121,6 +121,7 @@
                                                                 data-book-name="{{ $book->BookTitle }}"
                                                                 data-book-price="{{ $book->SellingPrice }}"
                                                                 data-book-id="{{ $book->BookID }}"
+                                                                data-book-oldPrice="{{ $book->CostPrice }}"
                                                         ><i
                                                                 class="material-icons">shopping_cart</i><span>Add to
                                                             cart</span>
@@ -226,9 +227,10 @@
                                                                             data-book-name="{{ $book->BookTitle }}"
                                                                             data-book-price="{{ $book->SellingPrice }}"
                                                                             data-book-id="{{ $book->BookID }}"
-                                                                    ><i
-                                                                            class="material-icons">shopping_cart</i><span>Add to
-                                                            cart</span>
+                                                                            data-book-oldPrice="{{ $book->CostPrice }}"
+                                                                    >
+                                                                        <i class="material-icons">shopping_cart</i>
+                                                                        <span>Add to cart</span>
                                                                     </button>
                                                                     <a href="#" class="btn btn-primary btn-wishlist"><i
                                                                             class="material-icons">favorite</i><span>wishlist</span></a>

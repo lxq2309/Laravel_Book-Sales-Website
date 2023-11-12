@@ -94,6 +94,8 @@
                                 <input type="text" class="form-control" id="acc-address" name="address" placeholder="Nhập địa chỉ">
                             </div>
                             @endif
+                            <a href="{{ route('account.addressadd') }}" class="btn btn-dark right">Thêm mới địa chỉ</a>
+                            <a href="{{ route('account.addressList') }}" class="btn btn-dark right">Danh sách địa chỉ</a>
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="change-password-checkbox" value="1">
                                 <label class="custom-control-label" for="change-password-checkbox">Change Password</label>
@@ -142,8 +144,8 @@
                                 <div class="product-thumb">
                                     <div class="image col-sm-4 float-left">
                                         <a href="#">
-                                            <img src="img/products/01.jpg" alt="01"/>										
-                                        </a>									
+                                            <img src="img/products/01.jpg" alt="01"/>
+                                        </a>
                                     </div>
                                     <div class="thumb-description col-sm-8 text-left float-left">
                                         <div class="caption">
@@ -160,8 +162,8 @@
                                 <div class="product-thumb">
                                     <div class="image col-sm-4 float-left">
                                         <a href="#">
-                                            <img src="img/products/02.jpg" alt="01"/>										
-                                        </a>									
+                                            <img src="img/products/02.jpg" alt="01"/>
+                                        </a>
                                     </div>
                                     <div class="thumb-description col-sm-8 text-left float-left">
                                         <div class="caption">
@@ -180,8 +182,8 @@
                                 <div class="product-thumb">
                                     <div class="image col-sm-4 float-left">
                                         <a href="#">
-                                            <img src="img/products/03.jpg" alt="03"/>										
-                                        </a>									
+                                            <img src="img/products/03.jpg" alt="03"/>
+                                        </a>
                                     </div>
                                     <div class="thumb-description col-sm-8 text-left float-left">
                                         <div class="caption">
@@ -198,6 +200,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

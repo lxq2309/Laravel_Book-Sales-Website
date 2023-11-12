@@ -18,9 +18,9 @@
                             <div class="tab-pane active" id="product-01" role="tabpanel"
                                  aria-labelledby="product-tab-01">
                                 <div class="single-img img-full">
-                                    <a href="{{$book->Avatar}}"><img
-                                            src="{{$book->Avatar}}"
-                                            class="img-fluid zoomImg" alt=""></a>
+                                    <a href="{{$book->Avatar}}">
+                                        <img src="{{$book->Avatar}}" class="img-fluid zoomImg" alt="">
+                                    </a>
                                 </div>
                             </div>
                             @php
@@ -135,12 +135,11 @@
                             </div>
                             <div class="btn-cart d-flex align-items-center float-left w-100">
                                 <h5>qty:</h5>
-                                <input value="1" type="number">
+                                <input id="book_quantity" value="1" type="number">
                                 <button type="button" class="btn btn-primary btn-cart m-0" data-target="#cart-pop"
                                         data-toggle="modal" data-bookID="{{ $book->BookID }}" id="addToCart"><i
                                         class="material-icons">shopping_cart</i>
-                                    Thêm Vào Giỏ
-                                    Hàng
+                                    Thêm Vào Giỏ Hàng
                                 </button>
                             </div>
                             <div class="social-sharing float-left w-100">
@@ -334,11 +333,19 @@
                                         </div>
                                         <div class="rating">
                                             <div class="product-ratings d-inline-block align-middle">
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                @php
+                                                    $starRatingHTML = '';
+
+                                                    $star = $bookAu->AVGRating >= 5 ? 5 : $bookAu->AVGRating;
+                                                for($i = 0; $i < $star; $i++){
+                                                    $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons'>star</i></span>";
+                                                }
+                                                for( $i = $star; $i < 5; $i++){
+                                                    $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons off'>star</i></span>";
+                                                }
+
+                                                echo $starRatingHTML;
+                                                @endphp
                                             </div>
                                         </div>
                                         <div class="price">
@@ -394,25 +401,24 @@
 
 
             document.querySelector("#addToCart").addEventListener('click', function () {
-                console.log('click');
                 var bookID = this.dataset.bookid;
-                console.log(bookID);
+                var qty = document.querySelector('#book_quantity').value;
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                 $.ajax({
                     type: 'POST',
                     url: '/cart/add',
                     data: {
-                        book_id: bookID
+                        book_id: bookID,
+                        book_quantity: qty
                     },
                     headers: {
                         'X-CSRF-TOKEN': csrfToken
                     },
                     success: function (response) {
-                        console.log('Product added to cart successfully.');
                     },
                     error: function (xhr, status, error) {
-                        console.error('Error adding product to cart:', error);
+                        console.error(error);
                     }
                 });
             });

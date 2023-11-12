@@ -91,10 +91,19 @@
                             @else
                             <div class="form-group required-field">
                                 <label for="acc-email">Địa chỉ</label>
-                                <input type="text" class="form-control" id="acc-address" name="address" placeholder="Nhập địa chỉ">
+                                <select name="address" id="addressList" class="form-control" id="address"
+                                    required="">
+                                    @if($shippingAddressList)
+                                        @foreach($shippingAddressList as $shippingAddres)
+                                            <option value="{{$shippingAddres->Address}}">{{$shippingAddres->Address}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
                             </div>
                             @endif
+                            @if($numberAdd < 3)
                             <a href="{{ route('account.addressadd') }}" class="btn btn-dark right">Thêm mới địa chỉ</a>
+                            @endif
                             <a href="{{ route('account.addressList') }}" class="btn btn-dark right">Danh sách địa chỉ</a>
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="change-password-checkbox" value="1">

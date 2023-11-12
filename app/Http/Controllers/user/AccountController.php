@@ -17,11 +17,12 @@ class AccountController extends Controller
 {
     public function AccountDetail(){
         $userId = Session::get('user')->UserID;
-        $shippingAddress = ShippingAddress::where('UserID', $userId)->first();
-        if($shippingAddress) {
-            return view("user.account-detail", ['shippingAddress' => $shippingAddress->Address]);
+        $addresses = ShippingAddress::where('UserID', $userId)->count();
+        $shippingAddressList = ShippingAddress::where('UserID', $userId)->get();
+        if($shippingAddressList) {
+            return view("user.account-detail", ['numberAdd' => $addresses, 'shippingAddressList' => $shippingAddressList]);
         }
-        return view("user.account-detail");
+        return view("user.account-detail", ['numberAdd' => $addresses]);
     }
 
     public function updateAccount(Request $request)
@@ -92,6 +93,8 @@ class AccountController extends Controller
         $addressAdd['UserID'] = $userID;
         $addressAdd['FullName'] = $data['name'];
         $addressAdd['City'] = $data['city'];
+        $addressAdd['District'] = $data['district'];
+        $addressAdd['Ward'] = $data['ward'];
         $addressAdd['Address'] = $data['address'];
         $addressAdd['PhoneNumber'] = $data['phone'];
         $addressAdd['IsDefault'] = $data['defaultCheckbox'] == true ? 1 : 0;
@@ -135,6 +138,7 @@ class AccountController extends Controller
         $address['Address'] = $data['address'];
         $address['PhoneNumber'] = $data['phone'];
         $address['District'] = $data['district'];
+        $address['Ward'] = $data['ward'];
         $address['IsDefault'] = $data['isDefault'] == true ? 1 : 0;
 
         if($data['isDefault']){

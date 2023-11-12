@@ -18,23 +18,27 @@
                 <form id="editFormAddress">
                     @csrf
                     <div class="form-group">
-                        <label for="address">Tên</label>
+                        <label for="name">Tên</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="address">Tỉnh/Thành phố</label>
+                        <label for="city">Tỉnh/Thành phố</label>
                         <input type="text" class="form-control" id="city" name="city" required>
                     </div>
                     <div class="form-group">
-                        <label for="address">Huyện</label>
+                        <label for="district">Quận/Huyện</label>
                         <input type="text" class="form-control" id="district" name="district" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ward">Phường/Xã</label>
+                        <input type="text" class="form-control" id="ward" name="ward" required>
                     </div>
                     <div class="form-group">
                         <label for="address">Địa chỉ:</label>
                         <input type="text" class="form-control" id="address" name="address" required>
                     </div>
                     <div class="form-group">
-                        <label for="address">Điện thoại</label>
+                        <label for="phone">Điện thoại</label>
                         <input type="tel" class="form-control" id="phone" name="phone" required>
                     </div>
 
@@ -64,6 +68,7 @@
             var nameInput = document.getElementById('name');
             var cityInput = document.getElementById('city');
             var districtInput = document.getElementById('district');
+            var wardInput = document.getElementById('ward');
             var addressInput = document.getElementById('address');
             var phoneInput = document.getElementById('phone');
             var defaultCheckbox = document.getElementById('defaultCheckbox');
@@ -94,6 +99,7 @@
                             nameInput.value = data[0].FullName;
                             cityInput.value = data[0].City;
                             districtInput.value = data[0].District;
+                            wardInput.value = data[0].Ward;
                             phoneInput.value = data[0].PhoneNumber;
                             addressInput.value = data[0].Address;
                             if (data[0].IsDefault === 1) {
@@ -115,6 +121,7 @@
                     district: districtInput.value,
                     phone: phoneInput.value,
                     address: addressInput.value,
+                    ward: wardInput.value,
                     isDefault: defaultCheckbox.checked ? 1 : 0,
                     addressID: addressIDInput.value,
                     userID: $('#userID').val()

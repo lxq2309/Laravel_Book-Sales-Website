@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="cart-block-left col-md-4 order-md-2 mb-4">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span>Your cart</span>
+                        <span>Giỏ hàng của bạn</span>
                     </h4>
                     <div class="list-group mb-3">
                         <div class="list-group-item d-flex justify-content-between lh-condensed">
@@ -32,7 +32,7 @@
                             </div>
                             <span class="text-muted">5 đ</span>
                         </div>
-                        @if(1 == 2)
+                        @if("LiemDepTrai" === true)
                             <div class="list-group-item d-flex justify-content-between">
                                 <div class="text-success">
                                     <h6 class="my-0">Mã khuyến mại</h6>
@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div class="cart-block-right col-md-8 order-md-1">
-                    <h4 class="mb-3">Billing address</h4>
+                    <h4 class="mb-3">Thông tin giao hàng</h4>
                     <form class="needs-validation" novalidate="">
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -80,13 +80,13 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="username">Tên tài khoản <span class="required">*</span></label>
+                            <label for="username">Tên tài khoản</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">@</span>
                                 </div>
                                 <input type="text" class="form-control" id="username" placeholder="Tên tài khoản"
-                                       value="{{ Session::get('user')->UserName }}" required="">
+                                       value="{{ Session::get('user')->UserName }}" required="" disabled>
                                 <div class="invalid-feedback" style="width: 100%;">
                                     Your username is required.
                                 </div>
@@ -101,24 +101,13 @@
                                 Please enter a valid email address for shipping updates.
                             </div>
                         </div>
-
                         <div class="mb-3">
                             <label for="address">Địa chỉ giao hàng<span class="required">*</span> </label>
-                            @if(!empty($shippingAddressDefault))
-                                <input type="combo" class="form-control" id="address" placeholder="Nhập địa chỉ nhận đơn"
-                                       required="" value="{{ $shippingAddressDefault->Address }}">
-
-
-                            @else
-                                <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ nhận đơn"
-                                       required="">
-                            @endif
                             <select name="addressList" id="addressList" class="form-control" id="address"
                                     required="">
                                 @if($shippingAddressList)
                                     @foreach($shippingAddressList as $shippingAddres)
-                                        <option value="{{$shippingAddres->Address}}">{{$shippingAddres->Address}}</option>
-
+                                        <option name="shippingAddress" value="{{$shippingAddres->Address}}">{{$shippingAddres->Address}}</option>
                                     @endforeach
                                 @endif
                             </select>

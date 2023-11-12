@@ -33,12 +33,15 @@
     <h3>Sản phẩm đặt</h3>
     <ul>
         @foreach ($mailData['cartItem'] as $cartItem)
-            <li>
-                <strong>{{ $cartItem->book->title }}</strong>
+            <li style="list-style:decimal;">
+                <div class="col-sm-1 col-xs-3 float-left">
+                    <img src="{{ $cartItem->book->Avatar }}" alt="" style="width: 200px;">
+                </div>
+                Tên sách: <strong>{{ $cartItem->book->BookTitle }}</strong>
                 <br>
-                Quantity: {{ $cartItem->Quantity }}
+                Số lượng: {{ $cartItem->Quantity }}
                 <br>
-                Price: ${{ $cartItem->Quantity * $cartItem->book->CostPrice }}
+                Giá: ${{ $cartItem->Quantity * $cartItem->book->CostPrice }}
             </li>
         @endforeach
     </ul>

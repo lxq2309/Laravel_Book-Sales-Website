@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderMail;
+use App\Models\SalesOrderDetail;
 
 class CheckoutController extends Controller
 {
@@ -41,7 +42,7 @@ class CheckoutController extends Controller
                 "user.checkout-page", compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList'));
         }
         return view(
-            "user.checkout-page", compact('totalPrice', 'bookPrice')
+            "user.checkout-page", compact('totalPrice', 'bookPrice', 'shippingAddressList')
         );
     }
 
@@ -61,13 +62,24 @@ class CheckoutController extends Controller
         }
         $address = ShippingAddress::firstOrNew(['UserID' => $userID]);
         $saleOrders['UserID'] = $userID;
-        $saleOrders['OrderStatus'] = 'SHIPPING';
-        $saleOrders['ShippingAddressID'] = $address->AddressID;
+        $saleOrders['OrderStatus'] = 'PENDING';
+        $saleOrders['ShippingAddressID'] = 5;
         // $saleOrders['Discount'] = 5;
         $saleOrders['TotalPrice'] = $totalPrice + 5 - 5;
         $saleOrders['ShippingFee'] = 5;
         $saleOrders['OrderDate'] = Carbon::now();
         $Order = SalesOrder::create($saleOrders);
+
+        ShoppingCartDetail::where('CartID', $cartID)->delete();
+
+        foreach ($cartItems as $cartItem) {
+            $saleOrdersDetail['OrderID'] = $Order->OrderID;
+            $saleOrdersDetail['BookID'] = $cartItem->book->BookID;
+            $saleOrdersDetail['QuantitySold'] = $cartItem->Quantity;
+            $saleOrdersDetail['Price'] = $cartItem->book->SellingPrice;
+            $saleOrdersDetail['SubTotal'] = $cartItem->book->SellingPrice * $cartItem->Quantity;
+            SalesOrderDetail::create($saleOrdersDetail);
+        }
 
         $mailData = [
             'title' => 'Đơn hàng mới vừa tạo',
@@ -86,5 +98,22 @@ class CheckoutController extends Controller
             'totalPrice' => $totalPrice,
             'orderID' => $Order->OrderID],
         );
+    }
+
+    
+    public function confirmOrder(Request $request){
+        $order = SalesOrder::where(['OrderID' => $request->orderID])->first();
+        $order->OrderStatus = 'SHIPPING';
+        $order->save();
+        $userId = Session::get('user')->UserID;
+        $addresses = ShippingAddress::where('UserID', $userId)->count();
+        $shippingAddressList = ShippingAddress::where('UserID', $userId)->get();
+        $order = SalesOrder::where('UserID', $userId)
+            ->Where('OrderStatus', '!=', 'COMPLETED')
+            ->get();
+        if($shippingAddressList) {
+            return view("user.account-detail", ['numberAdd' => $addresses, 'shippingAddressList' => $shippingAddressList, 'orders' => $order]);
+        }
+        return view("user.account-detail", ['numberAdd' => $addresses, 'orders' => $order]);
     }
 }

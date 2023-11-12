@@ -135,7 +135,7 @@
                             </div>
                             <div class="btn-cart d-flex align-items-center float-left w-100">
                                 <h5>qty:</h5>
-                                <input id="book_quantity" value="1" type="number">
+                                <input id="book_quantity" value="1" type="number" min="0">
                                 <button type="button" class="btn btn-primary btn-cart m-0" data-target="#cart-pop"
                                         data-toggle="modal" data-bookID="{{ $book->BookID }}" id="addToCart"><i
                                         class="material-icons">shopping_cart</i>

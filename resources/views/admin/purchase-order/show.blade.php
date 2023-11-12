@@ -14,7 +14,7 @@
                             <span class="card-title">{{ __('Thông tin') }} hoá đơn nhập</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('sales-order.index') }}"> {{ __('Back') }}</a>
+                            <a class="btn btn-primary" href="{{ route('purchase-order.index') }}"> {{ __('Quay lại') }}</a>
                         </div>
                     </div>
 
@@ -33,12 +33,8 @@
                             {{ $purchaseOrder->supplier == null ? '' : $purchaseOrder->supplier->SupplierName }}
                         </div>
                         <div class="form-group">
-                            <strong>Trạng thái:</strong>
-                            {{ $purchaseOrder->OrderStatus }}
-                        </div>
-                        <div class="form-group">
                             <strong>Tổng tiền:</strong>
-                            {{ $purchaseOrder->TotalPrice }}
+                            {{ $purchaseOrder->TotalPrice }} VNĐ
                         </div>
                     </div>
                 </div>
@@ -64,15 +60,15 @@
 
                                     <div class="form-group">
                                         <strong>Số lượng:</strong>
-                                        {{ $purchaseOrderDetail->QuantitySold }}
+                                        {{ $purchaseOrderDetail->QuantityReceived }}
                                     </div>
                                     <div class="form-group">
                                         <strong>Giá bán:</strong>
-                                        {{ $purchaseOrderDetail->Price }}
+                                        {{ $purchaseOrderDetail->Price }} VNĐ
                                     </div>
                                     <div class="form-group">
                                         <strong>Thành tiền:</strong>
-                                        {{ $purchaseOrderDetail->SubTotal }}
+                                        {{ $purchaseOrderDetail->SubTotal }} VNĐ
                                     </div>
                                 </div>
                             </div>

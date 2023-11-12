@@ -89,9 +89,9 @@
                                             <td>{{ $address }}</td>
                                             <td>{{ $fullname }}</td>
                                             <td>{{ $phonenumber }}</td>
-                                            <td>{{ $salesOrder->ShippingFee }}</td>
-                                            <td>{{ $salesOrder->Discount }}</td>
-                                            <td>{{ $salesOrder->TotalPrice }}</td>
+                                            <td>{{ $salesOrder->ShippingFee }} VNĐ</td>
+                                            <td>{{ $salesOrder->Discount }} %</td>
+                                            <td>{{ $salesOrder->TotalPrice }} VNĐ</td>
 
                                             <td style="position: absolute; right: 0; display: none">
                                                 <div style="position: sticky;">

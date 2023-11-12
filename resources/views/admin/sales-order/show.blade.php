@@ -59,15 +59,15 @@
                         </div>
                         <div class="form-group">
                             <strong>Phí vận chuyển:</strong>
-                            {{ $salesOrder->ShippingFee }}
+                            {{ $salesOrder->ShippingFee }} VNĐ
                         </div>
                         <div class="form-group">
                             <strong>% giảm giá:</strong>
-                            {{ $salesOrder->Discount }}
+                            {{ $salesOrder->Discount }} %
                         </div>
                         <div class="form-group">
                             <strong>Tổng tiền:</strong>
-                            {{ $salesOrder->TotalPrice }}
+                            {{ $salesOrder->TotalPrice }} VNĐ
                         </div>
                     </div>
                 </div>
@@ -97,11 +97,11 @@
                                     </div>
                                     <div class="form-group">
                                         <strong>Giá bán:</strong>
-                                        {{ $salesOrderDetail->Price }}
+                                        {{ $salesOrderDetail->Price }} VNĐ
                                     </div>
                                     <div class="form-group">
                                         <strong>Thành tiền:</strong>
-                                        {{ $salesOrderDetail->SubTotal }}
+                                        {{ $salesOrderDetail->SubTotal }} VNĐ
                                     </div>
                                 </div>
                             </div>

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\admin\PurchaseOrder;
+use App\Models\admin\PurchaseOrderDetail;
+use App\Models\admin\Supplier;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 /**
@@ -32,7 +35,8 @@ class PurchaseOrderController extends Controller
     public function create()
     {
         $purchaseOrder = new PurchaseOrder();
-        return view('admin.purchase-order.create', compact('purchaseOrder'));
+        $suppliers = Supplier::all();
+        return view('admin.purchase-order.create', compact('purchaseOrder', 'suppliers'));
     }
 
     /**
@@ -45,10 +49,37 @@ class PurchaseOrderController extends Controller
     {
         request()->validate(PurchaseOrder::$rules);
 
-        $purchaseOrder = PurchaseOrder::create($request->all());
+        // Tạo hoá đơn nhập
+        $purchaseOrder = new PurchaseOrder();
+        $purchaseOrder->OrderDate = $request->input('OrderDate');
+        $purchaseOrder->SupplierID = $request->input('SupplierID');
+        $purchaseOrder->save();
+        $totalPrice = 0;
 
-        return redirect()->route('purchase-orders.index')
-            ->with('success', 'PurchaseOrder created successfully.');
+        // Lấy dữ liệu chi tiết sách từ form
+        $bookIDs = $request->input('BookID');
+        $quantities = $request->input('QuantityReceived');
+        $prices = $request->input('Price');
+
+        // Lưu chi tiết hoá đơn nhập
+        foreach ($bookIDs as $key => $bookID) {
+            $purchaseOrderDetail = new PurchaseOrderDetail();
+            $purchaseOrderDetail->OrderID = $purchaseOrder->OrderID;
+            $purchaseOrderDetail->BookID = $bookID;
+            $purchaseOrderDetail->QuantityReceived = $quantities[$key];
+            $purchaseOrderDetail->Price = $prices[$key];
+            $subTotal = $quantities[$key] * $prices[$key];
+            $purchaseOrderDetail->SubTotal = $subTotal;
+            $purchaseOrderDetail->save();
+
+            $totalPrice += $subTotal;
+        }
+
+        $purchaseOrder->TotalPrice = $totalPrice;
+        $purchaseOrder->save();
+
+        return redirect()->route('purchase-order.index')
+            ->with('success', 'Tạo hoá đơn nhập thành công!');
     }
 
     /**
@@ -104,7 +135,7 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrder = PurchaseOrder::find($id)->delete();
 
-        return redirect()->route('purchase-orders.index')
+        return redirect()->route('purchase-order.index')
             ->with('success', 'PurchaseOrder deleted successfully');
     }
 }

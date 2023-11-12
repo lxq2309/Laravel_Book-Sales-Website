@@ -67,4 +67,50 @@ class SalesOrder extends Model
     }
 
 
+    public function getTotalPriceAttribute()
+    {
+        return $this->attributes['TotalPrice'] * 1000;
+    }
+
+    public function setTotalPriceAttribute($val)
+    {
+        $this->attributes['TotalPrice'] = $val / 1000;
+    }
+
+    public function getShippingFeeAttribute()
+    {
+        return $this->attributes['ShippingFee'] * 1000;
+    }
+
+    public function setShippingFeeAttribute($val)
+    {
+        $this->attributes['ShippingFee'] = $val / 1000;
+    }
+
+    public function getDiscountAttribute()
+    {
+        return $this->attributes['Discount'] * 100;
+    }
+
+    public function setDiscountAttribute($val)
+    {
+        $this->attributes['Discount'] = $val / 100;
+    }
+
+    public function getOrderStatusAttribute()
+    {
+        $status = '';
+        switch ($this->attributes['OrderStatus']) {
+            case 'PENDING':
+                $status = 'Đang chờ duyệt';
+                break;
+            case 'SHIPPING':
+                $status = 'Đang vận chuyển';
+                break;
+            case 'COMPLETED':
+                $status = 'Đã hoàn thành';
+                break;
+        }
+        return $status;
+    }
 }

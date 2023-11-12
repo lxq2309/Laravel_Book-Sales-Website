@@ -53,11 +53,11 @@
                         </div>
                         <div class="form-group">
                             <strong>Giá bán:</strong>
-                            {{ $book->CostPrice }}
+                            {{ $book->CostPrice }} VNĐ
                         </div>
                         <div class="form-group">
                             <strong>Giá khuyến mại:</strong>
-                            {{ $book->SellingPrice }}
+                            {{ $book->SellingPrice }} VNĐ
                         </div>
                         <div class="form-group">
                             <strong>Số lượng:</strong>
@@ -69,7 +69,7 @@
                         </div>
                         <div class="form-group">
                             <strong>Trọng lượng:</strong>
-                            {{ $book->Weight }}
+                            {{ $book->Weight }} gram
                         </div>
                         <div class="form-group">
                             <strong>Đường dẫn ảnh:</strong>
@@ -81,7 +81,7 @@
                         </div>
                         <div class="form-group">
                             <strong>Kích thước:</strong>
-                            {{ $book->Size }}
+                            {{ $book->Size }} cm
                         </div>
                         <div class="form-group">
                             <strong>Năm xuất bản:</strong>

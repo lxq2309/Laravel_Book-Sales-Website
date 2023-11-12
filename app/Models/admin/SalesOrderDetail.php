@@ -54,5 +54,24 @@ class SalesOrderDetail extends Model
         return $this->hasOne('App\Models\admin\SalesOrder', 'OrderID', 'OrderID');
     }
 
+    public function getPriceAttribute()
+    {
+        return $this->attributes['Price'] * 1000;
+    }
+
+    public function setPriceAttribute($val)
+    {
+        $this->attributes['Price'] = $val / 1000;
+    }
+
+    public function getSubTotalAttribute()
+    {
+        return $this->attributes['SubTotal'] * 1000;
+    }
+
+    public function setSubTotalAttribute($val)
+    {
+        $this->attributes['SubTotal'] = $val / 1000;
+    }
 
 }

@@ -1,16 +1,16 @@
 <div class="box box-info padding-1">
     <div class="box-body">
-        <div class="form-group">
+        <div class="form-group required">
             {{ Form::label('Tên sách') }}
             {{ Form::text('BookTitle', $book->BookTitle, ['class' => 'form-control' . ($errors->has('BookTitle') ? ' is-invalid' : '')]) }}
             {!! $errors->first('BookTitle', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-        <div class="form-group">
+        <div class="form-group required">
             {{ Form::label('Tên tác giả') }}
             {{ Form::text('Author', $book->Author, ['class' => 'form-control' . ($errors->has('Author') ? ' is-invalid' : '')]) }}
             {!! $errors->first('Author', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-        <div class="form-group">
+        <div class="form-group required">
             {{ Form::label('Nhà xuất bản') }}
             <select name="PublisherID" class="form-control">
                 @foreach($publishers as $publisher)
@@ -21,24 +21,24 @@
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
-            {{ Form::label('Giá bán') }}
-            {{ Form::text('CostPrice', $book->CostPrice, ['class' => 'form-control' . ($errors->has('CostPrice') ? ' is-invalid' : '')]) }}
+        <div class="form-group required">
+            {{ Form::label('Giá bán (VNĐ)') }}
+            {{ Form::number('CostPrice', $book->CostPrice, ['class' => 'form-control' . ($errors->has('CostPrice') ? ' is-invalid' : '')]) }}
             {!! $errors->first('CostPrice', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-        <div class="form-group">
-            {{ Form::label('Giá khuyến mại') }}
-            {{ Form::text('SellingPrice', $book->SellingPrice, ['class' => 'form-control' . ($errors->has('SellingPrice') ? ' is-invalid' : '')]) }}
+        <div class="form-group required">
+            {{ Form::label('Giá khuyến mại (VNĐ)') }}
+            {{ Form::number('SellingPrice', $book->SellingPrice, ['class' => 'form-control' . ($errors->has('SellingPrice') ? ' is-invalid' : '')]) }}
             {!! $errors->first('SellingPrice', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-        <div class="form-group">
+        <div class="form-group required">
             {{ Form::label('Số trang') }}
-            {{ Form::text('PageCount', $book->PageCount, ['class' => 'form-control' . ($errors->has('PageCount') ? ' is-invalid' : '')]) }}
+            {{ Form::number('PageCount', $book->PageCount, ['class' => 'form-control' . ($errors->has('PageCount') ? ' is-invalid' : '')]) }}
             {!! $errors->first('PageCount', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-        <div class="form-group">
-            {{ Form::label('Trọng lượng') }}
-            {{ Form::text('Weight', $book->Weight, ['class' => 'form-control' . ($errors->has('Weight') ? ' is-invalid' : '')]) }}
+        <div class="form-group required">
+            {{ Form::label('Trọng lượng (gram)') }}
+            {{ Form::number('Weight', $book->Weight, ['class' => 'form-control' . ($errors->has('Weight') ? ' is-invalid' : '')]) }}
             {!! $errors->first('Weight', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
@@ -68,7 +68,7 @@
             </div>
             {!! $errors->first('Avatar', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-        <div class="form-group">
+        <div class="form-group required">
             {{ Form::label('Loại bìa') }}
             <select name="CoverStyle" class="form-control">
                 <option
@@ -80,13 +80,13 @@
             </select>
         </div>
         <div class="form-group">
-            {{ Form::label('Kích thước') }}
+            {{ Form::label('Kích thước ([Chiều Dài]x[Chiều Rộng])') }}
             {{ Form::text('Size', $book->Size, ['class' => 'form-control' . ($errors->has('Size') ? ' is-invalid' : '')]) }}
             {!! $errors->first('Size', '<div class="invalid-feedback">:message</div>') !!}
         </div>
-        <div class="form-group">
+        <div class="form-group required">
             {{ Form::label('Năm xuất bản') }}
-            {{ Form::text('YearPublished', $book->YearPublished, ['class' => 'form-control' . ($errors->has('YearPublished') ? ' is-invalid' : '')]) }}
+            {{ Form::number('YearPublished', $book->YearPublished, ['class' => 'form-control' . ($errors->has('YearPublished') ? ' is-invalid' : '')]) }}
             {!! $errors->first('YearPublished', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">

@@ -36,7 +36,7 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+        <img class="animation__shake" src="/dist/img/loading.png" alt="AdminLTELogo" height="60" width="60">
     </div>
 
     <!-- Navbar -->
@@ -355,6 +355,8 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/dist/js/pages/dashboard.js"></script>
 <script src="/dist/js/custom.js"></script>
+<!-- Clipboard.js -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
 <script>
     const readListScripts = {
         showTableActions() {
@@ -367,5 +369,6 @@
     }
 </script>
 @yield('formBookScripts');
+@yield('formPurchaseOrderScripts');
 </body>
 </html>

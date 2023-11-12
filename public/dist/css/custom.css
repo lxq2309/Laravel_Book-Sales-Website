@@ -29,3 +29,8 @@ ul.pagination {
 th {
     white-space: nowrap;
 }
+
+.form-group.required label:after {
+    content:"*";
+    color:red;
+}

@@ -15,7 +15,7 @@
                         <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0"
                                 aria-controls="example1" type="button"><span>PDF</span></button>
                     </div>
-                    <a href="{{ route('purchase-order.create') }}" class="btn btn-primary float-right"
+                    <a href="{{ route('book.create') }}" class="btn btn-primary float-right"
                        data-placement="left">
                         {{ __('Nhập sách') }}
                     </a>
@@ -76,16 +76,16 @@
                                             <td>
                                                 <a href="{{ route('publisher.show', $publisherId)}}">{{ $publisherName }}</a>
                                             </td>
-                                            <td>{{ $book->CostPrice }}</td>
-                                            <td>{{ $book->SellingPrice }}</td>
+                                            <td>{{ $book->CostPrice }} VNĐ</td>
+                                            <td>{{ $book->SellingPrice }} VNĐ</td>
                                             <td>{{ $book->QuantityInStock }}</td>
                                             <td>{{ $book->PageCount }}</td>
-                                            <td>{{ $book->Weight }}</td>
+                                            <td>{{ $book->Weight }} gram</td>
                                             <td><img src="{{ $book->Avatar }}" alt="{{ $book->BookTitle }}"
                                                      class="img-thumbnail rounded check-image" style="max-width: 100px">
                                             </td>
                                             <td>{{ $book->CoverStyle }}</td>
-                                            <td>{{ $book->Size }}</td>
+                                            <td>{{ $book->Size }} cm</td>
                                             <td>{{ $book->YearPublished }}</td>
                                             @php
                                                 $setTitle = $book->bookset == null ? '' : $book->bookset->SetTitle;

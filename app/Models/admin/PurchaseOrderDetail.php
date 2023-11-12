@@ -24,11 +24,12 @@ class PurchaseOrderDetail extends Model
     protected $primaryKey = ["OrderID", "BookID"];
     public $incrementing = false;
     static $rules = [
-        'OrderID' => 'required',
-        'BookID' => 'required',
+
     ];
 
     protected $perPage = 20;
+
+    public $timestamps = false;
 
     /**
      * Attributes that should be mass-assignable.
@@ -54,5 +55,23 @@ class PurchaseOrderDetail extends Model
         return $this->hasOne('App\Models\admin\PurchaseOrder', 'OrderID', 'OrderID');
     }
 
+    public function getPriceAttribute()
+    {
+        return $this->attributes['Price'] * 1000;
+    }
 
+    public function setPriceAttribute($val)
+    {
+        $this->attributes['Price'] = $val / 1000;
+    }
+
+    public function getSubTotalAttribute()
+    {
+        return $this->attributes['SubTotal'] * 1000;
+    }
+
+    public function setSubTotalAttribute($val)
+    {
+        $this->attributes['SubTotal'] = $val / 1000;
+    }
 }

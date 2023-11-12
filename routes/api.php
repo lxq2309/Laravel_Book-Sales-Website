@@ -31,3 +31,6 @@ Route::post('/review', [\App\Http\Controllers\user\ProductController::class, 're
 Route::delete('/delete-review/{reviewID}', [\App\Http\Controllers\user\ProductController::class, 'deleteReview']);
 
 Route::get('/product/all/{condition}', [\App\Http\Controllers\user\ProductController::class, 'getAllProduct']);
+
+Route::get('/book/search/{searchText}', [\App\Http\Controllers\admin\BookController::class, 'searchBook']);
+Route::get('/book/{id}', [\App\Http\Controllers\admin\BookController::class, 'getById']);

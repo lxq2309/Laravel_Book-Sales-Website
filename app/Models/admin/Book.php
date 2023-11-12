@@ -50,6 +50,14 @@ class Book extends Model
 
     static $rules = [
 		'BookTitle' => 'required',
+        'Author' => 'required',
+        'PublisherID' => 'required',
+        'CostPrice' => 'required',
+        'SellingPrice' => 'required',
+        'PageCount' => 'required',
+        'Weight' => 'required',
+        'CoverStyle' => 'required',
+        'YearPublished' => 'required'
     ];
 
     protected $perPage = 20;
@@ -130,6 +138,37 @@ class Book extends Model
     {
         return $this->belongsToMany(Genre::class, 'BookGenre', 'BookID', 'GenreID');
     }
+
+    public function getCostPriceAttribute()
+    {
+        return $this->attributes['CostPrice'] * 1000;
+    }
+
+    public function setCostPriceAttribute($val)
+    {
+        $this->attributes['CostPrice'] = $val / 1000;
+    }
+
+    public function getSellingPriceAttribute()
+    {
+        return $this->attributes['SellingPrice'] * 1000;
+    }
+
+    public function setSellingPriceAttribute($val)
+    {
+        $this->attributes['SellingPrice'] = $val / 1000;
+    }
+
+    public function getWeightAttribute()
+    {
+        return $this->attributes['Weight'] * 1000;
+    }
+
+    public function setWeightAttribute($val)
+    {
+        $this->attributes['Weight'] = $val / 1000;
+    }
+
 
 
 }

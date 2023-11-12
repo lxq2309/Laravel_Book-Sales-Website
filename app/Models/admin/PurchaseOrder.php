@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property $OrderID
  * @property $OrderDate
  * @property $SupplierID
- * @property $OrderStatus
  * @property $TotalPrice
  *
  * @property Purchaseorderdetail $purchaseorderdetail
@@ -23,17 +22,20 @@ class PurchaseOrder extends Model
     protected $table = "PurchaseOrder";
     protected $primaryKey = "OrderID";
     static $rules = [
-        'OrderID' => 'required',
+        'OrderDate' => 'required',
+
     ];
 
     protected $perPage = 20;
+
+    public $timestamps = false;
 
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = ['OrderID', 'OrderDate', 'SupplierID', 'OrderStatus', 'TotalPrice'];
+    protected $fillable = ['OrderDate', 'SupplierID', 'TotalPrice'];
 
 
     /**
@@ -52,5 +54,13 @@ class PurchaseOrder extends Model
         return $this->hasOne('App\Models\admin\Supplier', 'SupplierID', 'SupplierID');
     }
 
+    public function getTotalPriceAttribute()
+    {
+        return $this->attributes['TotalPrice'] * 1000;
+    }
 
+    public function setTotalPriceAttribute($val)
+    {
+        $this->attributes['TotalPrice'] = $val / 1000;
+    }
 }

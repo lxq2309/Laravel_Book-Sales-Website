@@ -42,7 +42,7 @@ class CheckoutController extends Controller
                 "user.checkout-page", compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList'));
         }
         return view(
-            "user.checkout-page", compact('totalPrice', 'bookPrice')
+            "user.checkout-page", compact('totalPrice', 'bookPrice', 'shippingAddressList')
         );
     }
 

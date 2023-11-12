@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\admin\Admin;
+use App\Models\admin\Bookset;
 use Illuminate\Http\Request;
 
 /**
@@ -16,12 +17,24 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $admins = Admin::paginate();
-
+        $admins = Admin::query();
+        if ($request->has('search'))
+        {
+            $searchText = $request->input('search');
+            $admins->where('Email', 'LIKE', "%$searchText%");
+        }
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        if (empty($request->input('order')))
+        {
+            $orderBy = 'desc';
+        }
+        $admins->orderBy('AdminID', $orderBy);
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        $admins = $admins->paginate()->appends(['order' => $orderBy]);
         return view('admin.admin.index', compact('admins'))
-            ->with('i', (request()->input('page', 1) - 1) * $admins->perPage());
+            ->with('i', ($admins->currentPage() - 1) * $admins->perPage());
     }
 
     /**
@@ -105,5 +118,9 @@ class AdminController extends Controller
 
         return redirect()->route('admin.index')
             ->with('success', 'Xoá tài khoản thành công!');
+    }
+
+    function getAll(){
+        return response()->json(Admin::all());
     }
 }

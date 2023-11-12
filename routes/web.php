@@ -58,10 +58,7 @@ Route::put('/account/update', [AccountController::class, 'updateAccount'])->name
 
 Route::get('/account/address', [AccountController::class, 'AddAddress'])->name('account.addressadd');
 
-
 Route::get('/account/addresslist', [AccountController::class, 'AddressList'])->name('account.addressList');
-
-
 
 // -------------Login, logout and register------------------------- //
 Route::post('/login', [AuthManager::class, 'login'])->name('login.post');

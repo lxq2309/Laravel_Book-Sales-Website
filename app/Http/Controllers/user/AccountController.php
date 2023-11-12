@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Models\admin\ShippingAddress;
+use App\Models\SalesOrder;
 use App\Models\ShippingAddress as ModelsShippingAddress;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
@@ -19,10 +20,13 @@ class AccountController extends Controller
         $userId = Session::get('user')->UserID;
         $addresses = ShippingAddress::where('UserID', $userId)->count();
         $shippingAddressList = ShippingAddress::where('UserID', $userId)->get();
+        $order = SalesOrder::where('UserID', $userId)
+            ->Where('OrderStatus', '!=', 'COMPLETED')
+            ->get();
         if($shippingAddressList) {
-            return view("user.account-detail", ['numberAdd' => $addresses, 'shippingAddressList' => $shippingAddressList]);
+            return view("user.account-detail", ['numberAdd' => $addresses, 'shippingAddressList' => $shippingAddressList, 'orders' => $order]);
         }
-        return view("user.account-detail", ['numberAdd' => $addresses]);
+        return view("user.account-detail", ['numberAdd' => $addresses, 'orders' => $order]);
     }
 
     public function updateAccount(Request $request)

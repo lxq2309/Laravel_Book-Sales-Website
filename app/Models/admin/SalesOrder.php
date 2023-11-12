@@ -69,6 +69,10 @@ class SalesOrder extends Model
 
     public function getTotalPriceAttribute()
     {
+        if (empty($this->attributes['TotalPrice']))
+        {
+            return 0;
+        }
         return $this->attributes['TotalPrice'] * 1000;
     }
 
@@ -79,6 +83,10 @@ class SalesOrder extends Model
 
     public function getShippingFeeAttribute()
     {
+        if (empty($this->attributes['ShippingFee']))
+        {
+            return 0;
+        }
         return $this->attributes['ShippingFee'] * 1000;
     }
 
@@ -89,6 +97,10 @@ class SalesOrder extends Model
 
     public function getDiscountAttribute()
     {
+        if (empty($this->attributes['Discount']))
+        {
+            return 0;
+        }
         return $this->attributes['Discount'] * 100;
     }
 

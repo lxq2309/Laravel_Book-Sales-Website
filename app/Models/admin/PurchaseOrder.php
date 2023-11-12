@@ -56,6 +56,10 @@ class PurchaseOrder extends Model
 
     public function getTotalPriceAttribute()
     {
+        if (empty($this->attributes['TotalPrice']))
+        {
+            return 0;
+        }
         return $this->attributes['TotalPrice'] * 1000;
     }
 

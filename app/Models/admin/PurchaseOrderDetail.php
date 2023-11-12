@@ -57,6 +57,10 @@ class PurchaseOrderDetail extends Model
 
     public function getPriceAttribute()
     {
+        if (empty($this->attributes['Price']))
+        {
+            return 0;
+        }
         return $this->attributes['Price'] * 1000;
     }
 
@@ -67,6 +71,10 @@ class PurchaseOrderDetail extends Model
 
     public function getSubTotalAttribute()
     {
+        if (empty($this->attributes['SubTotal']))
+        {
+            return 0;
+        }
         return $this->attributes['SubTotal'] * 1000;
     }
 

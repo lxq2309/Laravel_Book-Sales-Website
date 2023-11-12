@@ -141,6 +141,10 @@ class Book extends Model
 
     public function getCostPriceAttribute()
     {
+        if (empty($this->attributes['CostPrice']))
+        {
+            return 0;
+        }
         return $this->attributes['CostPrice'] * 1000;
     }
 
@@ -151,6 +155,10 @@ class Book extends Model
 
     public function getSellingPriceAttribute()
     {
+        if (empty($this->attributes['SellingPrice']))
+        {
+            return 0;
+        }
         return $this->attributes['SellingPrice'] * 1000;
     }
 
@@ -161,6 +169,10 @@ class Book extends Model
 
     public function getWeightAttribute()
     {
+        if (empty($this->attributes['Weight']))
+        {
+            return 0;
+        }
         return $this->attributes['Weight'] * 1000;
     }
 

@@ -10,6 +10,7 @@ use App\Models\admin\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function MongoDB\BSON\toJSON;
+use const Grpc\STATUS_OK;
 
 /**
  * Class BookController
@@ -28,6 +29,96 @@ class BookController extends Controller
 
         return view('admin.book.index', compact('books'))
             ->with('i', (request()->input('page', 1) - 1) * $books->perPage());
+    }
+
+    /**
+     * Show the form for creating the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $book = new Book();
+        $genres = Genre::all();
+        $publishers = Publisher::all();
+        $bookSets = BookSet::all();
+        $selectedGenres = $book->bookgenre->pluck('GenreID')->toArray();
+        $images = $book->bookimages;
+
+        return view('admin.book.create', compact('book', 'publishers', 'genres', 'bookSets', 'selectedGenres', 'images'));
+    }
+
+    /**
+     * Create the specified resource in storage.
+     * (Ta truyền vào BookID, sau đó nhờ cơ chế Route Model Binding của Laravel mà nó tự binding sang bản ghi Book tương ứng)
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\admin\Book $book
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        request()->validate(Book::$rules);
+
+        // lấy dữ liệu từ các thẻ input
+        $input = $request->all();
+
+        // Xử lý lưu tệp tải lên
+        if ($request->hasFile('Avatar')) {
+            $image = $request->file('Avatar');
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $image->move(public_path('images/book'), $imageName);
+            $input['Avatar'] = '/images/book/' . $imageName;
+        } else {
+            if ($input['AvatarUrl']) {
+                $input['Avatar'] = $input['AvatarUrl'];
+            } else {
+                $input['Avatar'] = '/images/book/default.png';
+            }
+        }
+
+        // Thêm sách mới
+        $book = Book::create($input);
+
+        // Cập nhật thể loại
+        $selectedGenres = $request->input('bookgenre', []);
+        $book->genres()->sync($selectedGenres);
+
+
+        // Thêm các hình ảnh mới vào
+        $selectedImageIds = $request->input('ImagesIds', []);
+        $newBookImages = [];
+        $randomNumber = time();
+        $newImagesUrl = $request->input('images-url', []);
+        //  Thêm từ url
+        if ($newImagesUrl) {
+            foreach ($newImagesUrl as $imageUrl) {
+                if (!empty($imageUrl)) {
+                    $newBookImages[] = [
+                        'ImagePath' => $imageUrl,
+                        'Description' => "$book->BookTitle-$randomNumber"
+                    ];
+                }
+            }
+        }
+        // Thêm từ file
+        if ($request->hasFile('images-file')) {
+            $newImagesFile = $request['images-file'];
+            foreach ($newImagesFile as $image) {
+                $imageName = time() . '-' . $image->getClientOriginalName();
+                $image->move(public_path('images/book/images'), $imageName);
+                $imagePath = '/images/book/images/' . $imageName;
+                $newBookImages[] = [
+                    'ImagePath' => $imagePath,
+                    'Description' => "$book->BookTitle-$randomNumber"
+                ];
+            }
+        }
+        $book->bookimages()->createMany($newBookImages);
+
+        return redirect()->route('book.show', $book->BookID)
+            ->with('success', 'Sửa thông tin thành công!');
     }
 
     /**
@@ -94,7 +185,7 @@ class BookController extends Controller
             if ($input['AvatarUrl']) {
                 $input['Avatar'] = $input['AvatarUrl'];
             } else {
-                $input['Avatar'] = '/images/book/default.jpg';
+                $input['Avatar'] = '/images/book/default.png';
             }
         }
 
@@ -168,5 +259,23 @@ class BookController extends Controller
 
         return redirect()->route('book.index')
             ->with('success', "Xoá thành công cuốn sách $title với mã sách là $id");
+    }
+
+    /**
+     * api search book
+     */
+    public function searchBook($searchText)
+    {
+        $books = Book::where('BookTitle', 'LIKE', "%$searchText%")
+            ->get();
+        return response()->json($books);
+    }
+
+    /**
+     * api get book by id
+     */
+    public function getById($id){
+        $book = Book::find($id);
+        return response()->json($book);
     }
 }

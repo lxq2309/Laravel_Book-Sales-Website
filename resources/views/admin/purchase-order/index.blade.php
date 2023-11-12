@@ -17,7 +17,7 @@
                     </div>
                     <a href="{{ route('purchase-order.create') }}" class="btn btn-primary float-right"
                        data-placement="left">
-                        {{ __('Create New') }}
+                        {{ __('Tạo hoá đơn nhập mới') }}
                     </a>
                     <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem"><input type="search"
                                                                                                    class="form-control form-control-sm"
@@ -43,7 +43,6 @@
                                         <th>Mã hoá đơn</th>
                                         <th>Ngày nhập</th>
                                         <th>Nhà cung cấp</th>
-                                        <th>Trạng thái</th>
                                         <th>Tổng tiền</th>
                                     </tr>
                                     </thead>
@@ -54,8 +53,7 @@
                                             <td>{{ $purchaseOrder->OrderID }}</td>
                                             <td>{{ $purchaseOrder->OrderDate }}</td>
                                             <td>{{ $purchaseOrder->supplier == null ? '' : $purchaseOrder->supplier->SupplierName }}</td>
-                                            <td>{{ $purchaseOrder->OrderStatus }}</td>
-                                            <td>{{ $purchaseOrder->TotalPrice }}</td>
+                                            <td>{{ $purchaseOrder->TotalPrice }} VNĐ</td>
 
                                             <td style="position: absolute; right: 0; display: none">
                                                 <div style="position: sticky;">

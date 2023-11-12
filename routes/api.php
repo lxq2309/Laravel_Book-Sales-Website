@@ -33,8 +33,8 @@ Route::delete('/delete-review/{reviewID}', [\App\Http\Controllers\user\ProductCo
 
 Route::get('/product/all/{condition}', [\App\Http\Controllers\user\ProductController::class, 'getAllProduct']);
 
+Route::get('/book/search/{searchText}', [\App\Http\Controllers\admin\BookController::class, 'searchBook']);
+Route::get('/book/{id}', [\App\Http\Controllers\admin\BookController::class, 'getById']);
 Route::post('/account/addressnew', [AccountController::class, 'AddNewAddress']);
-
 Route::get('/account/address/{addressID}', [AccountController::class, 'getAddressByID']);
-
 Route::post('/account/update-address', [AccountController::class, 'updateAddress']);

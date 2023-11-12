@@ -55,7 +55,7 @@
                                             onmouseleave="readListScripts.hideTableActions()">
                                             <td>{{ $coupon->CouponID }}</td>
                                             <td>{{ $coupon->CouponCode }}</td>
-                                            <td>{{ $coupon->DiscountAmount * 100 }}%</td>
+                                            <td>{{ $coupon->DiscountAmount }}%</td>
                                             <td>{{ $coupon->ExpiryDate }}</td>
                                             <td>{{ $coupon->IsUsed ? 'Đã sử dụng' : 'Chưa sử dụng' }}</td>
                                             <td>{{ $coupon->CreatedDate }}</td>

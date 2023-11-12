@@ -15,10 +15,6 @@
                         <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0"
                                 aria-controls="example1" type="button"><span>PDF</span></button>
                     </div>
-                    <a href="{{ route('user.create') }}" class="btn btn-primary float-right"
-                       data-placement="left">
-                        {{ __('Create New') }}
-                    </a>
                     <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem"><input type="search"
                                                                                                    class="form-control form-control-sm"
                                                                                                    placeholder="Tìm kiếm..."
@@ -36,23 +32,19 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <table id="example1"
-                                       class="table table-bordered table-striped dataTable dtr-inline table-hover table table-responsive"
+                                       class="table table-bordered table-striped dataTable dtr-inline table-hover"
                                        aria-describedby="example1_info">
                                     <thead>
                                     <tr>
-                                        <th>UserID</th>
-                                        <th>Username</th>
-                                        <th>Password</th>
+                                        <th>Mã người dùng</th>
+                                        <th>Tên người dùng</th>
                                         <th>Email</th>
-                                        <th>Firstname</th>
-                                        <th>Lastname</th>
-                                        <th>Gender</th>
-                                        <th>Phonenumber</th>
-                                        <th>Dateofbirth</th>
-                                        <th>Createddate</th>
-                                        <th>Modifieddate</th>
-                                        <th>Confirmcode</th>
-                                        <th></th>
+                                        <th>Tên</th>
+                                        <th>Họ và tên đệm</th>
+                                        <th>Giới tính</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Ngày sinh</th>
+                                        <th>Ngày tạo</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -61,7 +53,6 @@
                                             onmouseleave="readListScripts.hideTableActions()">
                                             <td>{{ $user->UserID }}</td>
                                             <td>{{ $user->UserName }}</td>
-                                            <td>{{ $user->password }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->FirstName }}</td>
                                             <td>{{ $user->LastName }}</td>
@@ -69,26 +60,9 @@
                                             <td>{{ $user->PhoneNumber }}</td>
                                             <td>{{ $user->DateOfBirth }}</td>
                                             <td>{{ $user->CreatedDate }}</td>
-                                            <td>{{ $user->ModifiedDate }}</td>
-                                            <td>{{ $user->ConfirmCode }}</td>
 
                                             <td style="position: absolute; right: 0; display: none">
-                                                <div style="position: sticky;">
-                                                    <form action="{{ route('user.destroy',$user->UserID) }}"
-                                                          method="POST">
-                                                        <a class="btn btn-sm btn-primary "
-                                                           href="{{ route('user.show',$user->UserID) }}"><i
-                                                                class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                        <a class="btn btn-sm btn-success"
-                                                           href="{{ route('user.edit',$user->UserID) }}"><i
-                                                                class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm"><i
-                                                                class="fa fa-fw fa-trash"></i> {{ __('Delete') }}
-                                                        </button>
-                                                    </form>
-                                                </div>
+
                                             </td>
                                         </tr>
                                     @endforeach

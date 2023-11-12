@@ -46,4 +46,9 @@ class Coupon extends Model
     {
         $this->attributes['DiscountAmount'] = $value / 100;
     }
+
+    public function getDiscountAmountAttribute()
+    {
+        return $this->attributes['DiscountAmount'] * 100;
+    }
 }

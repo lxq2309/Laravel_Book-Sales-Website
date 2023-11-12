@@ -148,63 +148,26 @@
                     </div>
                     <div id="sidebar-product" class="collapse w-100 float-left">
                         <div class="sidebar-block sale products">
-                            <h3 class="widget-title">sale products</h3>
+                            <h3 class="widget-title">Đơn Hàng Của Bạn</h3>
+                            @foreach($orders as $order)
                             <div class="product-layouts">
                                 <div class="product-thumb">
-                                    <div class="image col-sm-4 float-left">
-                                        <a href="#">
-                                            <img src="img/products/01.jpg" alt="01"/>
-                                        </a>
-                                    </div>
                                     <div class="thumb-description col-sm-8 text-left float-left">
                                         <div class="caption">
-                                            <h4 class="product-title text-capitalize"><a href="product-details.html">aliquam quaerat voluptatem</a></h4>
+                                            <h4 class="product-title text-capitalize">Mã đơn: <span style="font-weight: bold;">{{$order->OrderID}}</span></h4>
                                         </div>
                                         <div class="price">
-                                            <div class="regular-price">$100.00</div>
-                                            <div class="old-price">$150.00</div>
+                                            <div>Tình trạng:</div>
+                                            @if($order->OrderStatus == "SHIPPING")
+                                            <div style="font-weight: bold; color: coral;">Đang Giao</div>
+                                            @else
+                                            <div style="font-weight: bold; color: yellowgreen;">Chờ Xác Nhận</div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="product-layouts">
-                                <div class="product-thumb">
-                                    <div class="image col-sm-4 float-left">
-                                        <a href="#">
-                                            <img src="img/products/02.jpg" alt="01"/>
-                                        </a>
-                                    </div>
-                                    <div class="thumb-description col-sm-8 text-left float-left">
-                                        <div class="caption">
-                                            <h4 class="product-title text-capitalize">
-                                                <a href="product-details.html">aspetur autodit autfugit</a>
-                                            </h4>
-                                        </div>
-                                        <div class="price">
-                                            <div class="regular-price">$100.00</div>
-                                            <div class="old-price">$150.00</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-layouts">
-                                <div class="product-thumb">
-                                    <div class="image col-sm-4 float-left">
-                                        <a href="#">
-                                            <img src="img/products/03.jpg" alt="03"/>
-                                        </a>
-                                    </div>
-                                    <div class="thumb-description col-sm-8 text-left float-left">
-                                        <div class="caption">
-                                            <h4 class="product-title text-capitalize"><a href="product-details.html">magni dolores eosquies</a></h4>
-                                        </div>
-                                        <div class="price">
-                                            <div class="regular-price">$100.00</div>
-                                            <div class="old-price">$150.00</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

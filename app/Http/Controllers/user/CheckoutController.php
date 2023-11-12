@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderMail;
+use App\Models\SalesOrderDetail;
 
 class CheckoutController extends Controller
 {
@@ -61,13 +62,24 @@ class CheckoutController extends Controller
         }
         $address = ShippingAddress::firstOrNew(['UserID' => $userID]);
         $saleOrders['UserID'] = $userID;
-        $saleOrders['OrderStatus'] = 'SHIPPING';
-        $saleOrders['ShippingAddressID'] = $address->AddressID;
+        $saleOrders['OrderStatus'] = 'PENDING';
+        $saleOrders['ShippingAddressID'] = 5;
         // $saleOrders['Discount'] = 5;
         $saleOrders['TotalPrice'] = $totalPrice + 5 - 5;
         $saleOrders['ShippingFee'] = 5;
         $saleOrders['OrderDate'] = Carbon::now();
         $Order = SalesOrder::create($saleOrders);
+
+        ShoppingCartDetail::where('CartID', $cartID)->delete();
+
+        foreach ($cartItems as $cartItem) {
+            $saleOrdersDetail['OrderID'] = $Order->OrderID;
+            $saleOrdersDetail['BookID'] = $cartItem->book->BookID;
+            $saleOrdersDetail['QuantitySold'] = $cartItem->Quantity;
+            $saleOrdersDetail['Price'] = $cartItem->book->SellingPrice;
+            $saleOrdersDetail['SubTotal'] = $cartItem->book->SellingPrice * $cartItem->Quantity;
+            SalesOrderDetail::create($saleOrdersDetail);
+        }
 
         $mailData = [
             'title' => 'Đơn hàng mới vừa tạo',

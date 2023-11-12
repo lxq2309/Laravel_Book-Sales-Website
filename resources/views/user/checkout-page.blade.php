@@ -101,7 +101,6 @@
                                 Please enter a valid email address for shipping updates.
                             </div>
                         </div>
-
                         <div class="mb-3">
                             <label for="address">Địa chỉ giao hàng<span class="required">*</span> </label>
                             <select name="addressList" id="addressList" class="form-control" id="address"

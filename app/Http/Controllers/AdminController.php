@@ -21,8 +21,8 @@ class AdminController extends Controller
         $suppliersCount = Supplier::all()->count();
         $publishersCount = Publisher::all()->count();
         $adminsCount = Admin::all()->count();
-        $purchaseOrdersCount = PurchaseOrder::all()->where('OrderStatus', '=', 'COMPLETED')->count();
-        $salesOrdersCount = SalesOrder::all()->where('OrderStatus','=','COMPLETED')->count();
+        $purchaseOrdersCount = PurchaseOrder::all()->count();
+        $salesOrdersCount = SalesOrder::all()->where('OrderStatus','=','Đã hoàn thành')->count();
         $couponsCount = Coupon::all()->where('IsUsed', '=', false)->where('ExpiryDate', '<', now())->count();
         return view('admin.index', compact('usersCount', 'booksCount', 'suppliersCount', 'publishersCount', 'adminsCount', 'purchaseOrdersCount', 'salesOrdersCount', 'couponsCount'));
     }

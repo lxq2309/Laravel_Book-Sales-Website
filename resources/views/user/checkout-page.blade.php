@@ -47,12 +47,12 @@
                             <strong>Total (VND)</strong>
                             <strong>{{ $totalPrice  }}</strong>
                         </div>
-                        <form action="{{ route('checkout.confirm') }}" method="GET">
-                            <input type="hidden" name="couponCode" value="{{$couponCode}}">
-                            <button type="submit" class="btn btn-primary btn-lg btn-primary">Đặt đơn</button>
-                        </form>
-
-
+                        <a href="{{ Route('checkout.confirm', ['shippingAddress' => '', 'couponCode' => $couponCode]) }}"
+                            class="btn btn-primary btn-lg btn-primary"
+                            id="checkout-submit">
+                            Đặt đơn
+                        </a>
+                        </ul>
 
                         <!--<form class="card p-2">
                         <div class="input-group">
@@ -140,5 +140,25 @@
             // Hiển thị giá trị của option lên input
             $('#address').val(selectedAddress);
         });
+
+        $(document).ready(function () {
+            function updateCheckoutLink(selectedAddress) {
+                var couponCode = "{{ $couponCode }}";
+                var checkoutLink = "{{ route('checkout.confirm', ['shippingAddress' => '']) }}&couponCode=" + couponCode;
+                checkoutLink = checkoutLink.replace('shippingAddress=', 'shippingAddress=' + encodeURIComponent(selectedAddress));
+                $('#checkout-submit').attr('href', checkoutLink);
+            }
+
+            // Initial setup with default address
+            var defaultSelectedAddress = $('#addressList').val();
+            updateCheckoutLink(defaultSelectedAddress);
+
+            // Listen for the change event on the select element
+            $('#addressList').change(function () {
+                var selectedAddress = $(this).val();
+                updateCheckoutLink(selectedAddress);
+            });
+        });
+
     </script>
 @endsection

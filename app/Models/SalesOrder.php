@@ -15,6 +15,11 @@ class SalesOrder extends Model
 
     public $timestamps = false;
 
+    public function salesOrderDetails()
+    {
+        return $this->hasMany(SalesOrderDetail::class, 'OrderID');
+    }
+
     protected $fillable = [
         'OrderDate',
         'UserID',

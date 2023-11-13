@@ -35,6 +35,10 @@ class ProductController extends Controller
             ->select('Genre.*')
             ->get();
         $avgRating = DB::table('Review')->where('BookID', $id)->avg('Rating');
+        if ($avgRating == null)
+        {
+            $avgRating = 0;
+        }
         $rounderIntRating = intval(round($avgRating));
         $checkSale = DB::table('User')
             ->join('SalesOrder', 'User.UserID', "=", 'SalesOrder.UserID')

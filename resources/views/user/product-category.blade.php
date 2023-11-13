@@ -55,8 +55,8 @@
                                     <div class="product-thumb">
                                         <div class="image zoom">
                                             <a href="{{ route('product-detail', $product->BookID) }}">
-                                                <img src="/user/assets/img/products/01.jpg" alt="01" />
-                                                <img src="/user/assets/img/products/02.jpg" alt="02"
+                                                <img src="{{$product->Avatar}}" alt="01" />
+                                                <img src="{{$product->Avatar}}" alt="02"
                                                     class="second_image img-responsive" /> </a>
                                         </div>
                                         <div class="thumb-description">
@@ -66,11 +66,19 @@
                                             </div>
                                             <div class="rating">
                                                 <div class="product-ratings d-inline-block align-middle">
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                    @php
+                                                        $starRatingHTML = '';
+
+                                                        $star = $product->AVGRating >= 5 ? 5 : $product->AVGRating;
+                                                    for($i = 0; $i < $star; $i++){
+                                                        $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons'>star</i></span>";
+                                                    }
+                                                    for( $i = $star; $i < 5; $i++){
+                                                        $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons off'>star</i></span>";
+                                                    }
+
+                                                    echo $starRatingHTML;
+                                                    @endphp
                                                 </div>
                                             </div>
 
@@ -109,24 +117,10 @@
                                 <div class="product-thumb row">
                                     <div class="image zoom col-xs-12 col-sm-5 col-md-4">
                                         <a href="{{ route('product-detail', $product->BookID) }}" class="d-block position-relative">
-                                            <img src="/user/assets/img/products/01.jpg" alt="01" />
-                                            <img src="/user/assets/img/products/02.jpg" alt="02"
+                                            <img src="{{$product->Avatar}}" alt="01" />
+                                            <img src="{{$product->Avatar}}" alt="02"
                                                  class="second_image img-responsive" />
                                         </a>
-                                        <ul class="countdown countdown4 text-center">
-                                            <li><span class="days">00</span>
-                                                <p class="days_text">Days</p>
-                                            </li>
-                                            <li><span class="hours">00</span>
-                                                <p class="hours_text">Hours</p>
-                                            </li>
-                                            <li><span class="minutes">00</span>
-                                                <p class="minutes_text">Minutes</p>
-                                            </li>
-                                            <li><span class="seconds">00</span>
-                                                <p class="seconds_text">Seconds</p>
-                                            </li>
-                                        </ul>
                                     </div>
                                     <div class="thumb-description col-xs-12 col-sm-7 col-md-8 position-static text-left">
                                         <div class="caption">
@@ -135,11 +129,19 @@
                                         </div>
                                         <div class="rating mb-10">
                                             <div class="product-ratings d-inline-block align-middle">
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                                <span class="fa fa-stack"><i class="material-icons off">star</i></span>
+                                                @php
+                                                    $starRatingHTML = '';
+
+                                                    $star = $product->AVGRating >= 5 ? 5 : $product->AVGRating;
+                                                for($i = 0; $i < $star; $i++){
+                                                    $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons'>star</i></span>";
+                                                }
+                                                for( $i = $star; $i < 5; $i++){
+                                                    $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons off'>star</i></span>";
+                                                }
+
+                                                echo $starRatingHTML;
+                                                @endphp
                                             </div>
                                         </div>
 
@@ -191,8 +193,8 @@
                                 <div class="product-thumb row">
                                     <div class="image zoom col-xs-12 col-sm-3 col-md-2">
                                         <a href="{{ route('product-detail', $product->BookID) }}" class="d-block position-relative">
-                                            <img src="/user/assets/img/products/01.jpg" alt="01" />
-                                            <img src="/user/assets/img/products/02.jpg" alt="02"
+                                            <img src="{{$product->Avatar}}" alt="01" />
+                                            <img src="{{$product->Avatar}}" alt="02"
                                                  class="second_image img-responsive" /> </a>
                                     </div>
                                     <div class="thumb-description col-xs-12 col-sm-9 col-md-10 position-static text-left">
@@ -204,13 +206,19 @@
 
                                             <div class="rating mb-10">
                                                 <div class="product-ratings d-inline-block align-middle">
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                                    <span class="fa fa-stack"><i
-                                                            class="material-icons off">star</i></span>
-                                                    <span class="fa fa-stack"><i
-                                                            class="material-icons off">star</i></span>
+                                                    @php
+                                                        $starRatingHTML = '';
+
+                                                        $star = $product->AVGRating >= 5 ? 5 : $product->AVGRating;
+                                                    for($i = 0; $i < $star; $i++){
+                                                        $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons'>star</i></span>";
+                                                    }
+                                                    for( $i = $star; $i < 5; $i++){
+                                                        $starRatingHTML .= "<span class='fa fa-stac'><i class='material-icons off'>star</i></span>";
+                                                    }
+
+                                                    echo $starRatingHTML;
+                                                    @endphp
                                                 </div>
                                             </div>
                                             <div class="description mb-10">

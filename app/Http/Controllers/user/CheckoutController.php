@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\admin\Coupon;
 use App\Models\admin\ShippingAddress;
 use App\Models\SalesOrder;
 use App\Models\ShippingAddress as ModelsShippingAddress;
@@ -17,7 +18,10 @@ use App\Mail\OrderMail;
 
 class CheckoutController extends Controller
 {
-    function checkoutPage(){
+    static $COUPON_CODE;
+    function checkoutPage(Request $request){
+        $couponCode = $request->input('couponCode');
+        $coupon = Coupon::where('CouponCode', $couponCode)->first();
         $userId = Session::get('user')->UserID;
         $shippingAddressDefault = ShippingAddress::where('UserID', $userId)->where('IsDefault', 1)->first();
         $shippingAddressList = ShippingAddress::where('UserID', $userId)->get();
@@ -37,15 +41,36 @@ class CheckoutController extends Controller
         $bookPrice = $totalPrice;
         if($shippingAddressDefault) {
             $totalPrice += 5;
+            if($couponCode){
+                $totalPrice = $bookPrice * (1-($coupon->DiscountAmount/100));
+                $totalPrice = round($totalPrice, 2);
+                $discount = $totalPrice - $bookPrice;
+                $discount = round($discount, 2);
+                $totalPriceDiscount = $totalPrice;
+                return view(
+                    "user.checkout-page", compact('shippingAddressDefault', 'totalPriceDiscount', 'bookPrice', 'shippingAddressList', 'discount', 'couponCode'));
+            }
             return view(
-                "user.checkout-page", compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList'));
+                "user.checkout-page", compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode'));
+        }
+        if($couponCode){
+            $totalPrice = $bookPrice * (1-($coupon->DiscountAmount/100));
+            $totalPrice = round($totalPrice, 2);
+            $discount = $totalPrice - $bookPrice;
+            $discount = round($discount, 2);
+            return view(
+                "user.checkout-page", compact('totalPrice', 'bookPrice', 'discount', 'couponCode')
+            );
         }
         return view(
-            "user.checkout-page", compact('totalPrice', 'bookPrice')
+            "user.checkout-page", compact('totalPrice', 'bookPrice', 'couponCode')
         );
     }
 
-    function checkoutConfirm(){
+    function checkoutConfirm(Request $request){
+
+        $couponCode = $request->input('couponCode');
+        $coupon = Coupon::where('CouponCode', $couponCode)->first();
         $userID = Auth::id();
         if($userID) {
             $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
@@ -59,15 +84,41 @@ class CheckoutController extends Controller
                 $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
             }
         }
-        $address = ShippingAddress::firstOrNew(['UserID' => $userID]);
-        $saleOrders['UserID'] = $userID;
-        $saleOrders['OrderStatus'] = 'SHIPPING';
-        $saleOrders['ShippingAddressID'] = $address->AddressID;
-        // $saleOrders['Discount'] = 5;
-        $saleOrders['TotalPrice'] = $totalPrice + 5 - 5;
-        $saleOrders['ShippingFee'] = 5;
-        $saleOrders['OrderDate'] = Carbon::now();
-        $Order = SalesOrder::create($saleOrders);
+        $bookPrice = $totalPrice;
+        if($couponCode){
+            $totalPriceOld = $totalPrice + 5;
+            $discountAmount = $coupon->DiscountAmount/100;
+            $totalPrice = $totalPriceOld * (1-$discountAmount);
+            $totalPrice = round($totalPrice, 2);
+            $discount = $totalPrice - $totalPriceOld;
+            $discount = round($discount, 2);
+
+            $coupon->IsUsed = 1;
+            $coupon->save();
+
+            $address = ShippingAddress::firstOrNew(['UserID' => $userID]);
+            $saleOrders['UserID'] = $userID;
+            $saleOrders['OrderStatus'] = 'SHIPPING';
+            $saleOrders['ShippingAddressID'] = $address->AddressID;
+            $saleOrders['Discount'] = $discountAmount;
+            $saleOrders['TotalPrice'] = $totalPrice;
+            $saleOrders['ShippingFee'] = 5;
+            $saleOrders['OrderDate'] = Carbon::now();
+            $Order = SalesOrder::create($saleOrders);
+        }else{
+            $totalPrice = $bookPrice + 5;
+            $address = ShippingAddress::firstOrNew(['UserID' => $userID]);
+            $saleOrders['UserID'] = $userID;
+            $saleOrders['OrderStatus'] = 'PENDING';
+            $saleOrders['ShippingAddressID'] = $address->AddressID;
+            // $saleOrders['Discount'] = 5;
+            $saleOrders['TotalPrice'] = $totalPrice;
+            $saleOrders['ShippingFee'] = 5;
+            $saleOrders['OrderDate'] = Carbon::now();
+            $Order = SalesOrder::create($saleOrders);
+        }
+
+
 
         $mailData = [
             'title' => 'Đơn hàng mới vừa tạo',
@@ -84,6 +135,7 @@ class CheckoutController extends Controller
             "user.order-confirm",
             ['cartItems' => $cartItems,
             'totalPrice' => $totalPrice,
+            'bookPrice' => $bookPrice,
             'orderID' => $Order->OrderID],
         );
     }

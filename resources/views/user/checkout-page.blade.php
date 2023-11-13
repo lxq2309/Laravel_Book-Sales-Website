@@ -10,8 +10,8 @@
         </ol>
     </nav>
 
-    </ol>
-    </nav>
+
+
     <div class="checkout-inner float-left w-100">
         <div class="container">
             <div class="row">
@@ -32,20 +32,27 @@
                             </div>
                             <span class="text-muted">5 đ</span>
                         </div>
-                        @if(1 == 2)
+                        @if($couponCode)
                             <div class="list-group-item d-flex justify-content-between">
                                 <div class="text-success">
                                     <h6 class="my-0">Mã khuyến mại</h6>
                                 </div>
-                                <span class="text-success">-5</span>
+                                <span class="text-success">{{$discount}}</span>
                             </div>
                         @endif
                         <div class="list-group-item d-flex justify-content-between">
+                            @php
+                            $totalPrice = !empty($totalPriceDiscount) ? $totalPriceDiscount : $totalPrice;
+                            @endphp
                             <strong>Total (VND)</strong>
-                            <strong>{{ $totalPrice }}</strong>
+                            <strong>{{ $totalPrice  }}</strong>
                         </div>
-                        <a href="{{ Route('checkout.confirm') }}" class="btn btn-primary btn-lg btn-primary">Đặt đơn</a>
-                        </ul>
+                        <form action="{{ route('checkout.confirm') }}" method="GET">
+                            <input type="hidden" name="couponCode" value="{{$couponCode}}">
+                            <button type="submit" class="btn btn-primary btn-lg btn-primary">Đặt đơn</button>
+                        </form>
+
+
 
                         <!--<form class="card p-2">
                         <div class="input-group">
@@ -105,9 +112,9 @@
                         <div class="mb-3">
                             <label for="address">Địa chỉ giao hàng<span class="required">*</span> </label>
                             @if(!empty($shippingAddressDefault))
-                                <input type="combo" class="form-control" id="address" placeholder="Nhập địa chỉ nhận đơn"
+                                <input type="combo" class="form-control" id="address"
+                                       placeholder="Nhập địa chỉ nhận đơn"
                                        required="" value="{{ $shippingAddressDefault->Address }}">
-
 
                             @else
                                 <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ nhận đơn"
@@ -117,7 +124,8 @@
                                     required="">
                                 @if($shippingAddressList)
                                     @foreach($shippingAddressList as $shippingAddres)
-                                        <option value="{{$shippingAddres->Address}}">{{$shippingAddres->Address}}</option>
+                                        <option
+                                            value="{{$shippingAddres->Address}}">{{$shippingAddres->Address}}</option>
 
                                     @endforeach
                                 @endif

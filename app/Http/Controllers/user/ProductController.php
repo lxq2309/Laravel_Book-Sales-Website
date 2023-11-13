@@ -39,7 +39,7 @@ class ProductController extends Controller
         $checkSale = DB::table('User')
             ->join('SalesOrder', 'User.UserID', "=", 'SalesOrder.UserID')
             ->join('SalesOrderDetail', 'SalesOrder.OrderID', '=', 'SalesOrderDetail.OrderID')
-            ->where('User.UserID', Auth::id())->where('SalesOrderDetail.BookID', $id)->count();
+            ->where('User.UserID', Auth::id())->where('SalesOrderDetail.BookID', $id)->where("SalesOrder.OrderStatus", "COMPLETED")->count();
 
         $isPurchased = $checkSale > 0;
         $isLogin = Auth::id() != null;
@@ -185,7 +185,7 @@ class ProductController extends Controller
             }
         }
 
-        if(!empty($data->textSearch)){
+        if (!empty($data->textSearch)) {
             $query = DB::table("Book")
                 ->join('avgRatingBook', 'Book.BookID', '=', 'avgRatingBook.BookID')
                 ->join('Publisher', "Book.PublisherID", "=", "Publisher.PublisherID");
@@ -228,8 +228,7 @@ class ProductController extends Controller
                     ->orWhere('PublisherName', 'like', '%' . $textSearch . '%');
                 $query->orderBy('Book.SellingPrice', 'asc');
             }
-        }
-        else{
+        } else {
             // Khởi tạo truy vấn
             $query = DB::table('Book')->join('avgRatingBook', 'Book.BookID', '=', 'avgRatingBook.BookID');
             if (!empty($conditions) && $data->sort === 'p-name') {

@@ -16,6 +16,6 @@ Các thành viên:
 https://laravel.lxq.id.vn/
 
 ## Admin Panel
-https://laravel.lxq.id.vn/
+https://laravel.lxq.id.vn/admin
 - **email**:        admin@mail.com
 - **password**:     123456

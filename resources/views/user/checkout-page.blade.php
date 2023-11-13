@@ -44,7 +44,11 @@
                             <strong>Total (VND)</strong>
                             <strong>{{ $totalPrice }}</strong>
                         </div>
-                        <a href="{{ Route('checkout.confirm') }}" class="btn btn-primary btn-lg btn-primary">Đặt đơn</a>
+                        <a href="{{ Route('checkout.confirm', ['shippingAddress' => '']) }}" 
+                            class="btn btn-primary btn-lg btn-primary" 
+                            id="checkout-submit">
+                            Đặt đơn
+                        </a>
                         </ul>
 
                         <!--<form class="card p-2">
@@ -132,6 +136,22 @@
 
             // Hiển thị giá trị của option lên input
             $('#address').val(selectedAddress);
+        });
+
+        $(document).ready(function () {
+            var defaultSelectedAddress = $('#addressList').val();
+
+            var checkoutLink = "{{ route('checkout.confirm', ['shippingAddress' => '']) }}";
+            checkoutLink = checkoutLink.replace('shippingAddress=', 'shippingAddress=' + encodeURIComponent(defaultSelectedAddress));
+            $('#checkout-submit').attr('href', checkoutLink);
+
+            // Listen for the change event on the select element
+            $('#addressList').change(function () {
+                var selectedAddress = $(this).val();
+                var checkoutLink = "{{ route('checkout.confirm', ['shippingAddress' => '']) }}";
+                checkoutLink = checkoutLink.replace('shippingAddress=', 'shippingAddress=' + encodeURIComponent(selectedAddress));
+                $('#checkout-submit').attr('href', checkoutLink);
+            });
         });
     </script>
 @endsection

@@ -46,7 +46,7 @@ class CheckoutController extends Controller
         );
     }
 
-    function checkoutConfirm(){
+    function checkoutConfirm(Request $request){
         $userID = Auth::id();
         if($userID) {
             $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
@@ -60,44 +60,47 @@ class CheckoutController extends Controller
                 $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
             }
         }
-        $address = ShippingAddress::firstOrNew(['UserID' => $userID]);
-        $saleOrders['UserID'] = $userID;
-        $saleOrders['OrderStatus'] = 'PENDING';
-        $saleOrders['ShippingAddressID'] = 5;
-        // $saleOrders['Discount'] = 5;
-        $saleOrders['TotalPrice'] = $totalPrice + 5 - 5;
-        $saleOrders['ShippingFee'] = 5;
-        $saleOrders['OrderDate'] = Carbon::now();
-        $Order = SalesOrder::create($saleOrders);
+        if($totalPrice > 0) {
+            $address = ShippingAddress::where(['UserID' => $userID])
+                ->where(['Address' => $request->query('shippingAddress')])
+                ->first();
+            $saleOrders['UserID'] = $userID;
+            $saleOrders['OrderStatus'] = 'PENDING';
+            $saleOrders['ShippingAddressID'] = $address->AddressID;
+            $saleOrders['TotalPrice'] = $totalPrice + 5 - 5;
+            $saleOrders['ShippingFee'] = 5;
+            $saleOrders['OrderDate'] = Carbon::now();
+            $Order = SalesOrder::create($saleOrders);
 
-        ShoppingCartDetail::where('CartID', $cartID)->delete();
+            foreach ($cartItems as $cartItem) {
+                $saleOrdersDetail['OrderID'] = $Order->OrderID;
+                $saleOrdersDetail['BookID'] = $cartItem->book->BookID;
+                $saleOrdersDetail['QuantitySold'] = $cartItem->Quantity;
+                $saleOrdersDetail['Price'] = $cartItem->book->SellingPrice;
+                $saleOrdersDetail['SubTotal'] = $cartItem->book->SellingPrice * $cartItem->Quantity;
+                SalesOrderDetail::create($saleOrdersDetail);
+            }
 
-        foreach ($cartItems as $cartItem) {
-            $saleOrdersDetail['OrderID'] = $Order->OrderID;
-            $saleOrdersDetail['BookID'] = $cartItem->book->BookID;
-            $saleOrdersDetail['QuantitySold'] = $cartItem->Quantity;
-            $saleOrdersDetail['Price'] = $cartItem->book->SellingPrice;
-            $saleOrdersDetail['SubTotal'] = $cartItem->book->SellingPrice * $cartItem->Quantity;
-            SalesOrderDetail::create($saleOrdersDetail);
+            $mailData = [
+                'title' => 'Đơn hàng mới vừa tạo',
+                'body' => 'Thông báo gửi đơn',
+                'email' => Session::get('user')->email,
+                'cartItem' => $cartItems,
+                'totalPrice' => $totalPrice + 5,
+                'orderID' => $Order->OrderID,
+            ];
+
+            Mail::to(Session::get('user')->email)->send(new OrderMail($mailData));
+            
+            ShoppingCartDetail::where('CartID', $cartID)->delete();
+
+            return view(
+                "user.order-confirm",
+                ['cartItems' => $cartItems,
+                'totalPrice' => $totalPrice,
+                'orderID' => $Order->OrderID],
+            );          
         }
-
-        $mailData = [
-            'title' => 'Đơn hàng mới vừa tạo',
-            'body' => 'Thông báo gửi đơn',
-            'email' => Session::get('user')->email,
-            'cartItem' => $cartItems,
-            'totalPrice' => $totalPrice + 5,
-            'orderID' => $Order->OrderID,
-        ];
-
-        Mail::to(Session::get('user')->email)->send(new OrderMail($mailData));
-
-        return view(
-            "user.order-confirm",
-            ['cartItems' => $cartItems,
-            'totalPrice' => $totalPrice,
-            'orderID' => $Order->OrderID],
-        );
     }
 
     

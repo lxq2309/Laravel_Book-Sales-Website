@@ -36,7 +36,7 @@
                                             </a>
                                         </button>
                                     </td>
-                                    <td class="table-image"><a href="product-details.html"><img src="/user/assets/img/products/02.jpg" alt=""></a></td>
+                                    <td class="table-image"><a href="product-details.html"><img src="{{ $item->book?->Avatar }}" alt="{{ $item->book?->BookTitle }}"></a></td>
                                     <td class="table-p-name text-capitalize"><a href="product-details.html">{{ $item->book?->BookTitle }}</a></td>
                                     <td class="table-p-price"><p>{{ $item->book?->CostPrice }} đ</p></td>
                                     <td class="table-p-qty"><input value="{{ $item->Quantity }}" name="cart-qty[{{ $item->CartItemID }}]" value="{{ $item->Quantity }}" type="number"></td>

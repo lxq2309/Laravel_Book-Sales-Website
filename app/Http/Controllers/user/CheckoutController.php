@@ -128,7 +128,7 @@ class CheckoutController extends Controller
                 'body' => 'Thông báo gửi đơn',
                 'email' => Session::get('user')->email,
                 'cartItem' => $cartItems,
-                'totalPrice' => $totalPrice + 5,
+                'totalPrice' => $totalPrice,
                 'orderID' => $Order->OrderID,
             ];
 

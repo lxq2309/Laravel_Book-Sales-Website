@@ -81,9 +81,9 @@
                                         <div class="product-thumb">
                                             <div class="image zoom">
                                                 <a href="{{ route('product-detail', $book->BookID) }}">
-                                                    <img src="{{ $book->Avatar }}" alt="01"
+                                                    <img src="{{ $book->Avatar }}" alt="{{ $book->BookTitle }}"
                                                          height="501" width="385"/>
-                                                    <img src="{{ $book->Avatar }}" alt="02"
+                                                    <img src="{{ $book->Avatar }}" alt="{{ $book->BookTitle }}"
                                                          class="second_image img-responsive" height="501" width="385"/>
                                                 </a>
                                             </div>

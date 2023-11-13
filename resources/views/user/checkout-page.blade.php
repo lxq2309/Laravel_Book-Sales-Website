@@ -47,11 +47,15 @@
                             <strong>Total (VND)</strong>
                             <strong>{{ $totalPrice  }}</strong>
                         </div>
-                        <a href="{{ Route('checkout.confirm', ['shippingAddress' => '', 'couponCode' => $couponCode]) }}"
+                        @if($shippingAddressList->count() > 0)
+                        <a href="{{ Route('checkout.confirm', ['shippingAddress' => '']) }}"
                             class="btn btn-primary btn-lg btn-primary"
                             id="checkout-submit">
                             Đặt đơn
                         </a>
+                        @else
+                        <div style="color: red; font-weight: bold; justify-content:center">Hãy Thêm Địa Chỉ Giao Hàng Để Đặt Đơn</div>
+                        @endif
                         </ul>
 
                         <!--<form class="card p-2">

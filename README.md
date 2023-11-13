@@ -17,5 +17,5 @@ https://laravel.lxq.id.vn/
 
 ## Admin Panel
 https://laravel.lxq.id.vn/
-**email**:        admin@mail.com
-**password**:     123456
+- **email**:        admin@mail.com
+- **password**:     123456

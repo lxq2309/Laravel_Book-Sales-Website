@@ -162,11 +162,11 @@
                                             <div style="font-weight: bold; color: coral;">Đang Giao</div>
                                             @else
                                             <div style="font-weight: bold; color: yellowgreen;">Chờ Xác Nhận</div>
-                                            <form action="{{route('confirm.order')}}" method="POST">
+                                            <form action="{{route('cancel.order')}}" method="POST">
                                                 @method('PUT')
                                                 @csrf
                                                 <input value="{{$order->OrderID}}" name="orderID" hidden>
-                                                <button class="btn btn-white right" type="submit" style="font-weight: bold; color: green;">Xác Nhận</button>
+                                                <button class="btn btn-white right" type="submit" style="font-weight: bold; color: red;">Hủy Đơn</button>
                                             </form>
                                             @endif
                                         </div>

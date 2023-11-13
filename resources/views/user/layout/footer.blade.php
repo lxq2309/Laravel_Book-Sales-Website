@@ -207,7 +207,7 @@
 
 <!-- cart-pop modal -->
 <div class="modal fade" id="cart-pop" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" style="width: 800px">
+    <div class="modal-dialog text-center" style="width: 600px">
         <div class="modal-content">
             <div class="modal-header alert-success">
                 <h4 class="modal-title w-100w-100w-100">Sản phẩm đã được thêm vào giỏ hàng thành công</h4>
@@ -219,19 +219,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-5 col-sm-4 col-xs-12 product-img float-left">
-                                <img src="#" class="img-responsive" alt="01">
-                            </div>
-                            <div class="col-md-7 col-sm-8 col-xs-12 product-desc float-left">
-                                <h4 class="product-title text-capitalize">Tên sách</h4>
-                                <h3 class="price float-left w-100">
-                                    <span class="regular-price align-middle">Giá 1</span> đ
-                                    <span class="old-price align-middle">Giá 2</span> đ
-                                </h3>
-                            </div>
                             <form id="reloadForm">
-                                <input class="btn pull-right mt_10 btn-primary" value="Tiếp tục mua hàng"
-                                       type="submit">
+                                <div class="col-md-12">
+                                    <input class="btn pull-left btn-primary" value="Tiếp tục mua hàng" type="submit">
+                                </div>
+                            </form>
+                            <form method="GET" action="{{ route('cart.page') }}">
+                                <div class="col-md-12">
+                                    <input class="btn pull-right btn-primary"
+                                    value="Xem giỏ" type="submit">
+                                </div>
                             </form>
                         </div>
                     </div>

@@ -147,12 +147,11 @@ class CheckoutController extends Controller
     }
 
 
-    public function confirmOrder(Request $request)
+    public function cancelOrder(Request $request)
     {
-
-        $order = SalesOrder::where(['OrderID' => $request->orderID])->first();
-        $order->OrderStatus = 'SHIPPING';
-        $order->save();
+        $order = SalesOrder::where('OrderID', $request->orderID)->first();
+        $order->salesOrderDetails()->delete();
+        $order->delete();
         $userId = Session::get('user')->UserID;
         $addresses = ShippingAddress::where('UserID', $userId)->count();
         $shippingAddressList = ShippingAddress::where('UserID', $userId)->get();

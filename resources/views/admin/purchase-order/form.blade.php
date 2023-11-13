@@ -36,37 +36,39 @@
             <div class="card">
                 <div class="card-body" id="additionalBooks">
                     @if($method != 'PATCH')
-                    <div class="card card-info">
-                        <div class="card-header">
-                            <div class="float-left">
-                                <span class="card-title"></span>
-                                <button type="button" class="btn btn-xs btn-danger ml-1" onclick="deleteBookField()">Xoá
-                                </button>
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <div class="float-left">
+                                    <span class="card-title"></span>
+                                    <button type="button" class="btn btn-xs btn-danger ml-1"
+                                            onclick="deleteBookField()">Xoá
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="">Mã sách:</label>
-                                <input type="text" class="form-control" name="BookID[]" onchange="setTitle()">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Số lượng:</label>
-                                <input type="number" class="form-control" name="QuantityReceived[]">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Giá tiền:</label>
-                                <input type="number" class="form-control" name="Price[]">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="">Mã sách:</label>
+                                    <input type="text" class="form-control" name="BookID[]" onchange="setTitle()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Số lượng:</label>
+                                    <input type="number" class="form-control" name="QuantityReceived[]">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Giá tiền:</label>
+                                    <input type="number" class="form-control" name="Price[]">
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @else
                         @foreach($purchaseOrder->purchaseorderdetail as $orderdetail)
                             <div class="card card-info">
                                 <div class="card-header">
                                     <div class="float-left">
                                         <span class="card-title">{{ $orderdetail->book?->BookTitle }}</span>
-                                        <button type="button" class="btn btn-xs btn-danger ml-1" onclick="deleteBookField()">Xoá
+                                        <button type="button" class="btn btn-xs btn-danger ml-1"
+                                                onclick="deleteBookField()">Xoá
                                         </button>
                                     </div>
                                 </div>
@@ -74,15 +76,18 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="">Mã sách:</label>
-                                        <input type="text" class="form-control" name="BookID[]" onchange="setTitle()" value="{{ $orderdetail->BookID }}">
+                                        <input type="text" class="form-control" name="BookID[]" onchange="setTitle()"
+                                               value="{{ $orderdetail->BookID }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="">Số lượng:</label>
-                                        <input type="number" class="form-control" name="QuantityReceived[]" value="{{ $orderdetail->QuantityReceived }}">
+                                        <input type="number" class="form-control" name="QuantityReceived[]"
+                                               value="{{ $orderdetail->QuantityReceived }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="">Giá tiền:</label>
-                                        <input type="number" class="form-control" name="Price[]" value="{{ $orderdetail->Price }}">
+                                        <input type="number" class="form-control" name="Price[]"
+                                               value="{{ $orderdetail->Price }}">
                                     </div>
                                 </div>
                             </div>
@@ -93,8 +98,10 @@
             <button type="button" class="btn btn-outline-primary btn-sm mb-5" onclick="addBookField()">Thêm</button>
         </div>
     </div>
+
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary" id="submitBtn">{{ __('Xác nhận') }}</button>
+        <button type="submit" class="btn btn-primary">{{ __('Xác nhận') }}</button>
     </div>
 </div>
 
@@ -235,7 +242,7 @@
             var supplierID = document.getElementsByName('SupplierID')[0];
             var bookIds = document.getElementsByName('BookID[]');
             let listId = [];
-            bookIds.forEach(function (id){
+            bookIds.forEach(function (id) {
                 listId.push(id.value);
             })
             console.log(listId);
@@ -254,8 +261,7 @@
                 return false;
             }
 
-            if (hasDuplicates(listId))
-            {
+            if (hasDuplicates(listId)) {
                 alert("Mã sách không được trùng nhau!");
                 return false;
             }
@@ -268,8 +274,7 @@
                 }
             }
 
-            if(quantityReceived.length === 0)
-            {
+            if (quantityReceived.length === 0) {
                 alert('Vui lòng thêm sách vào hoá đơn.');
                 return false;
             }

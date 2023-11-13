@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/", [HomeController::class,"index"])->name('index');
+Route::get("/", [HomeController::class, "index"])->name('index');
 
-Route::get("/product-detail/{id}", [ProductController::class,"ProductDetail"])->name("product-detail");
+Route::get("/product-detail/{id}", [ProductController::class, "ProductDetail"])->name("product-detail");
 
 //Route::get("/product-category", [CategoryController::class, "ProductCategory"])->name("ProductCategory");
 
@@ -33,8 +33,6 @@ Route::post('/searchBook', [ProductController::class, 'searchProduct'])->name('s
 Route::get("/category/{genreID}", [ProductController::class, "productsByCategory"])->name("proByCate");
 
 Route::get('/category', [CategoryController::class, 'ProductCategory'])->name('categoryhome');
-
-
 
 
 Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index']);
@@ -83,17 +81,25 @@ Route::put('/confirm/order', [CheckoutController::class, 'confirmOrder'])->name(
 Route::post('/coupon', [CouponController::class, 'applyCoupon'])->name('coupon.apply');
 
 // -------------Admin------------------------- //
-Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin-dashboard');
-Route::resource('/admin/user', \App\Http\Controllers\admin\UserController::class);
-Route::resource('/admin/book', \App\Http\Controllers\admin\BookController::class);
-Route::resource('/admin/publisher', \App\Http\Controllers\admin\PublisherController::class);
-Route::resource('/admin/supplier', \App\Http\Controllers\admin\SupplierController::class);
-Route::resource('/admin/coupon', \App\Http\Controllers\admin\CouponController::class);
-Route::resource('/admin/category', \App\Http\Controllers\admin\CategoryController::class);
-Route::resource('/admin/genre', \App\Http\Controllers\admin\GenreController::class);
-Route::resource('/admin/bookset', \App\Http\Controllers\admin\BooksetController::class);
-Route::resource('/admin/admin', \App\Http\Controllers\admin\AdminController::class);
-Route::resource('/admin/purchase-order', \App\Http\Controllers\admin\PurchaseOrderController::class);
-Route::resource('/admin/sales-order', \App\Http\Controllers\admin\SalesOrderController::class);
-Route::get('/admin/sales-order/shipping/{id}/{page?}', [\App\Http\Controllers\admin\SalesOrderController::class, 'shipping'])->name('sales-order.shipping');
-Route::get('/admin/sales-order/completed/{id}/{page?}', [\App\Http\Controllers\admin\SalesOrderController::class, 'completed'])->name('sales-order.completed');
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [\App\Http\Controllers\AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [\App\Http\Controllers\AdminAuthController::class, 'login']);
+    Route::post('/logout', [\App\Http\Controllers\AdminAuthController::class, 'logout'])->name('admin.logout');
+});
+Route::group(['middleware' => 'admin'], function () {
+    Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin-dashboard');
+    Route::resource('/admin/user', \App\Http\Controllers\admin\UserController::class);
+    Route::resource('/admin/book', \App\Http\Controllers\admin\BookController::class);
+    Route::resource('/admin/publisher', \App\Http\Controllers\admin\PublisherController::class);
+    Route::resource('/admin/supplier', \App\Http\Controllers\admin\SupplierController::class);
+    Route::resource('/admin/coupon', \App\Http\Controllers\admin\CouponController::class);
+    Route::resource('/admin/category', \App\Http\Controllers\admin\CategoryController::class);
+    Route::resource('/admin/genre', \App\Http\Controllers\admin\GenreController::class);
+    Route::resource('/admin/bookset', \App\Http\Controllers\admin\BooksetController::class);
+    Route::resource('/admin/admin', \App\Http\Controllers\admin\AdminController::class);
+    Route::resource('/admin/purchase-order', \App\Http\Controllers\admin\PurchaseOrderController::class);
+    Route::resource('/admin/sales-order', \App\Http\Controllers\admin\SalesOrderController::class);
+    Route::get('/admin/sales-order/shipping/{id}/{page?}', [\App\Http\Controllers\admin\SalesOrderController::class, 'shipping'])->name('sales-order.shipping');
+    Route::get('/admin/sales-order/completed/{id}/{page?}', [\App\Http\Controllers\admin\SalesOrderController::class, 'completed'])->name('sales-order.completed');
+});
+

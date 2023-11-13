@@ -21,10 +21,10 @@
 
         @switch($method)
             @case('POST')
-                <input type="hidden" name="CreatedBy" value="LXQ">
+                <input type="hidden" name="CreatedBy" value="{{ session('admin_name') }}">
                 @break
             @case('PATCH')
-                <input type="hidden" name="ModifiedBy" value="LXQ">
+                <input type="hidden" name="ModifiedBy" value="{{ session('admin_name') }}">
                 @break
         @endswitch
     </div>

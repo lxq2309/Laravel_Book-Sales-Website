@@ -7,7 +7,7 @@
         </div>
         <div class="form-group">
             {{ Form::label('Mật khẩu') }}
-            {{ Form::text('Password', $admin->Password, ['class' => 'form-control' . ($errors->has('Password') ? ' is-invalid' : ''), 'placeholder' => 'Password', 'readonly' => $method == 'PATCH']) }}
+            {{ Form::text('Password', $admin->Password, ['class' => 'form-control' . ($errors->has('Password') ? ' is-invalid' : ''), 'placeholder' => 'Password']) }}
             {!! $errors->first('Password', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">

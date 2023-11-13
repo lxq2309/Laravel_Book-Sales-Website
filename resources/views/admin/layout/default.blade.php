@@ -86,10 +86,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" role="button" title="Đăng xuất">
+                <a class="nav-link" onclick="logout()" role="button" title="Đăng xuất">
                     <i class="fa fa-sign-out" aria-hidden="true"></i>
                 </a>
             </li>
+            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
         </ul>
     </nav>
     <!-- /.navbar -->
@@ -111,7 +114,10 @@
                     <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">Quỳnh Lê</a>
+                    @php
+                        $adminName = session('admin_name');
+                    @endphp
+                    <a href="#" class="d-block">{{ $adminName }}</a>
                 </div>
             </div>
 
@@ -208,7 +214,6 @@
                             <i class="fa-solid fa-industry"></i>
                             <p>
                                 Nhà cung cấp
-
                             </p>
                         </a>
                     </li>
@@ -389,6 +394,14 @@
             }
         });
     });
+
+    function logout() {
+        event.preventDefault();
+        if(confirm('Bạn có muốn đăng xuất không ?'))
+        {
+            document.getElementById('logout-form').submit();
+        }
+    }
 </script>
 @yield('exportToExcelScripts');
 @yield('formBookScripts');

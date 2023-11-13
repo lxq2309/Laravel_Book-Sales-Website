@@ -19,7 +19,7 @@ class SalesOrder extends Model
         'OrderDate',
         'UserID',
         'OrderStatus',
-        'ShippingDate',
+        'ShippingAddressID',
         'ShippingFee',
         'OrderNote',
         'Discount',

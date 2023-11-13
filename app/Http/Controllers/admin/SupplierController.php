@@ -106,4 +106,8 @@ class SupplierController extends Controller
         return redirect()->route('supplier.index')
             ->with('success', 'Supplier deleted successfully');
     }
+
+    function getAll(){
+        return response()->json(Supplier::all());
+    }
 }

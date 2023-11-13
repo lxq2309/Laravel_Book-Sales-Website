@@ -107,4 +107,8 @@ class PublisherController extends Controller
         return redirect()->route('publisher.index')
             ->with('success', 'Publisher deleted successfully');
     }
+
+    function getAll(){
+        return response()->json(Publisher::all());
+    }
 }

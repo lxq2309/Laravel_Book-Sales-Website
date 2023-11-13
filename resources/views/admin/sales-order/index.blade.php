@@ -16,30 +16,61 @@
                                 Xuất dữ liệu
                             </button>
                             <div class="dropdown-menu" aria-labelledby="exportData">
-                                <a class="dropdown-item" href="#">Excel</a>
-                                <a class="dropdown-item" href="#">PDF</a>
+                                <a class="dropdown-item" href="#" id="buttons-excel">Excel</a>
+                                <a class="dropdown-item" href="#" id="buttons-pdf">PDF</a>
                             </div>
                         </div>
                         <div class="ml-1"></div>
                         <div class="dropdown">
+                            @php
+                                $order = request('order');
+                                $oldest = 'cũ nhất';
+                                $newest = 'mới nhất';
+                                $orderText = $order == 'desc' ? $oldest : $newest;
+                            @endphp
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="filterData"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Lọc
+                                Sắp xếp theo: {{ $orderText }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="filterData">
-                                <a class="dropdown-item selected" href="#">Mới nhất</a>
-                                <a class="dropdown-item" href="#">Cũ nhất</a>
-                                <div class="form-group">
-                                    <input type="checkbox" name="" id="">Đang xử lý
-                                    <input type="checkbox" name="" id="">Đã hoàn thành
-                                </div>
+                                @php
+                                    $status = request('status');
+                                    $statusParam = (empty($status) || $status == 1) ? '' : "&status=$status";
+                                @endphp
+                                <a class="dropdown-item {{ $orderText == $newest ? 'my-selected' : '' }}"
+                                   href="?order=asc{{ $statusParam }}">Mới nhất</a>
+                                <a class="dropdown-item {{ $orderText == $oldest ? 'my-selected' : '' }}"
+                                   href="?order=desc{{ $statusParam }}">Cũ nhất</a>
                             </div>
                         </div>
+                        <div class="ml-1"></div>
+                        <div class="d-inline-block">
+                            @php
+                                $routeName = 'sales-order.index';
+                            @endphp
+                            <form id="filterForm" action="{{ route($routeName) }}" method="GET">
+                                <select id="statusFilter" class="custom-select" name="status">
+                                    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Hiển thị tất cả
+                                        trạng thái
+                                    </option>
+                                    <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Đã hoàn thành
+                                    </option>
+                                    <option value="3" {{ request('status') == '3' ? 'selected' : '' }}>Đang vận chuyển
+                                    </option>
+                                    <option value="4" {{ request('status') == '4' ? 'selected' : '' }}>Đang chờ duyệt
+                                    </option>
+                                </select>
+                            </form>
+                        </div>
+
                     </div>
-                    <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem"><input type="search"
-                                                                                                   class="form-control form-control-sm"
-                                                                                                   placeholder="Tìm kiếm..."
-                                                                                                   aria-controls="example1">
+                    <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem">
+                        <form id="searchForm" action="{{ route($routeName) }}" method="GET">
+                            <div class="dataTables_filter" style="padding: 0; padding-top: 0.75rem">
+                                <input type="search" id="searchInput" class="form-control form-control-sm"
+                                       placeholder="Tìm kiếm theo mã hoá đơn..." name="search">
+                            </div>
+                        </form>
                     </div>
                 </div>
                 @if ($message = Session::get('success'))
@@ -102,6 +133,17 @@
                                                            href="{{ route('sales-order.show',$salesOrder->OrderID) }}"><i
                                                                 class="fa fa-fw fa-eye"></i> {{ __('Xem chi tiết') }}
                                                         </a>
+                                                        @if($salesOrder->OrderStatus == 'Đang chờ duyệt')
+                                                            <a class="btn btn-sm btn-success"
+                                                               href="{{ route('sales-order.shipping',[ 'id' => $salesOrder->OrderID, 'page' => request('page')]) }}"><i
+                                                                    class="fa fa-fw fa-edit"></i> {{ __('Duyệt đơn') }}
+                                                            </a>
+                                                        @elseif($salesOrder->OrderStatus == 'Đang vận chuyển')
+                                                            <a class="btn btn-sm btn-success"
+                                                               href="{{ route('sales-order.completed', ['id' => $salesOrder->OrderID, 'page' => request('page')]) }}"><i
+                                                                    class="fa fa-fw fa-edit"></i> {{ __('Đánh dấu đã hoàn thành') }}
+                                                            </a>
+                                                        @endif
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"><i
@@ -112,6 +154,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -120,14 +163,16 @@
                                 {!! $salesOrders->links() !!}
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-12 col-md-5">
-                                <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
-                                    Hiển thị {{ $i + 1 }} đến {{ $i + $salesOrders->count() }} trong tổng
-                                    số {{ $salesOrder->count() }} bản ghi
+                        @if($salesOrders->count() > 0)
+                            <div class="row">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
+                                        Hiển thị {{ $i + 1 }} đến {{ $i + $salesOrders->count() }} trong tổng
+                                        số {{ $salesOrder->count() }} bản ghi
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
 
                     </div>
                 </div>
@@ -136,3 +181,27 @@
     </div>
 @endsection
 
+@section('exportToExcelScripts')
+    <script>
+        function exportToExcel() {
+            let tableName = 'sales-order';
+            let apiUrl = `/api/${tableName}/all`;
+            alert('Đang xuất thành file ' + tableName + '.xlsx');
+            // Lấy dữ liệu từ API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Chuyển đổi dữ liệu thành định dạng Excel
+                    const workbook = XLSX.utils.book_new();
+                    const worksheet = XLSX.utils.json_to_sheet(data);
+                    XLSX.utils.book_append_sheet(workbook, worksheet, tableName);
+
+                    // Xuất Excel
+                    XLSX.writeFile(workbook, tableName + '.xlsx');
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+    </script>
+@endsection

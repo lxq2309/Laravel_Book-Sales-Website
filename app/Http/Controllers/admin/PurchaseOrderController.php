@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\admin\Publisher;
 use App\Models\admin\PurchaseOrder;
 use App\Models\admin\PurchaseOrderDetail;
 use App\Models\admin\Supplier;
@@ -19,12 +20,24 @@ class PurchaseOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $purchaseOrders = PurchaseOrder::paginate();
-
+        $purchaseOrders = PurchaseOrder::query();
+        if ($request->has('search'))
+        {
+            $searchText = $request->input('search');
+            $purchaseOrders->where('OrderID', '=', $searchText);
+        }
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        if (empty($request->input('order')))
+        {
+            $orderBy = 'desc';
+        }
+        $purchaseOrders->orderBy('OrderID', $orderBy);
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        $purchaseOrders = $purchaseOrders->paginate()->appends(['order' => $orderBy]);
         return view('admin.purchase-order.index', compact('purchaseOrders'))
-            ->with('i', (request()->input('page', 1) - 1) * $purchaseOrders->perPage());
+            ->with('i', ($purchaseOrders->currentPage() - 1) * $purchaseOrders->perPage());
     }
 
     /**
@@ -78,7 +91,7 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->TotalPrice = $totalPrice;
         $purchaseOrder->save();
 
-        return redirect()->route('purchase-order.index')
+        return redirect()->route('purchase-order.show', $purchaseOrder->OrderID)
             ->with('success', 'Tạo hoá đơn nhập thành công!');
     }
 
@@ -105,8 +118,9 @@ class PurchaseOrderController extends Controller
     public function edit($id)
     {
         $purchaseOrder = PurchaseOrder::find($id);
+        $suppliers = Supplier::all();
 
-        return view('admin.purchase-order.edit', compact('purchaseOrder'));
+        return view('admin.purchase-order.edit', compact('purchaseOrder', 'suppliers'));
     }
 
     /**
@@ -118,12 +132,44 @@ class PurchaseOrderController extends Controller
      */
     public function update(Request $request, PurchaseOrder $purchaseOrder)
     {
-        request()->validate(PurchaseOrder::$rules);
+        $request->validate(PurchaseOrder::$rules);
+        $id = $purchaseOrder->OrderID;
 
-        $purchaseOrder->update($request->all());
+        // Cập nhật thông tin hoá đơn nhập
+        $purchaseOrder->OrderDate = $request->input('OrderDate');
+        $purchaseOrder->SupplierID = $request->input('SupplierID');
+        $purchaseOrder->save();
 
-        return redirect()->route('purchase-orders.index')
-            ->with('success', 'PurchaseOrder updated successfully');
+        $totalPrice = 0;
+
+        // Lấy data
+        $bookIDs = $request->input('BookID');
+        $quantities = $request->input('QuantityReceived');
+        $prices = $request->input('Price');
+
+        // Xoá các chi tiết hoá đơn nhập đã tồn tại
+        PurchaseOrderDetail::where('OrderID', $id)->delete();
+
+        // Lưu và cập nhật các hoá đơn nhập mới
+        foreach ($bookIDs as $key => $bookID) {
+            $purchaseOrderDetail = new PurchaseOrderDetail();
+            $purchaseOrderDetail->OrderID = $purchaseOrder->OrderID;
+            $purchaseOrderDetail->BookID = $bookID;
+            $purchaseOrderDetail->QuantityReceived = $quantities[$key];
+            $purchaseOrderDetail->Price = $prices[$key];
+            $subTotal = $quantities[$key] * $prices[$key];
+            $purchaseOrderDetail->SubTotal = $subTotal;
+            $purchaseOrderDetail->save();
+
+            $totalPrice += $subTotal;
+        }
+
+        // Cập nhật tổng tiền
+        $purchaseOrder->TotalPrice = $totalPrice;
+        $purchaseOrder->save();
+
+        return redirect()->route('purchase-order.show', $id)
+            ->with('success', 'Cập nhật hoá đơn nhập thành công!');
     }
 
     /**
@@ -137,5 +183,9 @@ class PurchaseOrderController extends Controller
 
         return redirect()->route('purchase-order.index')
             ->with('success', 'PurchaseOrder deleted successfully');
+    }
+
+    function getAll(){
+        return response()->json(PurchaseOrder::all());
     }
 }

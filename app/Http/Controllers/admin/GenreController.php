@@ -16,12 +16,24 @@ class GenreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $genres = Genre::paginate();
-
+        $genres = Genre::query();
+        if ($request->has('search'))
+        {
+            $searchText = $request->input('search');
+            $genres->where('GenreName', 'LIKE', "%$searchText%");
+        }
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        if (empty($request->input('order')))
+        {
+            $orderBy = 'desc';
+        }
+        $genres->orderBy('GenreID', $orderBy);
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        $genres = $genres->paginate()->appends(['order' => $orderBy]);
         return view('admin.genre.index', compact('genres'))
-            ->with('i', (request()->input('page', 1) - 1) * $genres->perPage());
+            ->with('i', ($genres->currentPage() - 1) * $genres->perPage());
     }
 
     /**
@@ -105,5 +117,9 @@ class GenreController extends Controller
 
         return redirect()->route('genre.index')
             ->with('success', 'Genre deleted successfully');
+    }
+
+    function getAll(){
+        return response()->json(Genre::all());
     }
 }

@@ -26,7 +26,7 @@
                 <div class="order-line float-left w-100" style="margin-bottom: 3px">
                     <div class="row">
                       <div class="col-sm-1 col-xs-3 float-left">
-                        <img src="/user/assets/img/products/02.jpg" alt="">
+                        <img src="{{ $item->book->Avatar }}" alt="">
                       </div>
                       <div class="col-sm-5 col-xs-9 details float-left">
                         <span>{{ $item->book->BookTitle }}</span>

@@ -207,7 +207,7 @@
 
 <!-- cart-pop modal -->
 <div class="modal fade" id="cart-pop" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="width: 800px">
         <div class="modal-content">
             <div class="modal-header alert-success">
                 <h4 class="modal-title w-100w-100w-100">Sản phẩm đã được thêm vào giỏ hàng thành công</h4>
@@ -217,44 +217,20 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6 divide-right">
+                    <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-5 col-sm-4 col-xs-12 product-img float-left">
-                                <img src="/user/assets/img/products/01.jpg" class="img-responsive" alt="01">
+                                <img src="#" class="img-responsive" alt="01">
                             </div>
                             <div class="col-md-7 col-sm-8 col-xs-12 product-desc float-left">
-                                <h4 class="product-title text-capitalize">Burgundy Small Dress</h4>
-                                <div class="rating">
-                                    <div class="product-ratings d-inline-block align-middle">
-                                        <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                        <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                        <span class="fa fa-stack"><i class="material-icons">star</i></span>
-                                        <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                        <span class="fa fa-stack"><i class="material-icons off">star</i></span>
-                                    </div>
-                                </div>
+                                <h4 class="product-title text-capitalize">Tên sách</h4>
                                 <h3 class="price float-left w-100">
-                                    <span class="regular-price align-middle">$75.00</span> đ
-                                    <span class="old-price align-middle">$60.00</span> đ
+                                    <span class="regular-price align-middle">Giá 1</span> đ
+                                    <span class="old-price align-middle">Giá 2</span> đ
                                 </h3>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 divide-left">
-                        <p class="cart-products-count">Có 2 sản phẩm trong giỏ hàng của bạn.</p>
-                        <p class="total-products float-left w-100">
-                            <strong>Chi phí sản phẩm:</strong> <span class="regular-price">$150.00</span>
-                        </p>
-                        <p class="shipping float-left w-100">
-                            <strong>Chi phí vận chuyển:</strong> 5 đ
-                        </p>
-                        <div class="cart-content-btn float-left w-100">
                             <form id="reloadForm">
                                 <input class="btn pull-right mt_10 btn-primary" value="Tiếp tục mua hàng"
-                                       type="submit">
-                            </form>
-                            <form action="checkout_page.html">
-                                <input class="btn pull-right mt_10 btn-secondary" value="Sang trang thanh toán"
                                        type="submit">
                             </form>
                         </div>

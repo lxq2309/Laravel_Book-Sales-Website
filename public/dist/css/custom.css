@@ -34,3 +34,7 @@ th {
     content:"*";
     color:red;
 }
+
+.my-selected {
+    background-color: rgba(194, 189, 189, 0.28);
+}

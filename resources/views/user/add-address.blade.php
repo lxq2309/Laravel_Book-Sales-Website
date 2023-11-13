@@ -12,8 +12,20 @@
 
             <!-- Thành phố -->
             <div class="form-group">
-                <label for="city">Thành phố:</label>
+                <label for="city">Tỉnh/Thành phố:</label>
                 <input type="text" class="form-control" id="city" placeholder="Nhập thành phố">
+            </div>
+
+            <!-- Quận -->
+            <div class="form-group">
+                <label for="district">Quận/Huyện:</label>
+                <input type="text" class="form-control" id="district" placeholder="Nhập quận">
+            </div>
+
+            <!-- Huyện -->
+            <div class="form-group">
+                <label for="ward">Phường/Xã:</label>
+                <input type="text" class="form-control" id="ward" placeholder="Nhập huyện">
             </div>
 
             <!-- Địa chỉ -->
@@ -25,7 +37,7 @@
             <!-- Số điện thoại -->
             <div class="form-group">
                 <label for="phone">Số điện thoại:</label>
-                <input type="text" class="form-control" id="phone" placeholder="Nhập số điện thoại">
+                <input type="number" class="form-control" id="phone" placeholder="Nhập số điện thoại">
             </div>
 
             <!-- Checkbox mặc định -->
@@ -59,6 +71,8 @@
             var formData = {
                 name: $('#name').val(),
                 city: $('#city').val(),
+                district: $('#district').val(),
+                ward: $('#ward').val(),
                 address: $('#address').val(),
                 phone: $('#phone').val(),
                 defaultCheckbox: $('#defaultCheckbox').prop('checked'),
@@ -77,7 +91,7 @@
                 .then(function(response) {
                     console.log(response)
                     if(response.status === 200){
-                        alert('Đã thêm địa chỉ');
+                        window.location.href = "{{ route('account.detail') }}"
                     }
 
                 })

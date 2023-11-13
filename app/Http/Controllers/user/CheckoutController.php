@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\Coupon;
 use App\Models\admin\ShippingAddress;
 use App\Models\SalesOrder;
 use App\Models\ShippingAddress as ModelsShippingAddress;
@@ -15,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderMail;
+use App\Models\SalesOrderDetail;
 
 class CheckoutController extends Controller
 {
@@ -63,7 +63,7 @@ class CheckoutController extends Controller
             );
         }
         return view(
-            "user.checkout-page", compact('totalPrice', 'bookPrice', 'couponCode')
+            "user.checkout-page", compact('totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode')
         );
     }
 
@@ -84,6 +84,15 @@ class CheckoutController extends Controller
                 $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
             }
         }
+        $address = ShippingAddress::firstOrNew(['UserID' => $userID]);
+        $saleOrders['UserID'] = $userID;
+        $saleOrders['OrderStatus'] = 'PENDING';
+        $saleOrders['ShippingAddressID'] = 5;
+        // $saleOrders['Discount'] = 5;
+        $saleOrders['TotalPrice'] = $totalPrice + 5 - 5;
+        $saleOrders['ShippingFee'] = 5;
+        $saleOrders['OrderDate'] = Carbon::now();
+        $Order = SalesOrder::create($saleOrders);
         $bookPrice = $totalPrice;
         if($couponCode){
             $totalPriceOld = $totalPrice + 5;
@@ -120,6 +129,17 @@ class CheckoutController extends Controller
 
 
 
+        ShoppingCartDetail::where('CartID', $cartID)->delete();
+
+        foreach ($cartItems as $cartItem) {
+            $saleOrdersDetail['OrderID'] = $Order->OrderID;
+            $saleOrdersDetail['BookID'] = $cartItem->book->BookID;
+            $saleOrdersDetail['QuantitySold'] = $cartItem->Quantity;
+            $saleOrdersDetail['Price'] = $cartItem->book->SellingPrice;
+            $saleOrdersDetail['SubTotal'] = $cartItem->book->SellingPrice * $cartItem->Quantity;
+            SalesOrderDetail::create($saleOrdersDetail);
+        }
+
         $mailData = [
             'title' => 'Đơn hàng mới vừa tạo',
             'body' => 'Thông báo gửi đơn',
@@ -138,5 +158,22 @@ class CheckoutController extends Controller
             'bookPrice' => $bookPrice,
             'orderID' => $Order->OrderID],
         );
+    }
+
+
+    public function confirmOrder(Request $request){
+        $order = SalesOrder::where(['OrderID' => $request->orderID])->first();
+        $order->OrderStatus = 'SHIPPING';
+        $order->save();
+        $userId = Session::get('user')->UserID;
+        $addresses = ShippingAddress::where('UserID', $userId)->count();
+        $shippingAddressList = ShippingAddress::where('UserID', $userId)->get();
+        $order = SalesOrder::where('UserID', $userId)
+            ->Where('OrderStatus', '!=', 'COMPLETED')
+            ->get();
+        if($shippingAddressList) {
+            return view("user.account-detail", ['numberAdd' => $addresses, 'shippingAddressList' => $shippingAddressList, 'orders' => $order]);
+        }
+        return view("user.account-detail", ['numberAdd' => $addresses, 'orders' => $order]);
     }
 }

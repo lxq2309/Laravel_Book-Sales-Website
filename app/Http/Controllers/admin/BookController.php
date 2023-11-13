@@ -23,12 +23,24 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::paginate();
-
+        $books = Book::query();
+        if ($request->has('search'))
+        {
+            $searchText = $request->input('search');
+            $books->where('BookTitle', 'LIKE', "%$searchText%");
+        }
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        if (empty($request->input('order')))
+        {
+            $orderBy = 'desc';
+        }
+        $books->orderBy('BookID', $orderBy);
+        $orderBy = ($request->has('order') && $request->input('order') == 'asc') ? 'desc' : 'asc';
+        $books = $books->paginate()->appends(['order' => $orderBy]);
         return view('admin.book.index', compact('books'))
-            ->with('i', (request()->input('page', 1) - 1) * $books->perPage());
+            ->with('i', ($books->currentPage() - 1) * $books->perPage());
     }
 
     /**
@@ -274,8 +286,18 @@ class BookController extends Controller
     /**
      * api get book by id
      */
-    public function getById($id){
+    public function getById($id)
+    {
         $book = Book::find($id);
         return response()->json($book);
+    }
+
+    /**
+     * api get all
+     */
+    public function getAll()
+    {
+        $books = Book::all();
+        return response()->json($books);
     }
 }

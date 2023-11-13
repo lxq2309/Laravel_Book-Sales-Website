@@ -128,9 +128,12 @@
             <div class="row">
                 @foreach($images as $image)
                     <div class="col-3 position-relative image-items d-flex align-items-center justify-content-center">
-                        <img src="{{ $image->ImagePath }}" alt="{{ $image->Description }}" class="img-thumbnail rounded" style="max-width: 200px">
+                        <img src="{{ $image->ImagePath }}" alt="{{ $image->Description }}" class="img-thumbnail rounded"
+                             style="max-width: 200px">
                         <div class="image-overlay">
-                            <div id="btnDeleteImage" data-imgid="{{ $image->ImageID }}" style="cursor: pointer;"><i class="fa fa-trash" aria-hidden="true"></i> Xoá</div>
+                            <div id="btnDeleteImage" data-imgid="{{ $image->ImageID }}" style="cursor: pointer;"><i
+                                    class="fa fa-trash" aria-hidden="true"></i> Xoá
+                            </div>
                         </div>
                         <input type="hidden" name="ImagesIds[]" value="{{ $image->ImageID }}">
                     </div>
@@ -145,13 +148,15 @@
                        aria-controls="tab1-2" aria-selected="true">Nhập URL ảnh</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="tab2-2-tab" data-toggle="tab" href="#tab2-2" role="tab" aria-controls="tab2-2"
+                    <a class="nav-link" id="tab2-2-tab" data-toggle="tab" href="#tab2-2" role="tab"
+                       aria-controls="tab2-2"
                        aria-selected="false">Tải lên tệp</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabsContent2">
                 <div class="tab-pane fade show active" id="tab1-2" role="tabpanel" aria-labelledby="tab1-2-tab">
-                    <button type="button" class="btn btn-sm btn-outline-primary " id="add-image-url-input">Thêm url</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary " id="add-image-url-input">Thêm url
+                    </button>
                     <div class="form-group mt-4" id="image-url-upload-container">
 
                     </div>
@@ -166,12 +171,12 @@
             {!! $errors->first('images', '<div class="invalid-feedback">:message</div>') !!}
         </div>
 
-    @switch($method)
+        @switch($method)
             @case('POST')
-                <input type="hidden" name="CreatedBy" value="LXQ">
+                <input type="hidden" name="CreatedBy" value="{{ session('admin_name') }}">
                 @break
             @case('PATCH')
-                <input type="hidden" name="ModifiedBy" value="LXQ">
+                <input type="hidden" name="ModifiedBy" value="{{ session('admin_name') }}">
                 @break
         @endswitch
     </div>
@@ -231,7 +236,7 @@
             item.querySelector('.image-overlay').style.display = 'none';
         })
 
-        item.querySelector("#btnDeleteImage").addEventListener('click', function (){
+        item.querySelector("#btnDeleteImage").addEventListener('click', function () {
             let imgId = this.dataset.imgid;
             var result = confirm("Bạn có muốn xoá ảnh này không?");
             if (result) {

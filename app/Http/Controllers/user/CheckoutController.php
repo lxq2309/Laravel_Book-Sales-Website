@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\admin\Coupon;
 use App\Models\admin\ShippingAddress;
 use App\Models\SalesOrder;
 use App\Models\ShippingAddress as ModelsShippingAddress;
@@ -18,12 +19,15 @@ use App\Models\SalesOrderDetail;
 
 class CheckoutController extends Controller
 {
-    function checkoutPage(){
+    function checkoutPage(Request $request)
+    {
+        $couponCode = $request->input('couponCode');
+        $coupon = Coupon::where('CouponCode', $couponCode)->first();
         $userId = Session::get('user')->UserID;
         $shippingAddressDefault = ShippingAddress::where('UserID', $userId)->where('IsDefault', 1)->first();
         $shippingAddressList = ShippingAddress::where('UserID', $userId)->get();
         $userID = Auth::id();
-        if($userID) {
+        if ($userID) {
             $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
             if (!$cart->CartID) {
                 $cart->save();
@@ -36,19 +40,42 @@ class CheckoutController extends Controller
             }
         }
         $bookPrice = $totalPrice;
-        if($shippingAddressDefault) {
+
+        if ($shippingAddressDefault) {
             $totalPrice += 5;
+            if ($couponCode) {
+                $totalPrice = $totalPrice * (1 - ($coupon->DiscountAmount / 100));
+                $totalPrice = round($totalPrice, 2);
+                $discount = $totalPrice - ($bookPrice + 5);
+                $discount = round($discount, 2);
+                $totalPriceDiscount = $totalPrice;
+                return view(
+                    "user.checkout-page", compact('shippingAddressDefault', 'totalPriceDiscount', 'bookPrice', 'shippingAddressList', 'discount', 'couponCode'));
+            }
             return view(
-                "user.checkout-page", compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList'));
+                "user.checkout-page", compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode'));
+        }
+        if ($couponCode) {
+            $totalPrice = $bookPrice * (1 - ($coupon->DiscountAmount / 100));
+            $totalPrice = round($totalPrice, 2);
+            $discount = $totalPrice - $bookPrice;
+            $discount = round($discount, 2);
+            return view(
+                "user.checkout-page", compact('totalPrice', 'bookPrice', 'discount', 'couponCode')
+            );
         }
         return view(
-            "user.checkout-page", compact('totalPrice', 'bookPrice', 'shippingAddressList')
+            "user.checkout-page", compact('totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode')
         );
     }
 
-    function checkoutConfirm(Request $request){
+    function checkoutConfirm(Request $request)
+    {
+
+        $couponCode = $request->input('couponCode');
+        $coupon = Coupon::where('CouponCode', $couponCode)->first();
         $userID = Auth::id();
-        if($userID) {
+        if ($userID) {
             $cart = ShoppingCart::firstOrNew(['UserID' => $userID]);
             if (!$cart->CartID) {
                 $cart->save();
@@ -60,14 +87,29 @@ class CheckoutController extends Controller
                 $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
             }
         }
-        if($totalPrice > 0) {
+        $bookPrice = $totalPrice;
+        if ($couponCode && $coupon && !$coupon->IsUsed) {
+            $totalPriceOld = $totalPrice + 5;
+            $discountAmount = $coupon->DiscountAmount / 100;
+            $discount = $totalPriceOld * $discountAmount;
+            $totalPrice = round($totalPriceOld - $discount, 2);
+
+            $coupon->IsUsed = 1;
+            $coupon->save();
+
+            $saleOrders['Discount'] = $discountAmount;
+        } else {
+            $saleOrders['Discount'] = 0;
+        }
+
+        if ($totalPrice > 0) {
             $address = ShippingAddress::where(['UserID' => $userID])
                 ->where(['Address' => $request->query('shippingAddress')])
                 ->first();
             $saleOrders['UserID'] = $userID;
             $saleOrders['OrderStatus'] = 'PENDING';
             $saleOrders['ShippingAddressID'] = $address->AddressID;
-            $saleOrders['TotalPrice'] = $totalPrice + 5 - 5;
+            $saleOrders['TotalPrice'] = $totalPrice;
             $saleOrders['ShippingFee'] = 5;
             $saleOrders['OrderDate'] = Carbon::now();
             $Order = SalesOrder::create($saleOrders);
@@ -86,25 +128,28 @@ class CheckoutController extends Controller
                 'body' => 'Thông báo gửi đơn',
                 'email' => Session::get('user')->email,
                 'cartItem' => $cartItems,
-                'totalPrice' => $totalPrice + 5,
+                'totalPrice' => $totalPrice,
                 'orderID' => $Order->OrderID,
             ];
 
             Mail::to(Session::get('user')->email)->send(new OrderMail($mailData));
-            
+
             ShoppingCartDetail::where('CartID', $cartID)->delete();
 
             return view(
                 "user.order-confirm",
                 ['cartItems' => $cartItems,
-                'totalPrice' => $totalPrice,
-                'orderID' => $Order->OrderID],
-            );          
+                    'totalPrice' => $totalPrice,
+                    'bookPrice' => $bookPrice,
+                    'orderID' => $Order->OrderID],
+            );
         }
     }
 
-    
-    public function confirmOrder(Request $request){
+
+    public function confirmOrder(Request $request)
+    {
+
         $order = SalesOrder::where(['OrderID' => $request->orderID])->first();
         $order->OrderStatus = 'SHIPPING';
         $order->save();
@@ -114,7 +159,7 @@ class CheckoutController extends Controller
         $order = SalesOrder::where('UserID', $userId)
             ->Where('OrderStatus', '!=', 'COMPLETED')
             ->get();
-        if($shippingAddressList) {
+        if ($shippingAddressList) {
             return view("user.account-detail", ['numberAdd' => $addresses, 'shippingAddressList' => $shippingAddressList, 'orders' => $order]);
         }
         return view("user.account-detail", ['numberAdd' => $addresses, 'orders' => $order]);

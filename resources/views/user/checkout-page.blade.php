@@ -32,24 +32,27 @@
                             </div>
                             <span class="text-muted">5 đ</span>
                         </div>
-                        @if("LiemDepTrai" === true)
+                        @if($couponCode)
                             <div class="list-group-item d-flex justify-content-between">
                                 <div class="text-success">
                                     <h6 class="my-0">Mã khuyến mại</h6>
                                 </div>
-                                <span class="text-success">-5</span>
+                                <span class="text-success">{{$discount}}</span>
                             </div>
                         @endif
                         <div class="list-group-item d-flex justify-content-between">
+                            @php
+                            $totalPrice = !empty($totalPriceDiscount) ? $totalPriceDiscount : $totalPrice;
+                            @endphp
                             <strong>Total (VND)</strong>
-                            <strong>{{ $totalPrice }}</strong>
+                            <strong>{{ $totalPrice  }}</strong>
                         </div>
                         @if($shippingAddressList->count() > 0)
-                        <a href="{{ Route('checkout.confirm', ['shippingAddress' => '']) }}" 
-                            class="btn btn-primary btn-lg btn-primary" 
+                        <a href="{{ Route('checkout.confirm', ['shippingAddress' => '']) }}"
+                            class="btn btn-primary btn-lg btn-primary"
                             id="checkout-submit">
                             Đặt đơn
-                        </a> 
+                        </a>
                         @else
                         <div style="color: red; font-weight: bold; justify-content:center">Hãy Thêm Địa Chỉ Giao Hàng Để Đặt Đơn</div>
                         @endif
@@ -143,19 +146,23 @@
         });
 
         $(document).ready(function () {
-            var defaultSelectedAddress = $('#addressList').val();
+            function updateCheckoutLink(selectedAddress) {
+                var couponCode = "{{ $couponCode }}";
+                var checkoutLink = "{{ route('checkout.confirm', ['shippingAddress' => '']) }}&couponCode=" + couponCode;
+                checkoutLink = checkoutLink.replace('shippingAddress=', 'shippingAddress=' + encodeURIComponent(selectedAddress));
+                $('#checkout-submit').attr('href', checkoutLink);
+            }
 
-            var checkoutLink = "{{ route('checkout.confirm', ['shippingAddress' => '']) }}";
-            checkoutLink = checkoutLink.replace('shippingAddress=', 'shippingAddress=' + encodeURIComponent(defaultSelectedAddress));
-            $('#checkout-submit').attr('href', checkoutLink);
+            // Initial setup with default address
+            var defaultSelectedAddress = $('#addressList').val();
+            updateCheckoutLink(defaultSelectedAddress);
 
             // Listen for the change event on the select element
             $('#addressList').change(function () {
                 var selectedAddress = $(this).val();
-                var checkoutLink = "{{ route('checkout.confirm', ['shippingAddress' => '']) }}";
-                checkoutLink = checkoutLink.replace('shippingAddress=', 'shippingAddress=' + encodeURIComponent(selectedAddress));
-                $('#checkout-submit').attr('href', checkoutLink);
+                updateCheckoutLink(selectedAddress);
             });
         });
+
     </script>
 @endsection

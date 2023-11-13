@@ -10,19 +10,27 @@ use Carbon\Carbon;
 class CouponController extends Controller
 {
     public function applyCoupon(Request $request){
-        $couponCode = $request->input('coupon_code');
+        $data = $request->all();
+        $totalPriceOld = floatval($data['totalPrice']);
+        $couponCode = $data['couponCode'];
+
         $coupon = Coupon::where('CouponCode', $couponCode)->first();
         if ($coupon) {
             if (!$coupon->IsUsed && Carbon::now() <= $coupon->ExpiryDate) {
-                $coupon->IsUsed = 1;
-                $coupon->save();
+//                $coupon->IsUsed = 1;
+//                $coupon->save();
 
-                return response()->json(['message' => 'Đã sử dụng mã giảm giá'], 200);
+                $totalPrice = $totalPriceOld * (1-($coupon->DiscountAmount/100));
+
+                $totalPrice = round($totalPrice, 2);
+                $discount = $totalPrice - $totalPriceOld;
+                $discount = round($discount, 2);
+                return response()->json(['message' => 'Áp dụng thành công', 'totalPrice' => $totalPrice, 'discount' => $discount, 'status' => 200]);
             } else {
-                return response()->json(['message' => $coupon->IsUsed], 400);
+                return response()->json(['message' => 'Mã đã được sử dụng hoặc hết hạn', 'status' => 400]);
             }
         } else {
-            return response()->json(['message' => 'Mã giảm giá không tồn tại'], 404);
+            return response()->json(['message' => 'Mã giảm giá không tồn tại', 'status' => 400]);
         }
     }
 }

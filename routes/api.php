@@ -33,6 +33,9 @@ Route::delete('/delete-review/{reviewID}', [\App\Http\Controllers\user\ProductCo
 
 Route::get('/product/all/{condition}', [\App\Http\Controllers\user\ProductController::class, 'getAllProduct']);
 
+
+Route::POST('/cart/coupon', [\App\Http\Controllers\user\CouponController::class, 'applyCoupon']);
+
 Route::get('/user/all', [\App\Http\Controllers\admin\UserController::class, 'getAll']);
 Route::get('/admin/all', [\App\Http\Controllers\admin\AdminController::class, 'getAll']);
 Route::get('/book/all', [\App\Http\Controllers\admin\BookController::class, 'getAll']);
@@ -49,4 +52,3 @@ Route::get('/book/{id}', [\App\Http\Controllers\admin\BookController::class, 'ge
 Route::post('/account/addressnew', [AccountController::class, 'AddNewAddress']);
 Route::get('/account/address/{addressID}', [AccountController::class, 'getAddressByID']);
 Route::post('/account/update-address', [AccountController::class, 'updateAddress']);
-

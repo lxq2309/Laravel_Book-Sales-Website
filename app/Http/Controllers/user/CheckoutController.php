@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\admin\Coupon;
 use App\Models\admin\ShippingAddress;
 use App\Models\SalesOrder;
 use App\Models\ShippingAddress as ModelsShippingAddress;
@@ -51,7 +52,7 @@ class CheckoutController extends Controller
                     "user.checkout-page", compact('shippingAddressDefault', 'totalPriceDiscount', 'bookPrice', 'shippingAddressList', 'discount', 'couponCode'));
             }
             return view(
-                "user.checkout-page", compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode'));
+                "user.checkout-page", compact('shippingAddressDefault', 'totalPrice', 'bookPrice', 'shippingAddressList'));
         }
         if($couponCode){
             $totalPrice = $bookPrice * (1-($coupon->DiscountAmount/100));
@@ -63,7 +64,7 @@ class CheckoutController extends Controller
             );
         }
         return view(
-            "user.checkout-page", compact('totalPrice', 'bookPrice', 'shippingAddressList', 'couponCode')
+            "user.checkout-page", compact('totalPrice', 'bookPrice', 'shippingAddressList')
         );
     }
 
@@ -84,15 +85,7 @@ class CheckoutController extends Controller
                 $totalPrice += $cartItem->Quantity * $cartItem->book->CostPrice;
             }
         }
-        $address = ShippingAddress::firstOrNew(['UserID' => $userID]);
-        $saleOrders['UserID'] = $userID;
-        $saleOrders['OrderStatus'] = 'PENDING';
-        $saleOrders['ShippingAddressID'] = 5;
-        // $saleOrders['Discount'] = 5;
-        $saleOrders['TotalPrice'] = $totalPrice + 5 - 5;
-        $saleOrders['ShippingFee'] = 5;
-        $saleOrders['OrderDate'] = Carbon::now();
-        $Order = SalesOrder::create($saleOrders);
+
         $bookPrice = $totalPrice;
         if($couponCode){
             $totalPriceOld = $totalPrice + 5;
@@ -107,7 +100,7 @@ class CheckoutController extends Controller
 
             $address = ShippingAddress::firstOrNew(['UserID' => $userID]);
             $saleOrders['UserID'] = $userID;
-            $saleOrders['OrderStatus'] = 'SHIPPING';
+            $saleOrders['OrderStatus'] = 'PENDING';
             $saleOrders['ShippingAddressID'] = $address->AddressID;
             $saleOrders['Discount'] = $discountAmount;
             $saleOrders['TotalPrice'] = $totalPrice;
@@ -120,7 +113,6 @@ class CheckoutController extends Controller
             $saleOrders['UserID'] = $userID;
             $saleOrders['OrderStatus'] = 'PENDING';
             $saleOrders['ShippingAddressID'] = $address->AddressID;
-            // $saleOrders['Discount'] = 5;
             $saleOrders['TotalPrice'] = $totalPrice;
             $saleOrders['ShippingFee'] = 5;
             $saleOrders['OrderDate'] = Carbon::now();

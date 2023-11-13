@@ -8,7 +8,7 @@
   </ol>
 </nav>
 
-<div class="order-inner float-left w-100">     
+<div class="order-inner float-left w-100">
   <div class="container">
     <div class="row">
       <div id="order-confirmation" class="card float-left w-100 mb-10">
@@ -44,7 +44,7 @@
                 <tbody>
                   <tr class="mb-10">
                     <td>Tổng giá sản phẩm</td>
-                    <td class="text-right">{{ $totalPrice }} đ</td>
+                    <td class="text-right">{{ $bookPrice }} đ</td>
                   </tr>
                   <tr class="mb-10">
                     <td>Chi phí vận chuyển</td>
@@ -54,7 +54,7 @@
                     <td>
                       <span class="text-uppercase">Tổng chi phí</span> (Đã bao gồm thuế)
                     </td>
-                    <td class="text-right">{{ $totalPrice + 5 }} đ</td>
+                    <td class="text-right">{{ $totalPrice }} đ</td>
                   </tr>
                 </tbody>
               </table>
@@ -67,7 +67,7 @@
                     Đơn vị vận chuyển: Quỳnh Express<br> <em>Giao hàng tận giường</em>
                   </li>
                 </ul>
-              </div>		  
+              </div>
           </div>
         </div>
       </div>

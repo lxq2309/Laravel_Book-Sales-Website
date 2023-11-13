@@ -36,7 +36,7 @@
                                             </a>
                                         </button>
                                     </td>
-                                    <td class="table-image"><a href="product-details.html"><img src="/user/assets/img/products/02.jpg" alt=""></a></td>
+                                    <td class="table-image"><a href="product-details.html"><img src="{{ $item->book?->Avatar }}" alt="{{ $item->book?->BookTitle }}"></a></td>
                                     <td class="table-p-name text-capitalize"><a href="product-details.html">{{ $item->book?->BookTitle }}</a></td>
                                     <td class="table-p-price"><p>{{ $item->book?->CostPrice }} đ</p></td>
                                     <td class="table-p-qty"><input value="{{ $item->Quantity }}" name="cart-qty[{{ $item->CartItemID }}]" value="{{ $item->Quantity }}" type="number"></td>
@@ -52,8 +52,8 @@
                     </div>
                     <div class="table-bottom-wrapper">
                         <div class="table-coupon d-flex d-xs-block d-lg-flex d-sm-flex fix justify-content-start float-left">
-                            <input type="text" placeholder="Nhập mã khuyến mại">
-                            <button type="button" class="btn-primary btn" onclick="applyCoupon()">Áp dụng khuyến mại</button>
+                            <input type="text" id="couponCode" placeholder="Nhập mã khuyến mại">
+                            <button type="button" class="btn-primary btn" id="couponApply">Áp dụng khuyến mại</button>
                         </div>
                     </div>
                     @endif
@@ -70,12 +70,23 @@
                             <strong>Chi phí vận chuyển</strong>
                             <span class="c-total-price">{{$shipPrice}} đ</span>
                         </div>
+
+                            <div class=" single-total-content justify-content-between float-left w-100" style="display: none" id="showDiscount">
+                                <strong>Giảm</strong>
+                                <span class="c-total-price" id="costCoupon"></span>
+                            </div>
+
                         <div class="single-total-content tt-total d-flex justify-content-between float-left w-100">
                             <strong>Tổng chi phí</strong>
-                            <span class="c-total-price">{{$totalPrice}} đ</span>
+                            <span class="c-total-price" id="totalPrice">{{$totalPrice}} đ</span>
                         </div>
+
                         @if ($cartItems && count($cartItems) > 0)
-                            <a href="{{ route('checkout.page') }}" class="btn btn-primary float-left w-100 text-center">Chuyển đến trang thanh toán</a>
+                            <form action="{{ route('checkout.page') }}" method="GET">
+                                <input type="hidden" name="couponCode">
+                                <button type="submit" class="btn btn-primary float-left w-100 text-center">Chuyển đến trang thanh toán</button>
+                            </form>
+
                         @endif
                     </div>
                 </div>
@@ -96,6 +107,7 @@
         $(".close-cart").click(function () {
             var bookID = $(this).data('bookid');
 
+
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
             $.ajaxSetup({
@@ -109,7 +121,7 @@
             $.ajax({
                 url: '/cart/remove',
                 method: 'POST',
-                data: { book_id: bookID },
+                data: { book_id: bookID},
                 success: function (response) {
                     // Handle success, such as updating the cart display or removing the row from the table.
                     console.log(response.message);
@@ -122,29 +134,58 @@
                 }
             });
         });
+
+        applyCoupon();
     });
 
     function applyCoupon() {
-        var couponCode = $('#couponCode').val();
 
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        var totalPriceElement = document.getElementById('totalPrice');
+        var totalPriceText = $('#totalPrice').text()
+        var totalPrice = totalPriceText.replace('đ', '').trim();
+        var costCoupon = document.getElementById('costCoupon');
 
-        $.ajax({
-            type: 'POST',
-            headers: {
-                'X-CSRF-Token': csrfToken
-            },
-            url: '/coupon',
-            data: {
-                coupon_code: couponCode
-            },
-            success: function (response) {
-                alert(response.message);
-                $('#couponCode').prop('disabled', true);
-            },
-            error: function (error) {
-                alert(error.responseJSON.message);
+
+        $('#couponApply').on('click', function() {
+
+            var data = {
+                couponCode: $('#couponCode').val(),
+                totalPrice: totalPrice
             }
+
+            console.log(data);
+
+            fetch('/api/cart/coupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response)
+                    if(response.status === 200){
+                        totalPriceElement.textContent = response.totalPrice + ' ' + 'đ';
+                        document.getElementById('showDiscount').style.display = 'flex';
+                        costCoupon.textContent = response.discount + ' ' + 'đ';
+                        document.getElementsByName('couponCode')[0].value = document.getElementById('couponCode').value;
+                        alert(response.message);
+                    }
+                    if(response.status === 400){
+
+                        alert(response.message);
+                    }
+                    if(response.status === 404){
+
+                        alert(response.message);
+                    }
+
+                })
+                .catch(error => {
+                    // Xử lý lỗi nếu có
+                    console.error('Error:', error);
+                });
         });
     }
 </script>

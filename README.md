@@ -13,9 +13,12 @@ Các thành viên:
 ## Install dependency
 `composer install`
 ## Deploy
-https://laravel.lxq.id.vn/
+### Client Page
+https://book-sales.lxq.id.vn/
+- **email**:        user.test@mail.com
+- **password**:     123456
 
-## Admin Panel
-https://laravel.lxq.id.vn/admin
+### Admin Page
+https://book-sales.lxq.id.vn/admin
 - **email**:        admin@mail.com
 - **password**:     123456
